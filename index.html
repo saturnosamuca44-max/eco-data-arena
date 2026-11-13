@@ -366,7 +366,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
    cortando somente o CÉU excedente; nunca esticar sprites ou o mapa. */
 @media (pointer:coarse) and (orientation:landscape) and (max-height:620px) {
   body.game-focus #view-game .arena-container canvas {
-    object-fit:cover!important;object-position:center calc(100% - clamp(19px,6dvh,28px))!important;
+    object-fit:cover!important;object-position:center calc(100% + clamp(1px,1.5dvh,7px))!important;
   }
 }
 /* Celular na vertical: não distorcer e manter a área de toque no rodapé do mesmo quadro. */
@@ -384,7 +384,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
     <header class="app-header">
       <button type="button" class="brand" data-nav="home" aria-label="Voltar ao início">
         <span class="brand-mark" aria-hidden="true"><span>◈</span></span>
-        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 2.1</small></span>
+        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 2.4</small></span>
       </button>
       <nav class="main-nav" aria-label="Navegação principal">
         <button class="nav-btn active" data-nav="home">Início</button>
@@ -567,7 +567,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
       <section class="view" id="view-final" aria-label="Resultado da partida"><div class="final-panel glass-panel"><div class="confetti-container" id="confetti"></div><span class="eyebrow" id="finalEyebrow">PARTIDA CONCLUÍDA</span><div class="winner-crown" id="winnerCrown">♛</div><h1 id="winnerTitle">VITÓRIA!</h1><p class="winner-subtitle" id="winnerSubtitle"></p><div class="final-duel" id="finalDuel"></div><div class="final-rank-info" id="finalRankInfo"></div><div class="final-actions"><button class="btn btn-primary" id="replayMatch">↻ JOGAR NOVAMENTE</button><button class="btn btn-outline" data-nav="ranking">♛ VER RANKING</button><button class="btn btn-outline" data-nav="home">⌂ INÍCIO</button></div></div></section>
     </main>
 
-    <footer class="app-footer"><span>© ECODATA ARENA 2.1 <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
+    <footer class="app-footer"><span>© ECODATA ARENA 2.4 <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
   </div>
   <div class="guide-layer" id="guideLayer" role="region" aria-label="Tutorial passo a passo" hidden>
     <div class="guide-shade" aria-hidden="true"></div>
@@ -611,27 +611,28 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
   <script>
 (function(){'use strict';
  const W=1000,H=460,LAVA=420,BASE=350;
- const CHOICES=[53,288,523,758].map((x,index)=>({x,y:280,w:190,h:23,index}));
+ // Plataformas um pouco mais baixas: salto inteiro visível nos celulares horizontais.
+ const CHOICES=[53,288,523,758].map((x,index)=>({x,y:320,w:190,h:23,index}));
  const SPAWN={x:0,y:350,w:185,h:20,index:-1};
  const RUSH_WIDTH=2050;
  // Plataformas temporárias: aviso, dissolução suave, 1 segundo ausente e retorno suave.
  const TEMP_HOLD=650,TEMP_FADE=250,TEMP_HIDDEN=1000,TEMP_REFORM=300;
  const RUSH_PADS=[
   {x:0,y:350,w:270,h:23},
-  {x:309,y:319,w:169,h:22},
-  {x:516,y:284,w:156,h:22,moving:18},
-  {x:715,y:324,w:171,h:22},
-  {x:925,y:280,w:158,h:22,temporary:true},
-  {x:1120,y:324,w:182,h:22},
-  {x:1337,y:285,w:150,h:22},
-  {x:1527,y:316,w:172,h:22,moving:13},
-  {x:1745,y:341,w:270,h:22}
+  {x:309,y:336,w:169,h:22},
+  {x:516,y:319,w:156,h:22,moving:12},
+  {x:715,y:339,w:171,h:22},
+  {x:925,y:317,w:158,h:22,temporary:true},
+  {x:1120,y:339,w:182,h:22},
+  {x:1337,y:320,w:150,h:22},
+  {x:1527,y:335,w:172,h:22,moving:10},
+  {x:1745,y:349,w:270,h:22}
  ];
  const KEY_MAP={KeyA:[0,'left'],KeyD:[0,'right'],KeyW:[0,'up'],KeyS:[0,'down'],ArrowLeft:[1,'left'],ArrowRight:[1,'right'],ArrowUp:[1,'up'],ArrowDown:[1,'down']};
  const clamp=(n,min,max)=>Math.min(max,Math.max(min,n));
  function rect(ctx,x,y,w,h,r=6){ctx.beginPath();ctx.roundRect(x,y,w,h,r)}
  function colorAlpha(hex,a){const m=/^#([a-f\d]{6})$/i.exec(hex||'');if(!m)return `rgba(93,244,180,${a})`;return `rgba(${parseInt(m[1].slice(0,2),16)},${parseInt(m[1].slice(2,4),16)},${parseInt(m[1].slice(4,6),16)},${a})`}
- function player(config,id){return {id,name:config.name,color:config.color,x:55,y:BASE-43,w:32,h:43,vx:0,vy:0,alive:true,grounded:true,groundIndex:-1,choice:null,axis:0,downAxis:false,inputs:{left:false,right:false,up:false,down:false},jumpQueued:false,step:0,respawnAt:0,ignoreUntil:0,checkpoint:0,lastGrounded:0,temporaryStay:0,completed:false}}
+ function player(config,id){return {id,name:config.name,color:config.color,x:55,y:BASE-43,w:32,h:43,vx:0,vy:0,alive:true,grounded:true,groundIndex:-1,choice:null,axis:0,downAxis:false,inputs:{left:false,right:false,up:false,down:false},jumpQueued:false,step:0,facing:1,landedAt:0,respawnAt:0,ignoreUntil:0,checkpoint:0,lastGrounded:0,temporaryStay:0,completed:false}}
  class EcoGame {
   constructor(canvas,callbacks={}){
    this.canvas=canvas;this.ctx=canvas.getContext('2d');this.callbacks=callbacks;this.active=false;this.phase='idle';this.players=[];this.frame=0;this.last=0;this.camera=0;this.selected=[null,null];this.trainingStage=0;this.keyDown=e=>this.keyboard(e,true);this.keyUp=e=>this.keyboard(e,false);this.blur=()=>this.resetInputs();
@@ -699,14 +700,16 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
   getPlatforms(){if(this.phase==='training'&&this.trainingStage===0)return [{x:0,y:350,w:1000,h:22,index:-1}];if(this.mode==='classic'||this.mode==='rush-answer'||this.mode==='training'&&this.trainingStage===1)return [...CHOICES,SPAWN];return this.pads||RUSH_PADS}
   recalcSelected(){const next=this.players.map(p=>p.alive&&p.grounded&&p.groundIndex>=0?p.groundIndex:null);if(next[0]!==this.selected[0]||next[1]!==this.selected[1]){this.selected=next;this.callbacks.onSelect?.(next)}}
   updatePlayer(p,dt,now){if(!p.alive){if(now>=p.respawnAt){const platforms=this.getPlatforms(),spawnX=this.mode==='rush'||this.mode==='training'&&this.trainingStage===2?p.checkpoint:55;const landing=platforms.find(q=>q.x<=spawnX+15&&q.x+q.w>spawnX+15);p.x=spawnX;p.y=(landing?.y??BASE)-p.h;p.vy=0;p.alive=true;p.grounded=true;p.groundIndex=landing?.index??-1;p.ignoreUntil=0;p.jumpQueued=false;this.callbacks.onRespawn?.(p.id)}return}
+   const wasGrounded=p.grounded;
    if(p.jumpQueued){if(p.grounded||now-p.lastGrounded<95){p.vy=-608;p.grounded=false;p.groundIndex=null;p.ignoreUntil=now+65;this.callbacks.onJump?.(p.id)}p.jumpQueued=false}
-   const axis=Math.abs(p.axis)>.1?p.axis:((p.inputs.right?1:0)-(p.inputs.left?1:0));p.vx=335*axis;p.x=clamp(p.x+p.vx*dt,0,this.worldWidth()-p.w);const prevFoot=p.y+p.h;p.vy=Math.min(830,p.vy+1450*dt);p.y+=p.vy*dt;p.grounded=false;p.groundIndex=null;
+   const axis=Math.abs(p.axis)>.1?p.axis:((p.inputs.right?1:0)-(p.inputs.left?1:0));if(Math.abs(axis)>.08)p.facing=Math.sign(axis);p.vx=335*axis;p.x=clamp(p.x+p.vx*dt,0,this.worldWidth()-p.w);const prevFoot=p.y+p.h;p.vy=Math.min(830,p.vy+1450*dt);p.y+=p.vy*dt;p.grounded=false;p.groundIndex=null;
    if(p.vy>=0)for(const platform of this.getPlatforms()){
     if(!this.temporarySolid(platform,now))continue;
     if(platform.index>=0&&now<p.ignoreUntil)continue;
     const foot=p.y+p.h;
     if(prevFoot<=platform.y+9&&foot>=platform.y&&p.x+p.w>platform.x+3&&p.x<platform.x+platform.w-3){p.y=platform.y-p.h;p.vy=0;p.grounded=true;p.groundIndex=platform.index??-1;p.lastGrounded=now;break}
    }
+   if(p.grounded&&!wasGrounded)p.landedAt=now;
    if(p.grounded){for(const pad of this.pads||[]){if(pad.temporary&&pad.x<p.x+p.w&&pad.x+pad.w>p.x&&Math.abs(pad.y-(p.y+p.h))<3){if(!pad.brokenAt)pad.brokenAt=now}}
     if(this.mode==='rush'||this.mode==='training'&&this.trainingStage===2){if(p.x>1170)p.checkpoint=1140;else if(p.x>730)p.checkpoint=758}
    }
@@ -747,8 +750,52 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
    if(p.temporary){base='#51496b';top='#ab95ed';stroke='#d6cbff'}if(p.moving){base='#285c78';top='#69bde0'}
    g.shadowColor=top;g.shadowBlur=12;rect(g,x,y,p.w,p.h,7);g.fillStyle=base;g.fill();g.shadowBlur=0;g.strokeStyle=stroke;g.lineWidth=2;g.stroke();rect(g,x,y,p.w,6,4);g.fillStyle=top;g.fill();
    if(isChoice){const users=this.players.filter(q=>q.choice===p.index&&(this.allowed==null||q.id===this.allowed));if(users.length===2&&!revealed){g.fillStyle=users[0].color;g.fillRect(x+4,y+8,p.w/2-4,13);g.fillStyle=users[1].color;g.fillRect(x+p.w/2,y+8,p.w/2-4,13)}g.fillStyle=revealed?'#112f2a':'#f8fffa';g.textAlign='center';g.font='900 17px system-ui';g.fillText(String.fromCharCode(65+p.index),x+p.w/2,y+18);const label=String(this.question?.options[p.index]||'');g.fillStyle='#c8f8f1';g.font='700 13px system-ui';g.fillText(label.length>25?label.slice(0,23)+'…':label,x+p.w/2,y-12,p.w-10)}else if(p.index===-1){g.fillStyle='#acffe4';g.font='800 11px monospace';g.textAlign='center';g.fillText('SPAWN P1 + P2',x+p.w/2,y+16)}g.restore()}
-  drawPlayer(g,p,t,id){if(!p.alive)return;g.save();let shift=0;if(this.players.length===2&&Math.abs(this.players[0].x-this.players[1].x)<24&&Math.abs(this.players[0].y-this.players[1].y)<24)shift=id===0?-10:10;const x=p.x+shift,y=p.y,c=p.color,step=p.grounded&&Math.abs(p.vx)>2?Math.sin(p.step)*2:0;g.shadowColor=colorAlpha(c,.35);g.shadowBlur=13;g.fillStyle=c;rect(g,x+2,y+5,28,25,8);g.fill();g.shadowBlur=0;g.fillStyle='#f2fbff';g.fillRect(x+6,y+12,20,12);g.fillStyle='#16283a';g.fillRect(x+10,y+15,4,6);g.fillRect(x+20,y+15,4,6);g.fillStyle='#152d34';g.fillRect(x+14,y+24,4,2);g.fillStyle=c;rect(g,x+5,y+30,22,12,4);g.fill();g.fillRect(x+6,y+39+step,8,5);g.fillRect(x+19,y+39-step,8,5);g.fillRect(x+15,y+1,3,6);g.beginPath();g.arc(x+16.5,y+3,3,0,Math.PI*2);g.fill();
-   const name=String(p.name).slice(0,17);g.font='800 12px system-ui';const labelW=clamp(g.measureText(name).width+22,57,178);rect(g,clamp(x+16-labelW/2,2,this.worldWidth()-labelW-2),y-27,labelW,19,5);g.fillStyle='#102132ef';g.fill();g.lineWidth=1;g.strokeStyle=c;g.stroke();g.textAlign='center';g.fillStyle='#f5fffc';g.fillText(name,clamp(x+16,2+labelW/2,this.worldWidth()-2-labelW/2),y-14);if(this.allowed!=null&&this.phase==='choose'&&id!==this.allowed){g.fillStyle='#c1cbd2';g.font='800 12px monospace';g.fillText('ESPECTADOR',x+16,y-36)}g.restore()}
+  // Animações procedurais: caminhada com pernas e braços alternados;
+  // subida com propulsão, queda com braços abertos e aterrissagem com partículas.
+  drawPlayer(g,p,t,id){
+   if(!p.alive)return;
+   g.save();
+   let shift=0;
+   if(this.players.length===2&&Math.abs(this.players[0].x-this.players[1].x)<24&&Math.abs(this.players[0].y-this.players[1].y)<24)shift=id===0?-10:10;
+   const x=p.x+shift,y=p.y,c=p.color;
+   const running=p.grounded&&Math.abs(p.vx)>18;
+   const airborne=!p.grounded;
+   const rising=airborne&&p.vy<0;
+   const falling=airborne&&p.vy>=0;
+   const stride=running?Math.sin(p.step*1.4):0;
+   const bob=running?Math.abs(stride)*1.2:p.grounded?Math.sin(t/400+id)*.4:0;
+   const facing=p.facing||1;
+   const tilt=airborne?(rising?-0.10:0.10)*facing:running?stride*.045:0;
+   const wave=running?stride*5:0;
+   const lift=rising?6:falling?-2:0;
+   g.save();g.translate(x+16,y+21+bob);g.rotate(tilt);
+   // Pequeno efeito de propulsão apenas na subida.
+   if(rising){g.fillStyle=colorAlpha(c,.23);g.beginPath();g.moveTo(-7,17);g.lineTo(-3,26+Math.sin(t/85)*2);g.lineTo(0,18);g.lineTo(4,26+Math.cos(t/90)*2);g.lineTo(7,17);g.closePath();g.fill()}
+   // Braços e pernas mudam de pose ao correr, subir e cair.
+   g.strokeStyle=c;g.lineWidth=4;g.lineCap='round';g.lineJoin='round';
+   g.beginPath();g.moveTo(-11,8);g.lineTo(-15-wave*.65,17-lift);g.moveTo(11,8);g.lineTo(15+wave*.65,17-lift);g.stroke();
+   g.beginPath();g.moveTo(-6,17);g.lineTo(-6+wave,23+(rising?-5:falling?1:0));g.moveTo(6,17);g.lineTo(6-wave,23+(rising?-5:falling?1:0));g.stroke();
+   // Capacete robótico, visor e antena remetem à temática de informática.
+   g.shadowColor=colorAlpha(c,.40);g.shadowBlur=12;g.fillStyle=c;rect(g,-13,-16,26,26,8);g.fill();g.shadowBlur=0;
+   g.fillStyle='#eefbff';rect(g,-10,-10,20,12,3);g.fill();
+   const eyeShift=running?facing:0;
+   g.fillStyle='#16283a';g.fillRect(-7+eyeShift,-7,4,6);g.fillRect(3+eyeShift,-7,4,6);
+   if(rising){g.fillStyle='#5ed9ed';g.fillRect(-6,-7,2,2);g.fillRect(4,-7,2,2)}
+   g.fillStyle='#15343b';g.fillRect(-2,2,4,2);
+   g.fillStyle=c;rect(g,-11,9,22,11,4);g.fill();g.fillRect(-2,-20,4,6);g.beginPath();g.arc(0,-20,3,0,Math.PI*2);g.fill();
+   g.fillStyle='#122a33';g.fillRect(-8,18+(-wave*.14),9,4);g.fillRect(2,18+(wave*.14),9,4);
+   g.restore();
+   // Ondas de aterrissagem duram pouco e não alteram a física.
+   if(p.grounded&&p.landedAt&&t-p.landedAt<190){const k=1-(t-p.landedAt)/190;g.globalAlpha=clamp(k*.55,0,.55);g.strokeStyle=c;g.lineWidth=2;g.beginPath();g.ellipse(x+16,y+p.h+1,13+(1-k)*10,3,0,0,Math.PI*2);g.stroke();g.globalAlpha=1}
+   const name=String(p.name).slice(0,17);g.font='800 12px system-ui';
+   const labelW=clamp(g.measureText(name).width+22,57,178);
+   rect(g,clamp(x+16-labelW/2,2,this.worldWidth()-labelW-2),y-27,labelW,19,5);
+   g.fillStyle='#102132ef';g.fill();g.lineWidth=1;g.strokeStyle=c;g.stroke();
+   g.textAlign='center';g.fillStyle='#f5fffc';
+   g.fillText(name,clamp(x+16,2+labelW/2,this.worldWidth()-2-labelW/2),y-14);
+   if(this.allowed!=null&&this.phase==='choose'&&id!==this.allowed){g.fillStyle='#c1cbd2';g.font='800 12px monospace';g.fillText('ESPECTADOR',x+16,y-36)}
+   g.restore();
+  }
   drawLava(g,t,width){g.save();const grad=g.createLinearGradient(0,LAVA,0,H);grad.addColorStop(0,'#f4b66f');grad.addColorStop(.2,'#d96957');grad.addColorStop(1,'#77384d');g.beginPath();g.moveTo(0,LAVA);for(let x=0;x<width;x+=9)g.lineTo(x,LAVA+Math.sin(x/32+t/470)*3);g.lineTo(width,H);g.lineTo(0,H);g.closePath();g.fillStyle=grad;g.fill();g.fillStyle='#ffd68daa';for(let i=0;i<35;i++){const x=(i*173+19)%width,y=LAVA+12+(i*23)%22;g.beginPath();g.arc(x,y,2+(i%3),0,Math.PI*2);g.fill()}g.restore()}
   drawCountdown(g,t){this.drawBanner(g,String(Math.max(1,Math.ceil((this.countdownEnd-t)/1000)))+'  •  RUSH','PREPARE-SE PARA A CORRIDA')}
   drawBanner(g,title,small){g.save();rect(g,260,42,480,80,14);g.fillStyle='#0c2133ef';g.fill();g.strokeStyle='#66d9c2';g.lineWidth=2;g.stroke();g.textAlign='center';g.fillStyle='#b8ffe0';g.font='900 25px system-ui';g.fillText(title.length>32?title.slice(0,31)+'…':title,500,76);g.fillStyle='#b1d6df';g.font='800 12px monospace';g.fillText(small,500,101);g.restore()}
