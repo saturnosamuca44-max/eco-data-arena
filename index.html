@@ -329,6 +329,52 @@ body.training-practice #view-game .game-bottom{display:none!important}
 body.training-practice:not(.rush-racing) #view-game .answer-strip{display:grid!important}
 body.training-practice #view-game .question-banner{background:linear-gradient(100deg,#263653,#1d4c49);border-color:#7199aa}
 @media(max-width:520px){.practice-buttons{display:grid;grid-template-columns:1fr 1fr}.practice-buttons button{font-size:10px}}
+
+/* ECODATA 2.3 — arena mobile imersiva: controles dentro do quadro, abaixo das plataformas */
+@media (pointer:coarse) and (orientation:landscape) {
+  /* Não dividir o cenário em três colunas. O canvas aproveita 100% da largura. */
+  body.game-focus #view-game .arena-container {display:block;position:relative;min-width:0;overflow:hidden}
+  body.game-focus #view-game .arena-container canvas {
+    display:block!important;width:100%!important;max-width:100%!important;
+    height:100%!important;max-height:100%!important;
+    object-fit:contain!important;object-position:center center!important;
+    aspect-ratio:auto!important;
+  }
+  body.game-focus #view-game .touch-controls {
+    position:absolute!important;inset:auto 0 0 0!important;
+    width:100%!important;max-width:100%!important;
+    height:clamp(70px,21dvh,96px)!important;
+    padding:3px max(9px,env(safe-area-inset-left)) 4px max(9px,env(safe-area-inset-right))!important;
+    display:flex;align-items:center!important;justify-content:space-between;
+    background:linear-gradient(0deg,#071e2bcd 0%,#0b2d38a8 40%,#0b2d3800 100%);
+    border:0;z-index:9;
+  }
+  body.game-focus #view-game .touch-side {width:auto;max-width:none;min-width:0;height:100%;gap:clamp(6px,1.2vw,12px);align-items:center;pointer-events:none}
+  body.game-focus #view-game .touch-joystick {
+    width:min(var(--joy-size),clamp(56px,18dvh,80px))!important;
+    height:min(var(--joy-size),clamp(56px,18dvh,80px))!important;
+    pointer-events:auto;
+  }
+  body.game-focus #view-game .touch-jump {
+    width:clamp(37px,11dvh,48px)!important;height:clamp(37px,11dvh,48px)!important;
+    font-size:clamp(8px,1.1vw,10px);pointer-events:auto;
+  }
+  body.game-focus #view-game .arena-hint {top:7px;left:8px;max-width:min(64%,470px);font-size:9px}
+  body.game-focus #view-game .stage-tag {top:7px;right:8px}
+}
+/* Em celulares deitados, mostrar o chão e as plataformas em tamanho grande,
+   cortando somente o CÉU excedente; nunca esticar sprites ou o mapa. */
+@media (pointer:coarse) and (orientation:landscape) and (max-height:620px) {
+  body.game-focus #view-game .arena-container canvas {
+    object-fit:cover!important;object-position:center calc(100% - clamp(19px,6dvh,28px))!important;
+  }
+}
+/* Celular na vertical: não distorcer e manter a área de toque no rodapé do mesmo quadro. */
+@media (pointer:coarse) and (orientation:portrait) {
+  body.game-focus #view-game .arena-container canvas {object-fit:contain!important;object-position:center center!important}
+  body.game-focus #view-game .touch-controls{z-index:9}
+}
+
 </style>
 </head>
 <body>
@@ -675,7 +721,19 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
   destroy(){this.stop();window.removeEventListener('keydown',this.keyDown);window.removeEventListener('keyup',this.keyUp);window.removeEventListener('blur',this.blur);document.removeEventListener('visibilitychange',this.blur)}
   render(t){const g=this.ctx;g.clearRect(0,0,W,H);this.drawSky(g,t);g.save();g.translate(-Math.round(this.camera),0);const race=this.worldWidth()>W;
    if(race){this.drawRace(g,t)}else if(this.mode==='training'&&this.trainingStage===0)this.drawFloor(g,t);else this.drawClassic(g,t);
-   this.players.forEach((p,i)=>this.drawPlayer(g,p,t,i));this.drawLava(g,t,race?RUSH_WIDTH:W);g.restore();if(race)this.drawRaceProgress(g,t);if(this.phase==='rush-countdown')this.drawCountdown(g,t);if(this.phase==='rush-winner')this.drawBanner(g,`${this.players[this.winner]?.name||'Jogador'} venceu a corrida!`,'DIREITO EXCLUSIVO DE RESPONDER');if(this.phase==='rush-timeout')this.drawBanner(g,'TEMPO ESGOTADO','NENHUM JOGADOR PONTUA');if(this.phase==='reveal'||this.phase==='collapse')this.drawBanner(g,`ALTERNATIVA ${String.fromCharCode(65+this.question.correctIndex)}`,'RESPOSTA REVELADA');}
+   this.players.forEach((p,i)=>this.drawPlayer(g,p,t,i));this.drawLava(g,t,race?RUSH_WIDTH:W);g.restore();
+   // Em celulares deitados, CSS exibe o quadro inteiro na largura e recorta somente
+   // a faixa superior do céu. Reposicione os avisos para que continuem visíveis.
+   const compact=window.matchMedia('(pointer:coarse) and (orientation:landscape) and (max-height:620px)').matches;
+   if(race&&this.phase!=='rush-countdown'){
+    g.save();if(compact)g.translate(0,145);this.drawRaceProgress(g,t);g.restore();
+   }
+   g.save();if(compact)g.translate(0,157);
+   if(this.phase==='rush-countdown')this.drawCountdown(g,t);
+   if(this.phase==='rush-winner')this.drawBanner(g,`${this.players[this.winner]?.name||'Jogador'} venceu a corrida!`,'DIREITO EXCLUSIVO DE RESPONDER');
+   if(this.phase==='rush-timeout')this.drawBanner(g,'TEMPO ESGOTADO','NENHUM JOGADOR PONTUA');
+   if(this.phase==='reveal'||this.phase==='collapse')this.drawBanner(g,`ALTERNATIVA ${String.fromCharCode(65+this.question.correctIndex)}`,'RESPOSTA REVELADA');
+   g.restore();}
   drawSky(g,t){const grad=g.createLinearGradient(0,0,W,H);grad.addColorStop(0,'#112841');grad.addColorStop(.52,'#0b3440');grad.addColorStop(1,'#0b2633');g.fillStyle=grad;g.fillRect(0,0,W,H);g.strokeStyle='rgba(91,187,219,.11)';g.lineWidth=1;const shift=(this.camera*.14)%44;for(let x=-shift;x<W;x+=44){g.beginPath();g.moveTo(x,0);g.lineTo(x,H);g.stroke()}for(let y=0;y<H;y+=44){g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke()}g.fillStyle='rgba(64,135,157,.24)';g.beginPath();g.moveTo(0,320);for(let x=0;x<=W;x+=20)g.lineTo(x,285+Math.sin(x/91+t/10000)*19);g.lineTo(W,H);g.lineTo(0,H);g.fill();for(let i=0;i<15;i++){const x=(i*137+90-(this.camera*.24))%(W+100);const y=60+(i*47)%195;g.fillStyle=i%3===0?'#77d8eb38':'#7cebb43b';g.fillRect((x+W+100)%(W+100),y,2,2)}
    g.save();g.translate(30,30);g.strokeStyle='#6de4d065';g.lineWidth=2;for(let j=0;j<3;j++){rect(g,0,j*21,54,15,4);g.stroke();g.fillStyle=j%2?'#70e2d0':'#f1c37e';g.fillRect(7,j*21+6,4,4)}g.restore();
    g.save();g.translate(885,75);g.strokeStyle='#b4e9db6b';g.lineWidth=2;g.beginPath();g.moveTo(52,108);g.lineTo(52,15);g.stroke();g.translate(52,15);g.rotate(t/2900);for(let i=0;i<3;i++){g.rotate(2*Math.PI/3);g.beginPath();g.moveTo(0,0);g.lineTo(0,-44);g.stroke()}g.restore();
