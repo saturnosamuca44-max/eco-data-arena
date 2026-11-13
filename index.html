@@ -270,25 +270,65 @@ body.game-focus #view-game .touch-jump.pressed{background:var(--joy-color);color
 [hidden]{display:none!important}
 
 
-/* EcoData 2.1: modal de modos, proporção fiel e espaço seguro para comandos móveis */
-#view-modes.active{position:fixed;inset:0;z-index:85;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:auto;background:#03121bc9;backdrop-filter:blur(13px);-webkit-backdrop-filter:blur(13px);padding:clamp(18px,4vw,48px);animation:modeFade .25s ease both}
-#view-modes .section-head,#view-modes .mode-grid,#view-modes .eco-loop{width:min(1060px,100%)}
-#view-modes .mode-grid{margin:12px auto 10px}#view-modes .mode-card{min-height:235px}#view-modes .eco-loop{margin:0 auto}
-.mode-dismiss{position:fixed;top:max(12px,env(safe-area-inset-top));right:max(12px,env(safe-area-inset-right));z-index:2;border:1px solid #76a5a5;background:#102f3c;color:white;border-radius:50%;width:42px;height:42px;cursor:pointer}
-@keyframes modeFade{from{opacity:0}to{opacity:1}}
-body.game-focus #view-game .arena-container{display:grid;place-items:center;overflow:hidden}
-body.game-focus #view-game .arena-container canvas{width:100%!important;height:auto!important;aspect-ratio:1000 / 460!important;object-fit:contain!important;display:block}
-body.game-focus #view-game .touch-controls{position:relative!important;inset:auto!important;grid-row:2;max-width:none;height:clamp(66px,13dvh,100px);margin:0!important;padding:3px 10px!important;background:#071a25eb;border-top:1px solid #31545b;opacity:1;z-index:9}
-body.game-focus #view-game .touch-joystick{width:min(var(--joy-size),clamp(57px,12dvh,92px));height:min(var(--joy-size),clamp(57px,12dvh,92px))}
-body.game-focus #view-game .touch-side{gap:12px}
-body.game-focus #view-game .touch-jump{width:clamp(42px,9dvh,60px);height:clamp(42px,9dvh,60px)}
-.guided-tour{position:absolute;left:var(--tour-x,50%);top:var(--tour-y,42%);transform:translate(-50%,-50%);z-index:15;width:min(285px,72%);max-height:78%;overflow:visible;padding:12px 14px;background:#f0fbf4;color:#13323a;border:2px solid #7cc9b0;border-radius:15px;box-shadow:0 8px 45px #000c;animation:enter .24s ease}
-.guided-tour:after{content:'';position:absolute;bottom:-15px;left:calc(50% - 10px);border-left:10px solid transparent;border-right:10px solid transparent;border-top:15px solid #f0fbf4}
-.guided-tour strong{display:block;font-size:clamp(12px,1.5vw,17px);margin:3px 0}.guided-tour p{font-size:clamp(10px,1.2vw,13px);line-height:1.4;margin:4px 0 8px}.tour-counter{font:800 10px monospace;color:#387e78}.guided-tour button{border:0;border-radius:8px;background:#147f68;color:white;padding:7px 18px;font-weight:900;cursor:pointer}
-@media(max-width:740px){#view-modes.active{justify-content:flex-start;padding:58px 14px 20px}#view-modes .mode-grid{grid-template-columns:1fr;gap:8px}#view-modes .mode-card{min-height:0;padding:12px 16px}#view-modes .mode-art{font-size:27px;line-height:1.1}#view-modes .mode-card h3{font-size:19px;margin:4px 0}#view-modes .mode-card p{font-size:11px;margin:2px 0 6px}#view-modes .eco-loop{display:none}}
-@media(pointer:coarse) and (orientation:landscape) and (max-height:600px){body.game-focus #view-game .arena-container{min-height:0!important;display:grid;grid-template-rows:minmax(0,1fr) auto;height:100%}body.game-focus #view-game .arena-container canvas{max-height:100%;width:auto!important;max-width:100%;height:100%!important;aspect-ratio:1000 / 460!important;object-fit:contain!important}body.game-focus #view-game .touch-controls{height:clamp(48px,16dvh,70px);min-height:0}body.game-focus #view-game .touch-joystick{width:clamp(44px,13dvh,66px);height:clamp(44px,13dvh,66px)}body.game-focus #view-game .touch-jump{width:clamp(39px,11dvh,52px);height:clamp(39px,11dvh,52px)}#view-modes.active{padding-top:40px}#view-modes .mode-grid{grid-template-columns:repeat(3,minmax(0,1fr))}#view-modes .mode-card{padding:10px;min-height:0}#view-modes .mode-card p{font-size:10px}#view-modes .section-head{margin-bottom:0}}
-@media(pointer:coarse) and (orientation:portrait){body.game-focus #view-game .arena-container canvas{width:100%!important;height:auto!important;aspect-ratio:1000 / 460!important;object-fit:contain!important}body.game-focus #view-game .touch-controls{height:90px}body.game-focus #view-game .touch-joystick{width:70px;height:70px}.guided-tour{width:min(270px,82%);left:50%!important;top:42%!important}}
-
+/* ECODATA 2.1 — acessibilidade, modal de modos e tutorial contextual */
+body.mode-picker-open{overflow:hidden}
+.mode-picker{position:fixed;inset:0;z-index:95;display:grid;place-items:center;padding:clamp(10px,3vw,32px);background:rgba(4,14,22,.51);backdrop-filter:blur(12px) saturate(.8);-webkit-backdrop-filter:blur(16px);animation:modalFade .27s ease-out}
+.mode-picker[hidden]{display:none!important}
+.mode-picker-panel{width:min(1150px,100%);max-height:calc(100dvh - 28px);overflow:auto;overscroll-behavior:contain;border:1px solid #578f8999;border-radius:25px;padding:clamp(16px,2.6vw,30px);box-shadow:0 32px 100px #000a;animation:modalRise .3s ease-out}
+.mode-picker-heading{margin:0 0 18px;gap:15px}
+.mode-picker-heading h2{font-size:clamp(23px,3.6vw,34px)}
+.mode-picker .mode-grid{margin-bottom:17px;gap:12px}
+.mode-picker .mode-card{min-height:235px;padding:18px 21px}
+.mode-picker .mode-card h3{font-size:clamp(20px,2vw,27px)}
+.mode-picker .mode-art{font-size:clamp(35px,5vw,55px);margin:7px 0}
+.mode-picker .eco-loop{margin:0;padding:10px}
+@keyframes modalFade{from{opacity:0}to{opacity:1}}
+@keyframes modalRise{from{opacity:0;transform:translateY(18px) scale(.978)}to{opacity:1;transform:translateY(0) scale(1)}}
+@media(max-width:720px){.mode-picker{padding:9px}.mode-picker-panel{max-height:calc(100dvh - 18px);padding:14px;border-radius:16px}.mode-picker .mode-grid{grid-template-columns:1fr;gap:8px}.mode-picker .mode-card{min-height:130px;padding:13px 17px}.mode-picker .mode-art{font-size:28px;line-height:1;margin:2px 0}.mode-picker .mode-art small{display:none}.mode-picker .mode-card h3{font-size:19px;margin:6px 0}.mode-picker .mode-card p{font-size:11px;line-height:1.3;margin:0 0 7px}.mode-picker .eco-loop{gap:7px}.mode-picker-heading{align-items:start}.mode-picker-heading p{font-size:11px}}
+@media(max-height:560px){.mode-picker .mode-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.mode-picker .mode-card{min-height:155px;padding:10px}.mode-picker .mode-card h3{font-size:17px}.mode-picker .mode-card p{font-size:10px}.mode-picker .mode-cta{font-size:9px}.mode-picker .eco-loop{display:none}}
+/* Nunca distorcer a proporção interna do Canvas (1.000 × 460). */
+body.game-focus #view-game .arena-container{position:relative;isolation:isolate;overflow:hidden}
+body.game-focus #view-game .arena-container canvas{width:100%!important;height:100%!important;min-height:0;max-width:100%;max-height:100%;object-fit:contain!important;aspect-ratio:1000 / 460!important;flex:none}
+/* No celular horizontal, as faixas laterais reservam os analógicos FORA da área renderizada. */
+@media(pointer:coarse) and (orientation:landscape){
+  body.game-focus #view-game .arena-container{--safe-touch-lane:clamp(116px,15vw,170px)}
+  body.game-focus #view-game .arena-container canvas{width:calc(100% - 2 * var(--safe-touch-lane))!important;max-width:calc(100% - 2 * var(--safe-touch-lane))!important}
+  body.game-focus #view-game .touch-controls{max-width:none!important;width:100%!important;height:100%;bottom:0;align-items:flex-end;padding-bottom:clamp(2px,1dvh,12px)}
+  body.game-focus #view-game .touch-side{max-width:var(--safe-touch-lane);gap:clamp(3px,.8vw,8px)}
+  body.game-focus #view-game .touch-joystick{width:min(var(--joy-size),calc(var(--safe-touch-lane) * .60));height:min(var(--joy-size),calc(var(--safe-touch-lane) * .60))}
+  body.game-focus #view-game .touch-jump{width:clamp(34px,calc(var(--safe-touch-lane) * .28),46px);height:clamp(34px,calc(var(--safe-touch-lane) * .28),46px);font-size:clamp(8px,1vw,11px)}
+  body.game-focus #view-game .arena-hint{top:3px;left:calc(var(--safe-touch-lane) + 8px);max-width:calc(100% - 2*var(--safe-touch-lane) - 16px);font-size:9px}
+  body.game-focus #view-game .stage-tag{right:calc(var(--safe-touch-lane) + 8px)}
+}
+@media(pointer:coarse) and (orientation:portrait){
+ body.game-focus #view-game .arena-container{--mobile-bottom-safe:clamp(80px,25vw,128px)}
+ body.game-focus #view-game .arena-container canvas{height:calc(100% - var(--mobile-bottom-safe))!important;max-height:calc(100% - var(--mobile-bottom-safe))!important;align-self:flex-start}
+ body.game-focus #view-game .touch-controls{height:var(--mobile-bottom-safe);bottom:0;align-items:center;background:linear-gradient(90deg,#0d2e3ac7,#173244ca);border-top:1px solid #32657266}
+ body.game-focus #view-game .arena-hint{max-width:88%;font-size:9px;top:7px;left:7px}
+}
+/* Balões sequenciais ligados ao elemento pelo cabo SVG e destaque. */
+.guide-layer{position:fixed;inset:0;z-index:110;pointer-events:none}
+.guide-layer[hidden]{display:none!important}
+.guide-shade{position:absolute;inset:0;background:rgba(3,12,22,.42)}
+.guide-focus{position:fixed;border:2px solid #f8d58f;border-radius:12px;box-shadow:0 0 0 5px #e6bb7155,0 0 26px #ffd18b6b;background:#f7d68b0a;transition:left .25s,top .25s,width .25s,height .25s}
+.guide-cable{position:fixed;inset:0;width:100%;height:100%;overflow:visible;filter:drop-shadow(0 2px 3px #000b)}
+.guide-bubble{position:fixed;pointer-events:auto;width:min(345px,calc(100vw - 24px));max-height:min(360px,calc(100dvh - 18px));overflow-y:auto;padding:17px 18px;border-radius:18px;background:linear-gradient(135deg,#183447f8,#153e43f8);border:2px solid #f0c982;box-shadow:0 24px 65px #000c,0 0 25px #e2bc7545;color:#f5fcff;animation:guideEnter .23s ease-out}
+.guide-bubble h3{font-size:clamp(15px,2.4vw,21px);line-height:1.22;margin:5px 0 8px;color:#ffe2a2}
+.guide-bubble p{font-size:clamp(11px,1.6vw,14px);line-height:1.5;color:#d5eae9;margin:0 0 15px}
+.guide-count{font:800 10px var(--mono);letter-spacing:.08em;color:#89d9ee}
+.guide-actions{display:flex;align-items:center;justify-content:space-between;gap:8px}.guide-actions button{font-size:11px;padding:9px 13px}
+@keyframes guideEnter{from{opacity:0;transform:scale(.96) translateY(7px)}to{opacity:1;transform:scale(1) translateY(0)}}
+@media(max-height:440px){.guide-bubble{width:min(300px,calc(100vw - 18px));padding:9px 12px;max-height:calc(100dvh - 10px)}.guide-bubble h3{font-size:14px;margin:3px 0}.guide-bubble p{font-size:10px;line-height:1.25;margin:0 0 7px}.guide-actions button{padding:6px 9px;font-size:10px}}
+/* Simulação de 3 rodadas, independente do banco e do ranking oficiais */
+.practice-screen{position:fixed;inset:0;z-index:103;display:grid;place-items:center;padding:12px;background:#03111ce3;backdrop-filter:blur(9px);-webkit-backdrop-filter:blur(9px)}
+.practice-screen[hidden]{display:none!important}
+.practice-card{width:min(625px,100%);padding:clamp(15px,3vw,30px);border-radius:22px;text-align:center;max-height:calc(100dvh - 24px);overflow-y:auto;border:1px solid #669d98}
+.practice-illustration{font-size:44px;color:#f2d390}.practice-card h2{font-size:clamp(22px,3vw,32px);margin:8px 0}.practice-card p{color:#d3e9e4;font-size:13px;line-height:1.5}
+.practice-scoreboard{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:15px 0}.practice-scoreboard>div{padding:11px;border:1px solid #4a6e7a;border-radius:11px;background:#102b39;display:grid;gap:5px}.practice-scoreboard strong{font-size:27px}.practice-notice{font-size:11px!important;color:#b4d9d6!important}.practice-buttons{display:flex;flex-wrap:wrap;justify-content:center;gap:8px}.practice-buttons button{font-size:11px;padding:10px 13px}
+body.training-practice #view-game .game-bottom{display:none!important}
+body.training-practice:not(.rush-racing) #view-game .answer-strip{display:grid!important}
+body.training-practice #view-game .question-banner{background:linear-gradient(100deg,#263653,#1d4c49);border-color:#7199aa}
+@media(max-width:520px){.practice-buttons{display:grid;grid-template-columns:1fr 1fr}.practice-buttons button{font-size:10px}}
 </style>
 </head>
 <body>
@@ -298,11 +338,10 @@ body.game-focus #view-game .touch-jump{width:clamp(42px,9dvh,60px);height:clamp(
     <header class="app-header">
       <button type="button" class="brand" data-nav="home" aria-label="Voltar ao início">
         <span class="brand-mark" aria-hidden="true"><span>◈</span></span>
-        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 2.0</small></span>
+        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 2.1</small></span>
       </button>
       <nav class="main-nav" aria-label="Navegação principal">
         <button class="nav-btn active" data-nav="home">Início</button>
-        
         <button class="nav-btn" data-nav="questions">Questões</button>
         <button class="nav-btn" data-nav="ranking">Ranking</button>
         <button class="nav-btn" data-nav="settings">Ajustes</button>
@@ -351,14 +390,16 @@ body.game-focus #view-game .touch-jump{width:clamp(42px,9dvh,60px);height:clamp(
 
 
       <!-- MODALIDADES -->
-      <section class="view" id="view-modes" aria-label="Escolha de modalidade"><button type="button" class="mode-dismiss" id="closeModePicker" aria-label="Fechar seleção">✕</button>
-        <div class="section-head"><div><span class="eyebrow">CIRCUITO / ECODATA 2.0</span><h2>Escolha sua missão.</h2><p>Primeiro aprenda; depois, compete. Conhecimento digital e planeta caminham juntos.</p></div><button class="btn btn-outline" data-nav="home">← Início</button></div>
+      <section class="mode-picker" id="view-modes" aria-label="Escolha de modalidade" role="dialog" aria-modal="true" aria-labelledby="modeDialogTitle" hidden>
+        <div class="mode-picker-panel glass-panel">
+          <div class="section-head mode-picker-heading"><div><span class="eyebrow">ECODATA / ESCOLHA SUA EXPERIÊNCIA</span><h2 id="modeDialogTitle">Escolha sua missão.</h2><p>Treine primeiro, dispute depois. Conhecimento digital e planeta caminham juntos.</p></div><button class="btn btn-outline" type="button" id="closeModePicker">✕ Fechar</button></div>
         <div class="mode-grid">
           <button type="button" class="mode-card glass-panel mode-train" data-playmode="training"><span class="mode-serial">01 // LABORATÓRIO</span><span class="mode-art">◎ <small>WASD + JOYSTICK</small></span><h3>Modo Treino</h3><p>Conheça os controles do seu dispositivo. Pratique movimento, plataformas e parkour sem gastar questões.</p><span class="mode-cta">COMEÇAR TREINO →</span></button>
           <button type="button" class="mode-card glass-panel mode-classic" data-playmode="classic"><span class="mode-serial">02 // CONHECIMENTO</span><span class="mode-art">▤ <small>SQL • ALTERNATIVAS</small></span><h3>Modo Clássico</h3><p>Duas pessoas, quatro plataformas e uma resposta certa. Mostre seus conhecimentos e acumule pontos.</p><span class="mode-cta">CONFIGURAR DISPUTA →</span></button>
           <button type="button" class="mode-card glass-panel mode-rush" data-playmode="rush"><span class="mode-serial">03 // CORRIDA DE DADOS</span><span class="mode-art">⚡ <small>PARKOUR • CHEGADA</small></span><h3>Modo Rush</h3><p>Corra pelo circuito sustentável. Só quem chegar primeiro pode responder — e acertar vale o ponto!</p><span class="mode-cta">CONFIGURAR CORRIDA →</span></button>
         </div>
         <div class="eco-loop"><span class="loop-icon">⌘</span><span><b>DADOS</b><small>informação bem organizada</small></span><span class="loop-arrow">→</span><span class="loop-icon">♻</span><span><b>DECISÕES</b><small>uso consciente dos recursos</small></span><span class="loop-arrow">→</span><span class="loop-icon">✦</span><span><b>FUTURO</b><small>tecnologia e sustentabilidade</small></span></div>
+        </div>
       </section>
 
       <!-- SETUP -->
@@ -462,14 +503,14 @@ body.game-focus #view-game .touch-jump{width:clamp(42px,9dvh,60px);height:clamp(
         </div>
         <div class="game-hud"><div class="hud-player" id="hudP1"><span class="hud-hero-dot" id="hudDot1"></span><div><small>JOGADOR 01</small><strong id="hudName1">Jogador 1</strong></div><b id="hudScore1">0</b></div><div class="hud-center"><span class="round-label" id="hudRound">RODADA 01/10</span><div class="timer-value" id="hudTimer">01:00</div><div class="timer-bar"><span id="timerBarFill"></span></div></div><div class="hud-player second" id="hudP2"><b id="hudScore2">0</b><div><small>JOGADOR 02</small><strong id="hudName2">Jogador 2</strong></div><span class="hud-hero-dot" id="hudDot2"></span></div></div>
         <div class="question-banner"><span class="question-flag" id="gameCategory">DESAFIO</span><h2 id="gameQuestion">Aguardando pergunta...</h2><span class="reveal-tag" id="revealTag" hidden>RESPOSTA REVELADA</span></div>
-        <div class="arena-container" id="arenaContainer"><canvas id="gameCanvas" width="1000" height="460" aria-label="Arena 2D com plataformas, parkour e dois jogadores"></canvas><div class="stage-tag" id="stageTag">ECODATA / STAGE 01</div><div class="arena-hint" id="arenaHint">Vá até a plataforma da sua resposta!</div><div id="guidedTour" class="guided-tour" hidden><div class="tour-counter" id="tourCounter">1 / 6</div><strong id="tourTitle">Conheça a arena</strong><p id="tourText"></p><button id="tourNext" type="button">OK →</button></div>
+        <div class="arena-container" id="arenaContainer"><canvas id="gameCanvas" width="1000" height="460" aria-label="Arena 2D com plataformas, parkour e dois jogadores"></canvas><div class="stage-tag" id="stageTag">ECODATA / STAGE 01</div><div class="arena-hint" id="arenaHint">Vá até a plataforma da sua resposta!</div>
           <div class="touch-controls" id="touchControls" aria-label="Dois controles analógicos independentes">
             <div class="touch-side left-touch" style="--joy-color:#5df4b4"><div class="touch-joystick" data-analog="0" aria-label="Analógico do jogador 1" role="group"><div class="joystick-nub"></div><span class="joy-label">P1</span></div><button class="touch-jump" data-player="0" data-key="up" aria-label="Jogador 1 pular">PULAR</button></div>
             <div class="touch-side right-touch" style="--joy-color:#6cbcff"><button class="touch-jump" data-player="1" data-key="up" aria-label="Jogador 2 pular">PULAR</button><div class="touch-joystick" data-analog="1" aria-label="Analógico do jogador 2" role="group"><div class="joystick-nub"></div><span class="joy-label">P2</span></div></div>
           </div>
         </div>
         <div class="answer-strip" id="answerStrip" aria-label="Alternativas da questão"></div>
-        <div class="game-bottom"><div id="tutorialActions" class="tutorial-actions" hidden><button class="tutorial-step" data-train-step="0">1 · Movimento</button><button class="tutorial-step" data-train-step="1">2 · Alternativas</button><button class="tutorial-step" data-train-step="2">3 · Parkour</button><button class="tutorial-step" id="trainingChallenge">🏁 Desafio teste</button><button class="tutorial-step" id="restartTraining">↻ Reiniciar</button></div><span class="game-instructions" id="gameInstruction">P1: WASD <span>•</span> P2: SETAS <span>•</span> PULE ENTRE AS PLATAFORMAS</span><span class="stage-foot-label">INFORMÁTICA · BANCO DE DADOS · SUSTENTABILIDADE</span></div>
+        <div class="game-bottom"><div id="tutorialActions" class="tutorial-actions" hidden><button class="tutorial-step" data-train-step="0">1 · Movimento</button><button class="tutorial-step" data-train-step="1">2 · Alternativas</button><button class="tutorial-step" data-train-step="2">3 · Parkour</button><button class="tutorial-step" id="restartTraining">↻ Reiniciar</button></div><span class="game-instructions" id="gameInstruction">P1: WASD <span>•</span> P2: SETAS <span>•</span> PULE ENTRE AS PLATAFORMAS</span><span class="stage-foot-label">INFORMÁTICA · BANCO DE DADOS · SUSTENTABILIDADE</span></div>
 
       </section>
 
@@ -480,8 +521,15 @@ body.game-focus #view-game .touch-jump{width:clamp(42px,9dvh,60px);height:clamp(
       <section class="view" id="view-final" aria-label="Resultado da partida"><div class="final-panel glass-panel"><div class="confetti-container" id="confetti"></div><span class="eyebrow" id="finalEyebrow">PARTIDA CONCLUÍDA</span><div class="winner-crown" id="winnerCrown">♛</div><h1 id="winnerTitle">VITÓRIA!</h1><p class="winner-subtitle" id="winnerSubtitle"></p><div class="final-duel" id="finalDuel"></div><div class="final-rank-info" id="finalRankInfo"></div><div class="final-actions"><button class="btn btn-primary" id="replayMatch">↻ JOGAR NOVAMENTE</button><button class="btn btn-outline" data-nav="ranking">♛ VER RANKING</button><button class="btn btn-outline" data-nav="home">⌂ INÍCIO</button></div></div></section>
     </main>
 
-    <footer class="app-footer"><span>© ECODATA ARENA 2.0 <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
+    <footer class="app-footer"><span>© ECODATA ARENA 2.1 <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
   </div>
+  <div class="guide-layer" id="guideLayer" role="region" aria-label="Tutorial passo a passo" hidden>
+    <div class="guide-shade" aria-hidden="true"></div>
+    <div class="guide-focus" id="guideFocus" aria-hidden="true"></div>
+    <svg class="guide-cable" id="guideCable" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><line id="guideLine" stroke="#ffd38a" stroke-width="3" stroke-linecap="round" stroke-dasharray="6 5"/><circle id="guideEnd" r="6" fill="#ffd38a"/></svg>
+    <div class="guide-bubble" id="guideBubble" role="status" aria-live="polite"><span class="guide-count" id="guideCount">1 / 10</span><h3 id="guideTitle">Bem-vindo!</h3><p id="guideText"></p><div class="guide-actions"><button type="button" id="guideSkip" class="btn btn-quiet">Ir para o desafio</button><button type="button" id="guideNext" class="btn btn-primary">OK →</button></div></div>
+  </div>
+  <div class="practice-screen" id="practiceResults" role="dialog" aria-modal="true" aria-labelledby="practiceResultTitle" hidden><div class="practice-card glass-panel"><span class="eyebrow">LABORATÓRIO / SIMULAÇÃO</span><div class="practice-illustration" id="practiceIcon">⚡</div><h2 id="practiceResultTitle">Fim da rodada de treino</h2><p id="practiceResultText"></p><div class="practice-scoreboard" id="practiceScores"></div><p class="practice-notice">Este resultado é apenas de treino. Seu ranking oficial não será alterado.</p><div class="practice-buttons"><button id="practiceNext" class="btn btn-primary">Próxima rodada →</button><button id="practiceRestart" class="btn btn-outline">↻ Recomeçar treino</button><button id="practiceGuideAgain" class="btn btn-outline">Rever tutorial</button><button id="practiceExit" class="btn btn-quiet">Voltar ao início</button></div></div></div>
   <div class="toast-stack" id="toastStack" role="status" aria-live="polite"></div>
   <div class="modal-backdrop" id="confirmModal" hidden><div class="modal glass-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle"><span class="eyebrow">CONFIRMAÇÃO</span><h3 id="modalTitle">Tem certeza?</h3><p id="modalText">Esta ação não poderá ser desfeita.</p><div class="modal-actions"><button class="btn btn-outline" id="modalCancel">Cancelar</button><button class="btn btn-danger" id="modalConfirm">Confirmar</button></div></div></div>
   <script>
@@ -633,7 +681,7 @@ body.game-focus #view-game .touch-jump{width:clamp(42px,9dvh,60px);height:clamp(
  const COLORS=['#5df4b4','#6cbcff','#ffcb73','#ff82a9','#bb9bff','#ff9d70','#71ebdb','#e6f18b'];
  const letters=['A','B','C','D'];
  const defaultSettings={rounds:10,time:60,raceTime:75,answerTime:35,mixedRush:1,joySize:100,joyOpacity:82,joySensitivity:100,fx:true,music:true,volume:60,names:['Jogador 1','Jogador 2'],colors:[COLORS[0],COLORS[1]]};
- let tourIndex=0,practice=null,practiceTimer=null;let questions=[],rankings=[],settings={...defaultSettings},colors=[COLORS[0],COLORS[1]],session=null,game=null,view='home',wheelItems=[],wheelRotation=0,spinFrame=0,spinning=false,finalizing=false,selectedMode='classic',trainingMode=false;
+ let questions=[],rankings=[],settings={...defaultSettings},colors=[COLORS[0],COLORS[1]],session=null,game=null,view='home',wheelItems=[],wheelRotation=0,spinFrame=0,spinning=false,finalizing=false,selectedMode='classic',trainingMode=false,trainingPractice=null,guideActive=false,guideSteps=[],guideIndex=0,guideLastFocus=null;
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const int=(v,fallback)=>Number.isSafeInteger(Number(v))?Number(v):fallback;
  const fmtTime=n=>{const s=Math.max(0,Math.ceil(Number(n)||0));return s>=3600?`${String(Math.floor(s/3600)).padStart(2,'0')}:${String(Math.floor(s%3600/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`:`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`};
@@ -643,18 +691,33 @@ body.game-focus #view-game .touch-jump{width:clamp(42px,9dvh,60px);height:clamp(
  async function init(){try{await storage.open();questions=(await storage.all('questions')).filter(validQuestion);rankings=(await storage.all('rankings')).filter(v=>v&&typeof v.name==='string');const st=(await storage.all('settings')).find(v=>v.key==='preferences');if(st?.value&&typeof st.value==='object')settings={...defaultSettings,...st.value};}catch(e){toast('Não foi possível ler todos os dados locais: '+e.message,'error')}
    settings.names=Array.isArray(settings.names)?settings.names.slice(0,2):defaultSettings.names;settings.colors=Array.isArray(settings.colors)?settings.colors.slice(0,2):defaultSettings.colors;colors=settings.colors.map((c,i)=>COLORS.includes(c)?c:COLORS[i]);if(colors[0]===colors[1])colors[1]=COLORS.find(c=>c!==colors[0]);
    $('#nameP1').value=settings.names[0]||'Jogador 1';$('#nameP2').value=settings.names[1]||'Jogador 2';$('#roundCount').value=settings.rounds||10;$('#timePerRound').value=settings.time||60;$('#fxEnabled').checked=settings.fx!==false;$('#musicEnabled').checked=settings.music!==false;$('#volumeSetting').value=settings.volume??60;$('#rushRaceTime').value=settings.raceTime??75;$('#rushAnswerTime').value=settings.answerTime??35;$('#mixedRushCount').value=settings.mixedRush??1;$('#joySize').value=settings.joySize??100;$('#joyOpacity').value=settings.joyOpacity??82;$('#joySensitivity').value=settings.joySensitivity??100;applyTouchSettings();audio.fx=settings.fx!==false;audio.music=settings.music!==false;audio.setVolume((settings.volume??60)/100);
-   game=new window.EcoGame($('#gameCanvas'),{onTick:updateTimer,onSelect:updateChoices,onJump:()=>audio.play('jump'),onFall:()=>audio.play('lose'),onCountdown:()=>audio.play('tick'),onLock:lockRound,onCollapse:()=>audio.play('lose'),onFinish:showRoundResults,onRespawn:()=>{},onStage:onGameStage,onRushWinner:onRushWinner,onRushTimeout:onRushTimeout,onTrainingComplete:i=>{if(practice){practice.scores[i]++;$('#hudScore'+(i+1)).textContent=practice.scores[i];audio.play('win');if(practice.scores[0]+practice.scores[1]>=3){finishPractice()}else{game.setTrainingStage(2);$('#hudScore1').textContent=practice.scores[0];$('#hudScore2').textContent=practice.scores[1];$('#gameCategory').textContent='🏁 COMPETIÇÃO SIMULADA';$('#gameQuestion').textContent='Próxima corrida de treino! Primeiro a chegar pontua.'}}else toast(`${game.players[i].name} completou o percurso de treinamento!`)}});
+   game=new window.EcoGame($('#gameCanvas'),{onTick:updateTimer,onSelect:updateChoices,onJump:()=>audio.play('jump'),onFall:()=>audio.play('lose'),onCountdown:()=>audio.play('tick'),onLock:lockRound,onCollapse:()=>audio.play('lose'),onFinish:showRoundResults,onRespawn:()=>{},onStage:onGameStage,onRushWinner:onRushWinner,onRushTimeout:onRushTimeout,onTrainingComplete:i=>toast(`${game.players[i].name} completou o percurso de treinamento!`)});
    bindEvents();renderPalette();updatePreview();renderHome();renderQuestions();renderRanking();renderSettings();validateSetup();show('home');
    // An optional musical ambience starts only after a real user interaction, to respect browser audio restrictions.
    document.addEventListener('pointerdown',()=>{audio.init();audio.syncMusic()},{once:true});
  }
  function savePrefs(){settings.names=[$('#nameP1').value,$('#nameP2').value];settings.colors=[...colors];settings.rounds=int($('#roundCount').value,settings.rounds);settings.time=int($('#timePerRound').value,settings.time);settings.raceTime=int($('#rushRaceTime').value,settings.raceTime);settings.answerTime=int($('#rushAnswerTime').value,settings.answerTime);settings.mixedRush=int($('#mixedRushCount').value,settings.mixedRush);settings.joySize=int($('#joySize').value,100);settings.joyOpacity=int($('#joyOpacity').value,82);settings.joySensitivity=int($('#joySensitivity').value,100);settings.fx=$('#fxEnabled').checked;settings.music=$('#musicEnabled').checked;settings.volume=int($('#volumeSetting').value,60);return storage.write('settings',{key:'preferences',value:settings}).catch(e=>toast(e.message,'error'))}
- function show(dest){if(!$('#view-'+dest))return;if(dest!=='game'){$('#guidedTour').hidden=true;clearInterval(practiceTimer);practice=null}view=dest;document.body.classList.toggle('game-focus',dest==='game');document.body.classList.toggle('training-mode',dest==='game'&&trainingMode);$$('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+dest));$$('[data-nav]').forEach(b=>b.classList.toggle('active',b.getAttribute('data-nav')===dest));window.scrollTo({top:0,behavior:'instant'});if(dest==='home')renderHome();if(dest==='questions')renderQuestions();if(dest==='ranking')renderRanking();if(dest==='setup'){const total=eligibleQuestions().length;if(total>0&&int($('#roundCount').value,10)>total)$('#roundCount').value=Math.min(10,total);$('#matchMode').value=selectedMode;updateModeUI();validateSetup()}if(dest==='roulette')renderRoulette()}
+ function show(dest){if(!$('#view-'+dest))return;closeModePicker();view=dest;document.body.classList.toggle('game-focus',dest==='game');document.body.classList.toggle('training-mode',dest==='game'&&trainingMode);$$('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+dest));$$('[data-nav]').forEach(b=>b.classList.toggle('active',b.getAttribute('data-nav')===dest));window.scrollTo({top:0,behavior:'instant'});if(dest==='home')renderHome();if(dest==='questions')renderQuestions();if(dest==='ranking')renderRanking();if(dest==='setup'){const total=eligibleQuestions().length;if(total>0&&int($('#roundCount').value,10)>total)$('#roundCount').value=Math.min(10,total);$('#matchMode').value=selectedMode;updateModeUI();validateSetup()}if(dest==='roulette')renderRoulette()}
  function navigate(dest){audio.play('click');if(dest==='setup'&&questions.length===0){show('questions');toast('Cadastre pelo menos uma questão antes de jogar.');return}
-   if(trainingMode&&view==='game'&&dest!=='game'){game.stop();trainingMode=false;show(dest);return}if(session&&!session.completed&&['roulette','game','round'].includes(view)&&!['roulette','game','round'].includes(dest)){confirmDialog('Encerrar a partida?','O progresso desta partida será perdido. O ranking só é atualizado ao concluir a partida.',()=>{game.stop();cancelAnimationFrame(spinFrame);spinning=false;session=null;show(dest)});return}show(dest)}
+   const wantModes=dest==='modes',destination=wantModes?'home':dest;
+   if(trainingMode&&view==='game'&&dest!=='game'){leaveTraining();show(destination);if(wantModes)openModePicker();return}
+   if(session&&!session.completed&&['roulette','game','round'].includes(view)&&!['roulette','game','round'].includes(dest)){confirmDialog('Encerrar a partida?','O progresso desta partida será perdido. O ranking só é atualizado ao concluir a partida.',()=>{game.stop();cancelAnimationFrame(spinFrame);spinning=false;session=null;show(destination);if(wantModes)openModePicker()});return}
+   if(wantModes){openModePicker();return}show(dest);return;
+
+ }
  function bindEvents(){
    $$('[data-nav]').forEach(btn=>btn.addEventListener('click',()=>navigate(btn.dataset.nav)));
-   $('#homePlay').addEventListener('click',()=>navigate('modes'));$('#closeModePicker').addEventListener('click',()=>show('home'));$('#view-modes').addEventListener('click',e=>{if(e.target.id==='view-modes')show('home')});$('#tourNext').addEventListener('click',nextTour);$('#trainingChallenge').addEventListener('click',startPractice);$$('[data-playmode]').forEach(btn=>btn.addEventListener('click',()=>chooseMode(btn.dataset.playmode)));$('#matchMode').addEventListener('change',()=>{selectedMode=$('#matchMode').value;updateModeUI();validateSetup();savePrefs()});
+   $('#closeModePicker').addEventListener('click',closeModePicker);
+   $('#view-modes').addEventListener('click',e=>{if(e.target.id==='view-modes')closeModePicker()});
+   $('#guideNext').addEventListener('click',()=>advanceGuide());
+   $('#guideSkip').addEventListener('click',()=>beginTrainingPractice());
+   $('#practiceNext').addEventListener('click',nextPracticeRound);
+   $('#practiceRestart').addEventListener('click',()=>startTraining());
+   $('#practiceGuideAgain').addEventListener('click',()=>startTraining());
+   $('#practiceExit').addEventListener('click',()=>navigate('home'));
+   window.addEventListener('resize',()=>{if(guideActive)requestAnimationFrame(positionGuide)});
+   window.addEventListener('orientationchange',()=>{if(guideActive)setTimeout(positionGuide,120)});
+   $('#homePlay').addEventListener('click',()=>navigate('modes'));$$('[data-playmode]').forEach(btn=>btn.addEventListener('click',()=>chooseMode(btn.dataset.playmode)));$('#matchMode').addEventListener('change',()=>{selectedMode=$('#matchMode').value;updateModeUI();validateSetup();savePrefs()});
    $('#soundToggle').addEventListener('click',()=>{const enabled=!$('#fxEnabled').checked;$('#fxEnabled').checked=enabled;$('#musicEnabled').checked=enabled;audio.fx=enabled;audio.music=enabled;audio.syncMusic();renderSettings();savePrefs();if(enabled)audio.play('save')});
    $('#fullscreenToggle').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch{toast('O navegador não permitiu entrar em tela cheia. Você também pode usar F11 no computador.','error')}});
    [0,1].forEach(i=>{$('#nameP'+(i+1)).addEventListener('input',()=>{validateSetup();savePrefs()})});
@@ -702,7 +765,7 @@ body.game-focus #view-game .touch-jump{width:clamp(42px,9dvh,60px);height:clamp(
  function renderSettings(){$('#volumeLabel').textContent=$('#volumeSetting').value+'%';$('#joySizeLabel').textContent=$('#joySize').value+'%';$('#joyOpacityLabel').textContent=$('#joyOpacity').value+'%';$('#joySensitivityLabel').textContent=$('#joySensitivity').value+'%';$('#soundToggle').textContent=$('#fxEnabled').checked?'♫':'♩';$('#soundToggle').setAttribute('aria-pressed',$('#fxEnabled').checked?'true':'false')}
  function sortedRanking(){return [...rankings].sort((a,b)=>(b.points||0)-(a.points||0)||(b.wins||0)-(a.wins||0)||((b.correct||0)/Math.max(1,b.rounds||1))-((a.correct||0)/Math.max(1,a.rounds||1))||a.name.localeCompare(b.name,'pt-BR'))}
  function renderRanking(){const list=sortedRanking();$('#rankPeople').textContent=list.length;$('#rankMatches').textContent=Math.floor(rankings.reduce((n,r)=>n+(r.matches||0),0)/2);$('#rankPoints').textContent=rankings.reduce((n,r)=>n+(r.points||0),0);$('#rankingList').innerHTML=list.length?list.map((r,i)=>`<div class="rank-row"><div class="rank-person"><span class="rank-medal">${i<3?['♛','Ⅱ','Ⅲ'][i]:String(i+1).padStart(2,'0')}</span><span class="rank-avatar" style="--profile:${COLORS.includes(r.color)?r.color:COLORS[0]}">✦</span><div class="rank-person-text"><strong title="${esc(r.name)}">${esc(r.name)}</strong><small>${r.correct||0} acertos • ${r.rounds||0} rodadas • ${r.classicPoints||0} cláss. / ${r.rushPoints||0} Rush</small></div></div><span class="rank-metric points">${r.points||0}</span><span class="rank-metric">${r.wins||0}</span><span class="rank-metric">${r.matches||0}</span></div>`).join(''):'<div class="empty-state"><span class="empty-icon">♛</span><h4>O pódio está esperando</h4><p>Concluam a primeira partida para inaugurar o ranking.</p></div>'}
- function chooseMode(mode){if(mode==='training'){startTraining();return}selectedMode=mode==='rush'?'rush':'classic';$('#matchMode').value=selectedMode;updateModeUI();show('setup');toast(selectedMode==='rush'?'Modo Rush selecionado!':'Modo Clássico selecionado!')}
+ function chooseMode(mode){closeModePicker();if(mode==='training'){startTraining();return}selectedMode=mode==='rush'?'rush':'classic';$('#matchMode').value=selectedMode;updateModeUI();show('setup');toast(selectedMode==='rush'?'Modo Rush selecionado!':'Modo Clássico selecionado!')}
  function startMatch(){if(!validateSetup())return;game.stop();trainingMode=false;cancelAnimationFrame(spinFrame);spinning=false;const n1=$('#nameP1').value.trim().replace(/\s+/g,' '),n2=$('#nameP2').value.trim().replace(/\s+/g,' '),rounds=int($('#roundCount').value,10),time=int($('#timePerRound').value,60),raceTime=int($('#rushRaceTime').value,75),answerTime=int($('#rushAnswerTime').value,35);let pool;if(selectedMode==='mixed'){const rushN=int($('#mixedRushCount').value,0);pool=[...shuffle(questions.filter(q=>q.type==='rush')).slice(0,rushN),...shuffle(questions.filter(q=>q.type!=='rush')).slice(0,rounds-rushN)];pool=shuffle(pool)}else pool=shuffle(eligibleQuestions()).slice(0,rounds);
   session={mode:selectedMode,players:[{name:n1,color:colors[0]},{name:n2,color:colors[1]}],rounds,time,raceTime,answerTime,pool,roundIndex:0,scores:[0,0],history:[],current:null,locked:false,completed:false,rushWinner:null};finalizing=false;savePrefs();audio.play('save');show('roulette')}
 
@@ -714,18 +777,18 @@ body.game-focus #view-game .touch-jump{width:clamp(42px,9dvh,60px);height:clamp(
   $('#hudName1').textContent=session.players[0].name;$('#hudName2').textContent=session.players[1].name;$('#hudDot1').style.setProperty('--player-color',session.players[0].color);$('#hudDot2').style.setProperty('--player-color',session.players[1].color);$('#hudScore1').textContent=session.scores[0];$('#hudScore2').textContent=session.scores[1];$('#hudRound').textContent=`RODADA ${String(session.roundIndex+1).padStart(2,'0')}/${session.rounds}`;
   $('#gameCategory').textContent=isRush?'⚡ MODO RUSH':(q.category||'CLÁSSICO').toUpperCase();$('#gameQuestion').textContent=isRush?'CRUZE A LINHA DE CHEGADA PARA REVELAR A PERGUNTA!':q.text;$('#arenaHint').textContent=isRush?'Ambos começam juntos! Corra até a meta.':'Escolha uma plataforma antes do tempo acabar!';$('#revealTag').hidden=true;$('#stageTag').textContent=isRush?'ECODATA / CIRCUITO RUSH':'ECODATA / ARENA CLÁSSICA';$('#tutorialActions').hidden=true;
   $('#answerStrip').innerHTML=q.options.map((opt,i)=>`<div class="answer-card" data-choice="${i}"><span class="letter">${letters[i]}</span><span class="text">${esc(opt)}</span></div>`).join('');document.body.classList.toggle('rush-racing',isRush);show('game');if(isRush)game.startRush(q,session.players,session.raceTime,session.answerTime);else game.startRound(q,session.players,session.time);}
- function onGameStage(stage){if(view!=='game')return;document.body.classList.toggle('rush-racing',stage.startsWith('rush-')&&stage!=='rush-answer');if(stage==='rush-countdown'||stage==='rush-tie'){$('#gameCategory').textContent='⚡ CIRCUITO RUSH';$('#gameQuestion').textContent='3 • 2 • 1 — PREPARE-SE PARA CORRER!';$('#arenaHint').textContent=stage==='rush-tie'?'Chegada simultânea: nova largada justa!':'P1 e P2: mesmo ponto de início';}
+ function onGameStage(stage){if(view!=='game')return;if(trainingPractice){onPracticeStage(stage);return}document.body.classList.toggle('rush-racing',stage.startsWith('rush-')&&stage!=='rush-answer');if(stage==='rush-countdown'||stage==='rush-tie'){$('#gameCategory').textContent='⚡ CIRCUITO RUSH';$('#gameQuestion').textContent='3 • 2 • 1 — PREPARE-SE PARA CORRER!';$('#arenaHint').textContent=stage==='rush-tie'?'Chegada simultânea: nova largada justa!':'P1 e P2: mesmo ponto de início';}
  else if(stage==='rush-race'){$('#gameCategory').textContent='⚡ CORRIDA';$('#gameQuestion').textContent='Alcance primeiro a linha de chegada para responder à questão.';$('#arenaHint').textContent='Checkpoints dourados • cuidado com a lava!'}
  else if(stage==='rush-winner'){$('#gameQuestion').textContent=`${session.players[game.winner].name} ganhou o direito de responder!`;$('#arenaHint').textContent='Preparando área de alternativas...'}
  else if(stage==='rush-answer'){$('#gameCategory').textContent='⚡ DIREITO DE RESPOSTA';$('#gameQuestion').textContent=session.current.text;$('#arenaHint').textContent=`Somente ${session.players[session.rushWinner].name} pode escolher a alternativa!`;audio.play('save')}
  else if(stage==='rush-timeout'){$('#gameCategory').textContent='TEMPO ESGOTADO';$('#gameQuestion').textContent='Ninguém chegou à meta. A rodada termina sem pontos.';$('#arenaHint').textContent='A pergunta não foi revelada.'}
  else if(stage.startsWith('training-'))updateTrainingUI();}
- function onRushWinner(i){if(!session)return;session.rushWinner=i;audio.play('win');$('#arenaHint').textContent=`${session.players[i].name} chegou primeiro!`}
- function onRushTimeout(){if(!session||session.locked)return;session.locked=true;session.history.push({questionId:session.current.id,mode:'rush',winner:null,rushTimeout:true,selected:[null,null],awards:[0,0]});audio.play('lose')}
- function updateTimer(remaining,total){if(view!=='game'||trainingMode)return;$('#hudTimer').textContent=fmtTime(remaining);$('#hudTimer').classList.toggle('urgent',remaining<=10&&remaining>0);$('#timerBarFill').style.width=Math.min(100,Math.max(0,remaining/total*100))+'%';$('#timerBarFill').style.background=remaining<=10?'#ff777b':'#5df4b4'}
- function updateChoices(selected){if(view!=='game')return;if(trainingMode){if(game.trainingStage===1)$('#arenaHint').textContent=selected.map((v,i)=>`${game.players[i].name}: ${v==null?'sem alternativa':letters[v]}`).join(' • ');return}if(!session)return;const cards=$$('#answerStrip .answer-card');cards.forEach((card,i)=>{card.classList.remove('choice-one','choice-two','choice-both');card.style.setProperty('--c1',session.players[0].color);card.style.setProperty('--c2',session.players[1].color);if(session.locked)return;const p1=selected[0]===i,p2=selected[1]===i;if(p1&&p2)card.classList.add('choice-both');else if(p1)card.classList.add('choice-one');else if(p2)card.classList.add('choice-two')});if(!session.locked&&game.phase==='choose'){$('#arenaHint').textContent=selected.map((n,i)=>`${session.players[i].name}: ${session.rushWinner!=null&&i!==session.rushWinner?'espectador':n===null?'sem resposta':letters[n]}`).join(' • ')}}
- function lockRound(selected){if(!session||session.locked)return;session.locked=true;const q=session.current,win=session.rushWinner,isRush=q.type==='rush';const awards=selected.map((choice,i)=>choice===q.correctIndex&&(!isRush||win===i)?1:0);awards.forEach((pts,i)=>session.scores[i]+=pts);session.history.push({questionId:q.id,mode:isRush?'rush':'classic',winner:win,correctIndex:q.correctIndex,selected:[...selected],awards});$('#hudScore1').textContent=session.scores[0];$('#hudScore2').textContent=session.scores[1];$$('#answerStrip .answer-card').forEach((card,i)=>{card.classList.remove('choice-one','choice-two','choice-both');card.classList.add(i===q.correctIndex?'correct':'wrong')});$('#arenaHint').textContent=`RESPOSTA CORRETA: ${letters[q.correctIndex]} • ${isRush&&awards.every(v=>v===0)?'Ninguém pontua.':'Resultado registrado!'}`;$('#revealTag').hidden=false;audio.play('reveal')}
- function showRoundResults(){if(trainingMode||!session)return;const q=session.current,h=session.history[session.history.length-1];if(!h)return;$('#roundHeadline').textContent=h.rushTimeout?'Corrida encerrada sem vencedor!':`Rodada ${session.roundIndex+1} concluída!`;$('#roundCorrect').textContent=h.rushTimeout?'Tempo de corrida esgotado. Questão não revelada.':`Resposta correta: ${letters[q.correctIndex]} — ${q.options[q.correctIndex]}`;
+ function onRushWinner(i){if(trainingPractice){trainingPractice.winner=i;$('#arenaHint').textContent=`${trainingPractice.players[i].name} chegou primeiro!`;audio.play('win');return}if(!session)return;session.rushWinner=i;audio.play('win');$('#arenaHint').textContent=`${session.players[i].name} chegou primeiro!`}
+ function onRushTimeout(){if(trainingPractice){trainingPractice.timedOut=true;audio.play('lose');return}if(!session||session.locked)return;session.locked=true;session.history.push({questionId:session.current.id,mode:'rush',winner:null,rushTimeout:true,selected:[null,null],awards:[0,0]});audio.play('lose')}
+ function updateTimer(remaining,total){if(view!=='game'||trainingMode&&!trainingPractice)return;$('#hudTimer').textContent=fmtTime(remaining);$('#hudTimer').classList.toggle('urgent',remaining<=10&&remaining>0);$('#timerBarFill').style.width=Math.min(100,Math.max(0,remaining/total*100))+'%';$('#timerBarFill').style.background=remaining<=10?'#ff777b':'#5df4b4'}
+ function updateChoices(selected){if(view!=='game')return;if(trainingPractice){updatePracticeChoices(selected);return}if(trainingMode){if(game.trainingStage===1)$('#arenaHint').textContent=selected.map((v,i)=>`${game.players[i].name}: ${v==null?'sem alternativa':letters[v]}`).join(' • ');return}if(!session)return;const cards=$$('#answerStrip .answer-card');cards.forEach((card,i)=>{card.classList.remove('choice-one','choice-two','choice-both');card.style.setProperty('--c1',session.players[0].color);card.style.setProperty('--c2',session.players[1].color);if(session.locked)return;const p1=selected[0]===i,p2=selected[1]===i;if(p1&&p2)card.classList.add('choice-both');else if(p1)card.classList.add('choice-one');else if(p2)card.classList.add('choice-two')});if(!session.locked&&game.phase==='choose'){$('#arenaHint').textContent=selected.map((n,i)=>`${session.players[i].name}: ${session.rushWinner!=null&&i!==session.rushWinner?'espectador':n===null?'sem resposta':letters[n]}`).join(' • ')}}
+ function lockRound(selected){if(trainingPractice){lockPracticeRound(selected);return}if(!session||session.locked)return;session.locked=true;const q=session.current,win=session.rushWinner,isRush=q.type==='rush';const awards=selected.map((choice,i)=>choice===q.correctIndex&&(!isRush||win===i)?1:0);awards.forEach((pts,i)=>session.scores[i]+=pts);session.history.push({questionId:q.id,mode:isRush?'rush':'classic',winner:win,correctIndex:q.correctIndex,selected:[...selected],awards});$('#hudScore1').textContent=session.scores[0];$('#hudScore2').textContent=session.scores[1];$$('#answerStrip .answer-card').forEach((card,i)=>{card.classList.remove('choice-one','choice-two','choice-both');card.classList.add(i===q.correctIndex?'correct':'wrong')});$('#arenaHint').textContent=`RESPOSTA CORRETA: ${letters[q.correctIndex]} • ${isRush&&awards.every(v=>v===0)?'Ninguém pontua.':'Resultado registrado!'}`;$('#revealTag').hidden=false;audio.play('reveal')}
+ function showRoundResults(){if(trainingPractice){showPracticeResult();return}if(trainingMode||!session)return;const q=session.current,h=session.history[session.history.length-1];if(!h)return;$('#roundHeadline').textContent=h.rushTimeout?'Corrida encerrada sem vencedor!':`Rodada ${session.roundIndex+1} concluída!`;$('#roundCorrect').textContent=h.rushTimeout?'Tempo de corrida esgotado. Questão não revelada.':`Resposta correta: ${letters[q.correctIndex]} — ${q.options[q.correctIndex]}`;
   $('#roundResults').innerHTML=session.players.map((p,i)=>{const choice=h.selected[i],correct=h.awards[i]===1,status=h.rushTimeout?'TEMPO DE CORRIDA ESGOTADO':h.mode==='rush'&&h.winner!==i?'ESPECTADOR • SEM DIREITO DE RESPOSTA':choice===null?'SEM RESPOSTA':correct?'RESPOSTA CERTA':'RESPOSTA ERRADA';return `<div class="round-player"><span class="eyebrow">JOGADOR ${i+1}</span><b style="color:${p.color}">${esc(p.name)}</b><span class="status">${status} ${choice===null?'':`• Alternativa ${letters[choice]}`}</span><strong class="${correct?'':'zero'}">+${h.awards[i]} PONTO</strong></div>`}).join('');$('#roundScoreSummary').textContent=`PLACAR ATUAL: ${session.players[0].name} ${session.scores[0]} — ${session.scores[1]} ${session.players[1].name}`;$('#nextRound').textContent=session.roundIndex+1>=session.rounds?'VER RESULTADO FINAL →':'PRÓXIMA RODADA →';show('round');document.body.classList.remove('rush-racing');audio.play('save')}
 
  function nextRound(){if(!session)return;
@@ -750,12 +813,12 @@ body.game-focus #view-game .touch-jump{width:clamp(42px,9dvh,60px);height:clamp(
  $('#modalCancel').addEventListener('click',closeModal);
  $('#modalConfirm').addEventListener('click',()=>{const action=modalResolve;closeModal();if(action)Promise.resolve().then(action).catch(e=>toast(e.message,'error'))});
  $('#confirmModal').addEventListener('click',e=>{if(e.target.id==='confirmModal')closeModal()});
- document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('#confirmModal').hidden)closeModal()});
+ document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!$('#confirmModal').hidden)closeModal();else if(!$('#view-modes').hidden)closeModePicker();else if(guideActive)beginTrainingPractice()});
  // ECODATA 2.0 — device-aware tutorial, analog multi-touch input and fullscreen.
  function isTouchDevice(){return window.matchMedia?.('(pointer:coarse)').matches||false}
  function applyTouchSettings(){const size=Math.max(70,Math.min(140,Number($('#joySize').value)||100));const opacity=Math.max(35,Math.min(100,Number($('#joyOpacity').value)||82));document.documentElement.style.setProperty('--joy-size',Math.round(size*1.02)+'px');document.documentElement.style.setProperty('--joy-opacity',opacity/100);for(const side of $$('#touchControls .touch-side')){const i=side.classList.contains('left-touch')?0:1;side.style.setProperty('--joy-color',colors[i])}}
- function startTraining(){clearInterval(practiceTimer);practice=null;tourIndex=0;game?.stop();cancelAnimationFrame(spinFrame);spinning=false;session=null;trainingMode=true;const names=[$('#nameP1').value.trim()||'Jogador 1',$('#nameP2').value.trim()||'Jogador 2'];const players=names.map((name,i)=>({name,color:colors[i]}));$('#hudName1').textContent=players[0].name;$('#hudName2').textContent=players[1].name;$('#hudDot1').style.setProperty('--player-color',players[0].color);$('#hudDot2').style.setProperty('--player-color',players[1].color);$('#hudScore1').textContent='—';$('#hudScore2').textContent='—';$('#hudTimer').textContent='LIVRE';$('#timerBarFill').style.width='100%';$('#hudRound').textContent='TREINAMENTO';$('#revealTag').hidden=true;$('#tutorialActions').hidden=false;$('#stageTag').textContent='LAB / TESTE SEM PONTOS';document.body.classList.remove('rush-racing');show('game');game.startTraining(players,0);applyTouchSettings();audio.play('save');showTour()}
- function setTrainingStep(stage){if(!trainingMode||!game)return;clearInterval(practiceTimer);practice=null;$('#guidedTour').hidden=true;game.setTrainingStage(stage);audio.play('select')}
+ function startTraining(){hideGuide();$('#practiceResults').hidden=true;trainingPractice=null;document.body.classList.remove('training-practice');game?.stop();cancelAnimationFrame(spinFrame);spinning=false;session=null;trainingMode=true;const names=[$('#nameP1').value.trim()||'Jogador 1',$('#nameP2').value.trim()||'Jogador 2'];const players=names.map((name,i)=>({name,color:colors[i]}));$('#hudName1').textContent=players[0].name;$('#hudName2').textContent=players[1].name;$('#hudDot1').style.setProperty('--player-color',players[0].color);$('#hudDot2').style.setProperty('--player-color',players[1].color);$('#hudScore1').textContent='—';$('#hudScore2').textContent='—';$('#hudTimer').textContent='LIVRE';$('#timerBarFill').style.width='100%';$('#hudRound').textContent='TREINAMENTO';$('#revealTag').hidden=true;$('#tutorialActions').hidden=false;$('#stageTag').textContent='LAB / TESTE SEM PONTOS';document.body.classList.remove('rush-racing');show('game');game.startTraining(players,0);applyTouchSettings();audio.play('save');beginGuide()}
+ function setTrainingStep(stage){if(!trainingMode||!game||trainingPractice)return;game.setTrainingStage(stage);audio.play('select')}
  function updateTrainingUI(){if(!trainingMode||view!=='game')return;const step=game.trainingStage,touch=isTouchDevice();document.body.classList.toggle('training-platforms',step===1);document.body.classList.toggle('rush-racing',false);$('#gameCategory').textContent=['◎ TUTORIAL • MOVIMENTO','▤ TUTORIAL • PLATAFORMAS','⚡ TUTORIAL • PARKOUR'][step];$('#hudTimer').textContent='∞';$('#hudTimer').classList.remove('urgent');$('#gameQuestion').textContent=touch?[
   'CELULAR: arraste o analógico do seu jogador. Toque em PULAR. Arraste para baixo para descer de uma plataforma.',
   'CELULAR: mova o analógico até a letra da plataforma. Mude de plataforma e observe a sua cor.',
@@ -765,26 +828,143 @@ body.game-focus #view-game .touch-jump{width:clamp(42px,9dvh,60px);height:clamp(
   'PC: alcance as plataformas A–D usando WASD ou as setas. Observe como cada jogador marca sua alternativa.',
   'PC: atravesse o circuito com pulos e checkpoints. P1 usa WASD e P2 usa as setas. Não há cronômetro.'
  ][step];$('#arenaHint').textContent=touch?'Treino adaptado para celular • sem pontos.':'Treino adaptado para computador • sem pontos.';$('#gameControlHint').innerHTML=touch?'P1 + P2: ANALÓGICOS':'P1: WASD <span>·</span> P2: SETAS';$('#answerStrip').innerHTML=step===1?letters.map((v,i)=>`<div class="answer-card"><span class="letter">${v}</span><span class="text">Plataforma de treino ${v}</span></div>`).join(''):'';$$('[data-train-step]').forEach(b=>b.classList.toggle('active',Number(b.dataset.trainStep)===step))}
-
- // Guia contextual ancorado em partes reais da arena; não altera partidas oficiais.
- const tourSteps=[
-  {title:'Bem-vindos ao laboratório!',desktop:'Este é o campo de jogo. Aqui vocês aprendem sem afetar o ranking.',mobile:'Esta é a arena de treino. Gire o celular para visualizar mais espaço, sem alterar sua pontuação.',x:49,y:42},
-  {title:'Movimente o jogador 1',desktop:'Use A e D para andar, W para pular e S para descer.',mobile:'Use o analógico esquerdo para andar e o botão PULAR do P1 para saltar.',x:18,y:72},
-  {title:'Movimente o jogador 2',desktop:'Use as setas ← e → para andar, ↑ para pular e ↓ para descer.',mobile:'Use o analógico direito e o botão PULAR do P2. Os dois podem jogar ao mesmo tempo.',x:82,y:72},
-  {title:'Veja os indicadores',desktop:'Na faixa superior aparecem nomes, pontos e cronômetro. No treino, os pontos não são oficiais.',mobile:'Acima da arena ficam nomes, pontos e cronômetro. Os controles não precisam cobrir os personagens.',x:50,y:17},
-  {title:'Plataformas e alternativas',desktop:'Fique sobre a plataforma da alternativa desejada. No Clássico, as erradas desaparecem.',mobile:'Use o analógico e PULAR para alcançar a plataforma escolhida. As cores indicam a seleção.',x:64,y:52,stage:1},
-  {title:'Parkour e linha de chegada',desktop:'Atravesse as plataformas e chegue ao final. Na disputa Rush, chegar primeiro dá direito de responder.',mobile:'Atravesse o parkour usando o analógico e o botão PULAR. Cuidado com a lava!',x:52,y:43,stage:2},
-  {title:'Agora é a sua vez!',desktop:'Clique em OK para disputar três corridas de teste com pontos de treino, sem afetar o ranking.',mobile:'Toque em OK para começar três corridas de teste com pontos locais, sem afetar o ranking.',x:50,y:42}
- ];
- function showTour(){if(!trainingMode)return;const step=tourSteps[tourIndex];if(!step){startPractice();return}if(step.stage!==undefined&&game.trainingStage!==step.stage)game.setTrainingStage(step.stage);const root=$('#guidedTour');root.hidden=false;root.style.setProperty('--tour-x',step.x+'%');root.style.setProperty('--tour-y',step.y+'%');$('#tourCounter').textContent=`${tourIndex+1} / ${tourSteps.length}`;$('#tourTitle').textContent=step.title;$('#tourText').textContent=isTouchDevice()?step.mobile:step.desktop;$('#tourNext').textContent=tourIndex===tourSteps.length-1?'COMEÇAR TESTE →':'OK →';}
- function nextTour(){if(!trainingMode)return;tourIndex++;showTour()}
- function startPractice(){if(!trainingMode)return;$('#guidedTour').hidden=true;clearInterval(practiceTimer);practice={scores:[0,0],remaining:90};game.setTrainingStage(2);$('#hudScore1').textContent='0';$('#hudScore2').textContent='0';$('#hudRound').textContent='DESAFIO DE TREINO';$('#gameCategory').textContent='🏁 COMPETIÇÃO SIMULADA';$('#gameQuestion').textContent='Três corridas: quem alcançar a meta primeiro ganha 1 ponto de treino!';$('#arenaHint').textContent='Pontos de treino não entram no ranking.';$('#hudTimer').textContent='01:30';practiceTimer=setInterval(()=>{if(!practice||!trainingMode){clearInterval(practiceTimer);return}practice.remaining--;$('#hudTimer').textContent=fmtTime(practice.remaining);if(practice.remaining<=0)finishPractice()},1000);}
- function finishPractice(){if(!practice)return;clearInterval(practiceTimer);const a=practice.scores;const outcome=a[0]===a[1]?'Empate!':game.players[a[0]>a[1]?0:1].name+' venceu o treino!';practice=null;$('#gameQuestion').textContent=outcome+' Pontuação de teste: '+a[0]+' × '+a[1]+'. Nenhum ponto foi salvo no ranking.';$('#arenaHint').textContent='Use Reiniciar ou volte ao menu para jogar de verdade.';game.setTrainingStage(0);$('#hudTimer').textContent='FIM';}
-
  function bindAnalogControls(){for(const pad of $$('.touch-joystick')){const id=Number(pad.dataset.analog),nub=pad.querySelector('.joystick-nub');let current=null;const move=e=>{if(current!==e.pointerId)return;e.preventDefault();const r=pad.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,rad=Math.max(10,r.width*.36),dx=e.clientX-cx,dy=e.clientY-cy,length=Math.hypot(dx,dy),scale=length>rad?rad/length:1;const px=dx*scale,py=dy*scale;nub.style.transform=`translate(calc(-50% + ${px}px),calc(-50% + ${py}px))`;const sens=Math.max(.6,Math.min(1.4,Number($('#joySensitivity').value)/100||1));game?.setAnalog(id,Math.abs(px/rad)<.12?0:Math.max(-1,Math.min(1,(px/rad)*sens)),Math.abs(py/rad)<.13?0:Math.max(-1,Math.min(1,(py/rad)*sens)))};
   const release=e=>{if(current!==e.pointerId)return;e.preventDefault();current=null;nub.style.transform='translate(-50%,-50%)';game?.setAnalog(id,0,0)};pad.addEventListener('pointerdown',e=>{if(current!==null)return;e.preventDefault();current=e.pointerId;try{pad.setPointerCapture(e.pointerId)}catch{}move(e)});pad.addEventListener('pointermove',move);pad.addEventListener('pointerup',release);pad.addEventListener('pointercancel',release);pad.addEventListener('lostpointercapture',release);pad.addEventListener('contextmenu',e=>e.preventDefault());}
  }
  async function tryFullscreen(){try{if(document.fullscreenElement){await document.exitFullscreen();return}if(!document.documentElement.requestFullscreen)throw Error('não disponível');await document.documentElement.requestFullscreen();try{if(isTouchDevice()&&screen.orientation?.lock)await screen.orientation.lock('landscape')}catch{} }catch{toast('Tela cheia não disponível neste navegador. Você pode girar o celular manualmente.','error')}}
+
+
+ // ECODATA 2.1 — seleção de modos em modal, balões contextuais e simulação isolada.
+ const clamp=(v,min,max)=>Math.max(min,Math.min(max,v));
+ function openModePicker(){
+   const overlay=$('#view-modes');overlay.hidden=false;document.body.classList.add('mode-picker-open');
+   requestAnimationFrame(()=>$('#closeModePicker').focus({preventScroll:true}));
+ }
+ function closeModePicker(){const overlay=$('#view-modes');if(!overlay||overlay.hidden)return;overlay.hidden=true;document.body.classList.remove('mode-picker-open')}
+ function hideGuide(){guideActive=false;$('#guideLayer').hidden=true;guideLastFocus=null}
+ function leaveTraining(){hideGuide();trainingPractice=null;$('#practiceResults').hidden=true;document.body.classList.remove('training-practice','training-platforms','rush-racing');trainingMode=false;game?.stop()}
+ function guideForDevice(){
+   const touch=isTouchDevice(),walk=touch?'Arraste a bolinha do seu analógico para esquerda ou direita.':'P1 usa A e D; P2 usa as teclas ← e → para andar.';
+   return [
+     {title:'Bem-vindo ao laboratório!',text:'Este é um tutorial guiado. Cada balão aponta para uma função do jogo. Toque em OK para ver a próxima. Depois vocês disputarão três rodadas de treino, sem mexer no ranking.',target:'#gameQuestion',stage:0},
+     {title:'Placar e tempo',text:'Aqui ficam as pontuações, os nomes e o cronômetro. Na simulação vocês poderão competir; os pontos serão apenas de treino.',target:'.game-hud',stage:0},
+     {title:'Conheça a arena',text:'Os dois personagens partem juntos do lado esquerdo. O centro mostra o cenário 2D, as plataformas e os obstáculos. '+walk,target:'#arenaContainer',stage:0},
+     ...(touch?[
+       {title:'Analógico do P1',text:'Controle o primeiro personagem arrastando este analógico. Ele volta ao centro quando você solta.',target:'.left-touch .touch-joystick',stage:0},
+       {title:'Pulo do P1',text:'Toque no botão PULAR do P1 enquanto movimenta o analógico. É possível usar os dois ao mesmo tempo.',target:'.left-touch .touch-jump',stage:0},
+       {title:'Analógico do P2',text:'O segundo jogador usa este analógico independente, do outro lado da tela. Os dois podem jogar simultaneamente.',target:'.right-touch .touch-joystick',stage:0},
+       {title:'Pulo do P2',text:'O P2 também tem um botão de salto exclusivo. Para descer de uma plataforma, mova o analógico para baixo.',target:'.right-touch .touch-jump',stage:0}
+     ]:[
+       {title:'Teclado — Jogador 1',text:'P1 usa W para pular, A/D para andar e S para descer de uma plataforma. Experimente essas teclas na prática depois da apresentação.',target:'#gameControlHint',stage:0},
+       {title:'Teclado — Jogador 2',text:'P2 usa ↑ para pular, ← e → para andar e ↓ para descer. Ambos podem apertar as teclas ao mesmo tempo.',target:'#gameCanvas',stage:0}
+     ]),
+     {title:'As alternativas ficam aqui',text:'Cada plataforma corresponde a uma letra: A, B, C ou D. Para responder, fique sobre ela antes de o tempo acabar.',target:'#answerStrip',stage:1},
+     {title:'Cores e revelação',text:'A plataforma escolhida fica marcada com a cor do jogador. Depois do tempo, verde significa certa; vermelho significa errada e desaparece.',target:'#arenaContainer',stage:1},
+     {title:'Parkour e checkpoints',text:'No Rush, os dois correm pelo percurso. Quem cair volta ao último checkpoint. O primeiro na chegada ganha o direito de responder.',target:'#arenaContainer',stage:2},
+     {title:'Linha de chegada',text:'O objetivo está no fim do circuito. Ganhar a corrida não dá ponto: somente responder corretamente após a chegada concede 1 ponto.',target:'#stageTag',stage:2},
+     {title:'Agora é sua vez!',text:'A seguir serão três rodadas de simulação: corra, chegue primeiro e escolha a letra indicada. Se errar, ninguém pontua. Nenhum resultado entra no ranking oficial.',target:'#gameQuestion',stage:2,final:true}
+   ];
+ }
+ function beginGuide(){
+   trainingPractice=null;$('#tutorialActions').hidden=true;guideSteps=guideForDevice();guideIndex=0;guideActive=true;$('#guideLayer').hidden=false;$('#practiceResults').hidden=true;
+   showGuideStep();
+ }
+ function showGuideStep(){
+   if(!guideActive)return;const step=guideSteps[guideIndex];
+   if(!step){beginTrainingPractice();return}
+   if(game.trainingStage!==step.stage)game.setTrainingStage(step.stage);
+   game.phase='training-tour'; // sem movimentos involuntários durante os balões
+   $('#guideCount').textContent=`PASSO ${guideIndex+1} / ${guideSteps.length}`;
+   $('#guideTitle').textContent=step.title;$('#guideText').textContent=step.text;
+   $('#guideNext').textContent=step.final?'COMEÇAR DESAFIO ⚡':'OK →';
+   requestAnimationFrame(()=>{positionGuide();$('#guideNext').focus({preventScroll:true})});
+ }
+ function advanceGuide(){if(!guideActive)return;audio.play('select');if(guideIndex>=guideSteps.length-1){beginTrainingPractice();return}guideIndex++;showGuideStep()}
+ function positionGuide(){
+   if(!guideActive||$('#guideLayer').hidden)return;
+   const sel=guideSteps[guideIndex]?.target,anchor=sel?document.querySelector(sel):null,bubble=$('#guideBubble');if(!anchor)return;
+   const r=anchor.getBoundingClientRect(),vw=innerWidth,vh=innerHeight,pad=10,gap=19;
+   const focus=$('#guideFocus');let fx=Math.max(pad,r.left-4),fy=Math.max(pad,r.top-4),fw=Math.min(r.width+8,vw-fx-pad),fh=Math.min(r.height+8,vh-fy-pad);
+   focus.style.cssText=`left:${fx}px;top:${fy}px;width:${Math.max(12,fw)}px;height:${Math.max(12,fh)}px`;
+   const w=Math.min(345,vw-2*pad),h=Math.min(bubble.offsetHeight||210,vh-2*pad);
+   const choices=[
+      {x:clamp(r.left+r.width/2-w/2,pad,vw-w-pad),y:r.bottom+gap,side:'bottom',free:vh-r.bottom},
+      {x:clamp(r.left+r.width/2-w/2,pad,vw-w-pad),y:r.top-h-gap,side:'top',free:r.top},
+      {x:r.right+gap,y:clamp(r.top+r.height/2-h/2,pad,vh-h-pad),side:'right',free:vw-r.right},
+      {x:r.left-w-gap,y:clamp(r.top+r.height/2-h/2,pad,vh-h-pad),side:'left',free:r.left}
+   ];
+   const viable=choices.filter(v=>v.x>=pad&&v.y>=pad&&v.x+w<=vw-pad&&v.y+h<=vh-pad);
+   const picked=viable.length?viable.sort((a,b)=>b.free-a.free)[0]:{x:clamp(vw-w-pad,pad,vw-w-pad),y:clamp(vh-h-pad,pad,vh-h-pad),side:'floating'};
+   // Em telas muito estreitas, prefira a região mais livre acima/abaixo do destaque.
+   bubble.style.left=picked.x+'px';bubble.style.top=picked.y+'px';bubble.style.width=w+'px';
+   const targetX=clamp(r.left+r.width/2,8,vw-8),targetY=clamp(r.top+r.height/2,8,vh-8);
+   let originX=clamp(targetX,picked.x+14,picked.x+w-14),originY=clamp(targetY,picked.y+12,picked.y+h-12);
+   if(picked.side==='bottom')originY=picked.y;
+   else if(picked.side==='top')originY=picked.y+h;
+   else if(picked.side==='right')originX=picked.x;
+   else if(picked.side==='left')originX=picked.x+w;
+   $('#guideLine').setAttribute('x1',originX);$('#guideLine').setAttribute('y1',originY);$('#guideLine').setAttribute('x2',targetX);$('#guideLine').setAttribute('y2',targetY);
+   $('#guideEnd').setAttribute('cx',targetX);$('#guideEnd').setAttribute('cy',targetY);
+ }
+ function beginTrainingPractice(){
+   if(!trainingMode)return;
+   hideGuide();$('#practiceResults').hidden=true;
+   trainingPractice={players:game.players.map(p=>({name:p.name,color:p.color})),round:0,total:3,scores:[0,0],winner:null,locked:false,timedOut:false,selected:[null,null],goal:0};
+   document.body.classList.add('training-practice');$('#tutorialActions').hidden=true;
+   launchPracticeRound();
+ }
+ function launchPracticeRound(){
+   if(!trainingPractice)return;
+   const p=trainingPractice;p.winner=null;p.locked=false;p.timedOut=false;p.selected=[null,null];p.goal=Math.floor(Math.random()*4);
+   $('#practiceResults').hidden=true;$('#hudName1').textContent=p.players[0].name;$('#hudName2').textContent=p.players[1].name;
+   $('#hudScore1').textContent=p.scores[0];$('#hudScore2').textContent=p.scores[1];
+   $('#hudRound').textContent=`SIMULAÇÃO ${p.round+1}/${p.total}`;
+   $('#gameCategory').textContent='⚡ CORRIDA DE TREINO';
+   $('#gameQuestion').textContent='Atravesse o parkour: quem chegar primeiro poderá escolher a plataforma indicada!';
+   $('#arenaHint').textContent='Desafio demonstrativo • sem perguntas cadastradas';
+   $('#stageTag').textContent='LAB / PARTIDA DE TREINO';$('#revealTag').hidden=true;
+   $('#answerStrip').innerHTML=['A','B','C','D'].map((letter,i)=>`<div class="answer-card" data-choice="${i}"><span class="letter">${letter}</span><span class="text">Plataforma ${letter}</span></div>`).join('');
+   document.body.classList.add('rush-racing');document.body.classList.remove('training-platforms');
+   game.startRush({options:['A','B','C','D'].map(v=>'Plataforma '+v),correctIndex:p.goal},p.players,60,25);
+ }
+ function onPracticeStage(stage){
+   if(!trainingPractice)return;const p=trainingPractice;
+   document.body.classList.toggle('rush-racing',stage.startsWith('rush-')&&stage!=='rush-answer');
+   if(stage==='rush-countdown'||stage==='rush-tie'){$('#gameQuestion').textContent='3 • 2 • 1 — PREPARAR, APONTAR, RUSH!';$('#gameCategory').textContent='⚡ TREINO / LARGADA'}
+   else if(stage==='rush-race'){$('#gameQuestion').textContent='Chegue primeiro ao portal do circuito. Os checkpoints ajudam após uma queda.';$('#gameCategory').textContent='⚡ TREINO / CORRIDA';$('#arenaHint').textContent='Ambos competem com a mesma velocidade e os mesmos obstáculos.'}
+   else if(stage==='rush-winner'){$('#gameQuestion').textContent=`${p.players[p.winner].name} cruzou a chegada!`;$('#arenaHint').textContent='Preparando escolha da plataforma de treino...' }
+   else if(stage==='rush-answer'){$('#gameCategory').textContent='▤ TREINO / ALTERNATIVA';$('#gameQuestion').textContent=`DESAFIO DE TREINO: FIQUE NA PLATAFORMA ${'ABCD'[p.goal]}!`;$('#arenaHint').textContent=`Somente ${p.players[p.winner].name} pode escolher. A letra aparece neste enunciado.`;audio.play('save')}
+   else if(stage==='rush-timeout'){$('#gameQuestion').textContent='Ninguém chegou a tempo. Esta rodada não vale pontos.';$('#arenaHint').textContent='Treino sem pontuação oficial.'}
+ }
+ function updatePracticeChoices(selected){
+   const p=trainingPractice;if(!p||p.locked||game.phase!=='choose')return;
+   p.selected=[...selected];const cards=$$('#answerStrip .answer-card');cards.forEach((card,i)=>{
+     card.classList.remove('choice-one','choice-two','choice-both');card.style.setProperty('--c1',p.players[0].color);card.style.setProperty('--c2',p.players[1].color);
+     if(p.winner===0&&selected[0]===i)card.classList.add('choice-one');
+     if(p.winner===1&&selected[1]===i)card.classList.add('choice-two');
+   });
+ }
+ function lockPracticeRound(selected){
+   const p=trainingPractice;if(!p||p.locked)return;p.locked=true;p.selected=[...selected];
+   const ok=p.winner!=null&&selected[p.winner]===p.goal;
+   if(ok)p.scores[p.winner]++;
+   $('#hudScore1').textContent=p.scores[0];$('#hudScore2').textContent=p.scores[1];
+   $$('#answerStrip .answer-card').forEach((card,i)=>{card.classList.remove('choice-one','choice-two','choice-both');card.classList.add(i===p.goal?'correct':'wrong')});
+   $('#arenaHint').textContent=ok?`${p.players[p.winner].name} acertou! +1 ponto de treino.`:'Resposta errada ou em branco: ninguém pontua.';
+   $('#revealTag').hidden=false;audio.play('reveal');
+ }
+ function showPracticeResult(){
+   const p=trainingPractice;if(!p)return;
+   const final=p.round===p.total-1,win=p.scores[0]===p.scores[1]?-1:p.scores[0]>p.scores[1]?0:1;
+   $('#practiceIcon').textContent=final?'🏁':p.timedOut?'⌛':p.locked?'⚡':'♻';
+   $('#practiceResultTitle').textContent=final?(win<0?'Empate no treino!':`${p.players[win].name} venceu o treino!`):`Treino ${p.round+1} de ${p.total} concluído`;
+   $('#practiceResultText').textContent=final?'Simulação concluída! Nenhum desses pontos altera o ranking ou o banco de questões.':p.timedOut?'O tempo da corrida acabou sem vencedor. Ninguém pontuou.':p.locked&&p.winner!==null&&p.selected[p.winner]===p.goal?`${p.players[p.winner].name} chegou primeiro e escolheu corretamente a letra ${'ABCD'[p.goal]}.`:`A letra indicada era ${'ABCD'[p.goal]}. Ninguém pontuou nesta rodada.`;
+   $('#practiceScores').innerHTML=p.players.map((pl,i)=>`<div><span style="color:${pl.color}">${esc(pl.name)}</span><strong style="color:${pl.color}">${p.scores[i]}</strong><small>pontos de treino</small></div>`).join('');
+   $('#practiceNext').hidden=final;$('#practiceNext').textContent=final?'Concluído':`Próxima rodada (${p.round+2}/${p.total}) →`;
+   $('#practiceResults').hidden=false;document.body.classList.remove('rush-racing');
+   if(final)audio.play('win');else audio.play('save');
+ }
+ function nextPracticeRound(){if(!trainingPractice)return;if(trainingPractice.round+1>=trainingPractice.total)return;trainingPractice.round++;launchPracticeRound()}
 
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',init);else init();
  window.EcoDataDebug={get state(){return{view,questions:questions.length,session:session?{roundIndex:session.roundIndex,scores:session.scores,rounds:session.rounds,mode:session.mode,locked:session.locked,pool:session.pool.length,completed:session.completed}:null,rankings:rankings.length}},get game(){return game}};
