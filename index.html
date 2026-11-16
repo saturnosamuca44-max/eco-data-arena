@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#08141a">
   <meta name="description" content="EcoData Arena: quiz de plataforma 2D para dois jogadores sobre informática, banco de dados e sustentabilidade. Crie suas próprias questões.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="EcoData Arena">
+  <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="./pwa.css">
   <title>EcoData Arena | Quiz de Plataforma 2D</title>
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA2NCA2NCI+PHJlY3Qgd2lkdGg9IjY0IiBoZWlnaHQ9IjY0IiByeD0iMTYiIGZpbGw9IiMwYjIwMjUiLz48cmVjdCB4PSIxMiIgeT0iMTgiIHdpZHRoPSI0MCIgaGVpZ2h0PSIyOCIgcng9IjciIHN0cm9rZT0iIzUzZWZiNCIgc3Ryb2tlLXdpZHRoPSIzIiBmaWxsPSIjMTQzZjQwIi8+PGNpcmNsZSBjeD0iMjUiIGN5PSIzMSIgcj0iNCIgZmlsbD0iIzUzZWZiNCIvPjxjaXJjbGUgY3g9IjM5IiBjeT0iMzEiIHI9IjQiIGZpbGw9IiM1M2VmYjQiLz48cGF0aCBkPSJNMjQgNTNoMTZNMzIgMThWOSIgc3Ryb2tlPSIjNTNlZmI0IiBzdHJva2Utd2lkdGg9IjMiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPjwvc3ZnPgo=">
   <style>
@@ -384,7 +390,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
     <header class="app-header">
       <button type="button" class="brand" data-nav="home" aria-label="Voltar ao início">
         <span class="brand-mark" aria-hidden="true"><span>◈</span></span>
-        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 2.4</small></span>
+        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 2.5 PWA</small></span>
       </button>
       <nav class="main-nav" aria-label="Navegação principal">
         <button class="nav-btn active" data-nav="home">Início</button>
@@ -410,6 +416,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
             <div class="hero-actions">
               <button class="btn btn-primary btn-large" id="homePlay"><span class="btn-icon">▶</span> ESCOLHER MODO <span class="arrow">↗</span></button>
               <button class="btn btn-quiet btn-large" data-nav="questions">＋ CRIAR QUESTÕES</button>
+              <button class="btn btn-quiet btn-large pwa-install" id="pwaInstall" type="button" aria-label="Instalar EcoData Arena">↓ INSTALAR APP</button>
             </div>
             <div class="hero-notice" id="homeNotice"><span class="pulse-mark">●</span> Treine livremente ou cadastre perguntas para competir.</div>
             <div class="theme-tags"><span>⌘ CIÊNCIA DOS DADOS</span><span>⚡ ENERGIA LIMPA</span><span>♻ ECONOMIA CIRCULAR</span></div>
@@ -567,7 +574,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
       <section class="view" id="view-final" aria-label="Resultado da partida"><div class="final-panel glass-panel"><div class="confetti-container" id="confetti"></div><span class="eyebrow" id="finalEyebrow">PARTIDA CONCLUÍDA</span><div class="winner-crown" id="winnerCrown">♛</div><h1 id="winnerTitle">VITÓRIA!</h1><p class="winner-subtitle" id="winnerSubtitle"></p><div class="final-duel" id="finalDuel"></div><div class="final-rank-info" id="finalRankInfo"></div><div class="final-actions"><button class="btn btn-primary" id="replayMatch">↻ JOGAR NOVAMENTE</button><button class="btn btn-outline" data-nav="ranking">♛ VER RANKING</button><button class="btn btn-outline" data-nav="home">⌂ INÍCIO</button></div></div></section>
     </main>
 
-    <footer class="app-footer"><span>© ECODATA ARENA 2.4 <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
+    <footer class="app-footer"><span>© ECODATA ARENA 2.5 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
   </div>
   <div class="guide-layer" id="guideLayer" role="region" aria-label="Tutorial passo a passo" hidden>
     <div class="guide-shade" aria-hidden="true"></div>
@@ -1102,5 +1109,22 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
 })();
 
 </script>
+
+  <div class="pwa-overlay" id="pwaDialogOverlay" hidden>
+    <section class="pwa-dialog" role="dialog" aria-modal="true" aria-labelledby="pwaDialogTitle">
+      <button class="pwa-close" id="pwaClose" aria-label="Fechar instruções">×</button>
+      <img src="./icons/icon-192.png" alt="Ícone EcoData Arena" width="78" height="78">
+      <h2 id="pwaDialogTitle">Instalar EcoData Arena</h2>
+      <p id="pwaHelp">Instale o jogo no dispositivo para abrir como aplicativo e jogar offline depois do primeiro carregamento.</p>
+      <button class="btn btn-primary" id="pwaDialogInstall" type="button" hidden>Instalar aplicativo</button>
+      <button class="btn btn-outline" id="pwaDialogDone" type="button">Entendi</button>
+    </section>
+  </div>
+  <div class="pwa-update-banner" id="pwaUpdateBanner" role="status" aria-live="polite" hidden>
+    <p>♻ Uma nova versão do EcoData Arena está pronta.</p>
+    <button type="button" id="pwaUpdateLater">Depois</button>
+    <button type="button" id="pwaUpdateNow">Atualizar agora</button>
+  </div>
+  <script src="./pwa.js"></script>
 </body>
 </html>

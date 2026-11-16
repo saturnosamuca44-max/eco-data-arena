@@ -1,0 +1,16 @@
+/* EcoData Arena PWA 2.5 — instalação e aviso de novas versões */
+.pwa-install{display:inline-flex;align-items:center;gap:8px;justify-content:center}
+.pwa-overlay[hidden],.pwa-update-banner[hidden]{display:none!important}
+.pwa-overlay{position:fixed;inset:0;z-index:230;display:grid;place-items:center;padding:20px;background:#031017c9;backdrop-filter:blur(13px);animation:enter .22s ease both}
+.pwa-dialog{position:relative;width:min(420px,100%);border:1px solid #427f79;border-radius:23px;padding:25px;background:linear-gradient(160deg,#183c48,#0a222d);box-shadow:0 30px 90px #0008;text-align:center}
+.pwa-dialog img{height:78px;width:78px;border-radius:18px;margin:0 auto 11px}
+.pwa-dialog h2{font-size:23px;margin:5px 0 10px}
+.pwa-dialog p{font-size:14px;line-height:1.6;color:#b9d8d4}
+.pwa-dialog .pwa-close{position:absolute;right:12px;top:12px;border:1px solid #397269;color:#b5f5df;border-radius:9px;background:#153b3d;font-size:20px;width:36px;height:36px}
+.pwa-dialog .btn{margin-top:7px}
+.pwa-update-banner{position:fixed;z-index:200;bottom:max(14px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);width:min(565px,calc(100vw - 24px));background:#112e37f7;border:1px solid #65d7b8;border-radius:15px;padding:12px 14px;box-shadow:0 15px 50px #0008;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.pwa-update-banner p{margin:0;flex:1;min-width:165px;font-size:13px;line-height:1.4}
+.pwa-update-banner button{border:1px solid #4a8f81;background:#1b4748;color:#eafff6;border-radius:9px;padding:8px 12px;font-size:12px;font-weight:800}
+.pwa-update-banner #pwaUpdateNow{background:#5df4b4;color:#062a24}
+body.game-focus .pwa-update-banner{display:none!important}
+@media(max-width:600px){.pwa-dialog{padding:23px 18px}.pwa-update-banner{bottom:8px}.pwa-install{font-size:12px}}

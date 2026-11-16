@@ -1,0 +1,42 @@
+{
+  "id": "./",
+  "name": "EcoData Arena — Quiz de Informática e Sustentabilidade",
+  "short_name": "EcoData Arena",
+  "description": "Jogo de plataforma 2D para dois jogadores. Crie perguntas, dispute no Clássico ou Rush e treine.",
+  "lang": "pt-BR",
+  "dir": "ltr",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": [
+    "standalone",
+    "minimal-ui"
+  ],
+  "background_color": "#08141a",
+  "theme_color": "#08141a",
+  "orientation": "any",
+  "categories": [
+    "education",
+    "games"
+  ],
+  "icons": [
+    {
+      "src": "./icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
