@@ -235,7 +235,7 @@ World.drawRobot=function(g,p,t,id,worldWidth,spectator){
  g.save();g.translate(p.x+16,p.y+37+bob);g.scale(p.facing||1,1);
  g.rotate(p.grounded?(moving?Math.sin(p.step)*.03:0):(p.vy<0?-.08:.06));
  g.shadowColor=color;g.shadowBlur=12;
- if('filter' in g)g.filter='drop-shadow(0px 0px 1px '+color+')';
+ if('filter' in g){const rgb=/^#[0-9a-f]{6}$/i.test(color)?[1,3,5].map(k=>parseInt(color.slice(k,k+2),16)/255):[.36,.96,.7];const hi=Math.max(...rgb),lo=Math.min(...rgb),d=hi-lo;let hue=0;if(d){hue=hi===rgb[0]?((rgb[1]-rgb[2])/d)%6:hi===rgb[1]?(rgb[2]-rgb[0])/d+2:(rgb[0]-rgb[1])/d+4;hue=(hue*60+360)%360}g.filter='hue-rotate('+Math.round(hue-(id===0?115:198))+'deg) saturate(1.15)'}
  g.drawImage(PICS.robots,sx,sy,120,144,-24,-48,48,54);
  if('filter' in g)g.filter='none';
  g.shadowBlur=0;g.strokeStyle=color;g.globalAlpha=.95;g.lineWidth=2;
