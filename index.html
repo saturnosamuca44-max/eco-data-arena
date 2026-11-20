@@ -527,6 +527,25 @@ html,body{max-width:100%;overflow-x:clip}
  .map-picker-card{grid-template-columns:90px 1fr auto;padding:5px}
 }
 
+
+/* ECO 3.1 — telas sem cortes, mesmo no celular horizontal */
+body:not(.game-focus){height:auto!important;min-height:100dvh;overflow-y:auto!important}
+body:not(.game-focus) .shell{height:auto!important;min-height:100dvh!important;overflow:visible!important}
+body:not(.game-focus) main{min-width:0;height:auto!important;overflow:visible!important}
+body:not(.game-focus) .view.active{height:auto!important;max-height:none!important;overflow:visible!important}
+#view-roulette{width:100%;max-width:100%;padding-bottom:55px}
+#view-roulette .roulette-layout{width:100%;min-width:0;gap:18px}
+#view-roulette .roulette-panel{min-width:0;width:100%;max-width:100%;overflow:visible!important}
+#view-roulette .wheel-wrap{width:min(395px,calc(100% - 30px),87vw)!important;height:auto;aspect-ratio:1;flex:none}
+#view-roulette .wheel-wrap canvas{display:block;width:100%;height:auto;aspect-ratio:1}
+.map-picker-card img{display:block;width:100%;height:auto;max-width:100%;aspect-ratio:16/9;object-fit:cover;border-radius:8px;background:#173d4a}
+.map-picker-card:focus-visible{outline:3px solid #83f0c3;outline-offset:2px}
+@media(max-width:900px),(orientation:landscape) and (max-height:570px){
+#view-roulette .roulette-layout{grid-template-columns:minmax(0,1fr)!important}
+#view-roulette .wheel-wrap{width:min(390px,calc(100vw - 62px))!important}
+#view-roulette .roulette-panel{padding:15px}
+}
+@media(max-width:450px){#view-roulette .wheel-wrap{width:min(330px,calc(100vw - 75px))!important}}
 </style>
 </head>
 <body>
@@ -536,7 +555,7 @@ html,body{max-width:100%;overflow-x:clip}
     <header class="app-header">
       <button type="button" class="brand" data-nav="home" aria-label="Voltar ao início">
         <span class="brand-mark" aria-hidden="true"><span>◈</span></span>
-        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 3.0 PWA</small></span>
+        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 3.1 PWA</small></span>
       </button>
       <nav class="main-nav" aria-label="Navegação principal">
         <button class="nav-btn active" data-nav="home">Início</button>
@@ -690,8 +709,8 @@ html,body{max-width:100%;overflow-x:clip}
         <div class="arena-map-picker" id="arenaMapPicker" aria-label="Escolha do cenário">
           <div class="map-picker-heading"><div><span class="eyebrow">ANTES DE GIRAR A ROLETA</span><h3>Escolha um cenário para esta partida</h3><p>Seu mapa permanece em todas as rodadas. Você pode trocá-lo antes de outro sorteio.</p></div><span class="map-selection-status" id="mapSelectionStatus">Escolha um mapa abaixo</span></div>
           <div class="map-picker-grid">
-            <button class="map-picker-card" type="button" data-select-map="forest" aria-pressed="false"><canvas width="400" height="184" aria-hidden="true"></canvas><span class="map-choice-info"><strong>01 · Floresta sustentável</strong><small>Rio, oceano e navio distante • natureza em movimento</small></span><span class="map-check">✓</span></button>
-            <button class="map-picker-card" type="button" data-select-map="technology" aria-pressed="false"><canvas width="400" height="184" aria-hidden="true"></canvas><span class="map-choice-info"><strong>02 · Fábrica tecnológica</strong><small>Reatores, circuitos e luzes pulsantes • eco-informática</small></span><span class="map-check">✓</span></button>
+            <button class="map-picker-card" type="button" data-select-map="forest" aria-pressed="false"><img src="./assets/map-forest.webp" width="400" height="225" alt="Floresta, rio, mar e navio com óleo" loading="eager" decoding="async"><span class="map-choice-info"><strong>01 · Floresta sustentável</strong><small>Rio, oceano e navio distante • natureza em movimento</small></span><span class="map-check">✓</span></button>
+            <button class="map-picker-card" type="button" data-select-map="technology" aria-pressed="false"><img src="./assets/map-factory.webp" width="400" height="225" alt="Fábrica com circuitos e luzes" loading="eager" decoding="async"><span class="map-choice-info"><strong>02 · Fábrica tecnológica</strong><small>Reatores, circuitos e luzes pulsantes • eco-informática</small></span><span class="map-check">✓</span></button>
           </div>
         </div>
         <div class="roulette-layout"><div class="glass-panel roulette-panel"><span class="roulette-pointer">▼</span><div class="wheel-wrap"><canvas id="rouletteCanvas" width="600" height="600" aria-label="Roleta de perguntas"></canvas><div class="wheel-center">✦</div></div><div class="roulette-hint" id="rouletteStatus">Prontos para descobrir o próximo desafio?</div><button class="btn btn-primary btn-large" id="spinButton">↻ GIRAR ROLETA</button></div>
@@ -727,7 +746,7 @@ html,body{max-width:100%;overflow-x:clip}
       <section class="view" id="view-final" aria-label="Resultado da partida"><div class="final-panel glass-panel"><div class="confetti-container" id="confetti"></div><span class="eyebrow" id="finalEyebrow">PARTIDA CONCLUÍDA</span><div class="winner-crown" id="winnerCrown">♛</div><h1 id="winnerTitle">VITÓRIA!</h1><p class="winner-subtitle" id="winnerSubtitle"></p><div class="final-duel" id="finalDuel"></div><div class="final-rank-info" id="finalRankInfo"></div><div class="final-actions"><button class="btn btn-primary" id="replayMatch">↻ JOGAR NOVAMENTE</button><button class="btn btn-outline" data-nav="ranking">♛ VER RANKING</button><button class="btn btn-outline" data-nav="home">⌂ INÍCIO</button></div></div></section>
     </main>
 
-    <footer class="app-footer"><span>© ECODATA ARENA 3.0 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
+    <footer class="app-footer"><span>© ECODATA ARENA 3.1 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
   </div>
   <div class="guide-layer" id="guideLayer" role="region" aria-label="Tutorial passo a passo" hidden>
     <div class="guide-shade" aria-hidden="true"></div>
@@ -1084,7 +1103,7 @@ html,body{max-width:100%;overflow-x:clip}
    $('#fxEnabled').addEventListener('change',()=>{audio.fx=$('#fxEnabled').checked;renderSettings();savePrefs();audio.play('click')});
    $('#musicEnabled').addEventListener('change',()=>{audio.music=$('#musicEnabled').checked;audio.syncMusic();renderSettings();savePrefs()});
    $('#volumeSetting').addEventListener('input',()=>{audio.setVolume(Number($('#volumeSetting').value)/100);renderSettings();savePrefs()});
-   $('[data-select-map]').forEach(btn=>btn.addEventListener('click',()=>{
+   $$('[data-select-map]').forEach(btn=>btn.addEventListener('click',()=>{
      if(!session||spinning||session.current)return;
      session.map=btn.dataset.selectMap;
      if(window.EcoWorld)window.EcoWorld.map=session.map;
@@ -1124,7 +1143,7 @@ html,body{max-width:100%;overflow-x:clip}
  function renderRoulette(){if(!session)return;spinning=false;$('#spinButton').disabled=!session.map;$('#spinButton').textContent='↻ GIRAR ROLETA';$('#rouletteStatus').textContent='Prontos para descobrir o próximo desafio?';$('#rouletteRound').textContent=`RODADA ${String(session.roundIndex+1).padStart(2,'0')} / ${session.rounds}`;$('#remainingQuestions').textContent=session.pool.length;$('#rouletteTime').textContent=session.mode==='rush'?fmtTime(session.raceTime)+' + '+fmtTime(session.answerTime):session.mode==='mixed'?'CLÁSSICO / RUSH':fmtTime(session.time);$('#rouletteScore').textContent=`${session.scores[0]} — ${session.scores[1]}`;wheelItems=shuffle(session.pool).slice(0,Math.min(12,session.pool.length));wheelRotation=0;drawWheel(0);renderMapPicker()}
  function renderMapPicker(){
    if(!$('#arenaMapPicker'))return;
-   $('[data-select-map]').forEach(btn=>{
+   $$('[data-select-map]').forEach(btn=>{
      const active=session?.map===btn.dataset.selectMap;
      btn.classList.toggle('is-selected',active);btn.setAttribute('aria-pressed',String(active));
      btn.disabled=spinning;
