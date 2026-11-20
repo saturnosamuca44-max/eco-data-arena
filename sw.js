@@ -1,6 +1,6 @@
 /* EcoData Arena PWA 2.5 — atualização mediante aprovação, offline sem apagar dados locais */
 'use strict';
-const CACHE_NAME='ecodata-arena-shell-v2.5.0';
+const CACHE_NAME='ecodata-arena-shell-v2.6.0';
 const APP_SHELL=[
   './','./index.html','./manifest.webmanifest','./pwa.css','./pwa.js',
   './icons/icon.svg','./icons/icon-192.png','./icons/icon-512.png',
