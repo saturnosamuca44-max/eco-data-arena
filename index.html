@@ -381,6 +381,69 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
   body.game-focus #view-game .touch-controls{z-index:9}
 }
 
+
+/* EcoData Arena 2.6 — respostas completas e confirmação individual */
+#view-game .answer-card .text{
+  white-space:normal!important;overflow:visible!important;text-overflow:clip!important;
+  -webkit-line-clamp:unset!important;line-clamp:unset!important;
+  display:block!important;overflow-wrap:anywhere;word-break:normal;
+}
+#view-game .answer-card{overflow-y:auto!important;overscroll-behavior:contain;scrollbar-width:thin}
+#view-game.classic-confirm-active.active{
+  grid-template-rows:auto auto auto auto minmax(0,1fr) auto auto!important;
+}
+#confirmControls[hidden],#allAnswersOverlay[hidden],#openAllAnswers[hidden]{display:none!important}
+#confirmControls{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;
+  width:100%;min-height:33px;max-height:37px;overflow:hidden;
+}
+#confirmControls button{
+  border:1px solid #82edb6;border-radius:9px;background:#1b835a;color:#f2fff9;
+  text-align:center;font:800 clamp(9px,1.2vw,12px) monospace;padding:5px 8px;
+  min-width:0;transition:background .14s,transform .14s,border-color .14s;
+}
+#confirmControls button:hover{background:#23a36b}
+#confirmControls button.is-locked{background:#b93748;border-color:#ff7c88;color:#fff}
+#confirmControls button[hidden]{visibility:hidden;display:block!important;pointer-events:none}
+#openAllAnswers{
+  border:1px solid #568d99;background:#12394b;color:#e5fff4;
+  border-radius:8px;padding:5px 9px;font:800 10px monospace;flex-shrink:0;cursor:pointer;
+}
+#allAnswersOverlay{
+  position:fixed;inset:0;z-index:250;display:grid;place-items:center;
+  padding:12px;background:#05131fe8;backdrop-filter:blur(13px);
+}
+#allAnswersPanel{
+  display:flex;flex-direction:column;gap:12px;max-height:min(90dvh,760px);
+  overflow:hidden;width:min(760px,100%);padding:19px;border:1px solid #63bda5;
+  border-radius:18px;background:linear-gradient(135deg,#173740,#102839);
+  color:#ecfff9;box-shadow:0 20px 80px #000a;
+}
+#allAnswersPanel h3{font-size:18px;margin:0}
+#allAnswersPanel .all-options-list{min-height:0;flex:1;overflow:auto;display:grid;gap:10px;overscroll-behavior:contain}
+#allAnswersPanel .all-option{
+  display:flex;gap:11px;align-items:flex-start;padding:13px;
+  border:1px solid #427d86;border-radius:10px;background:#143745;line-height:1.5;
+}
+#allAnswersPanel .all-option strong{color:#a2ffe2;flex:none}
+#allAnswersPanel .all-option span{white-space:pre-wrap;overflow-wrap:anywhere;min-width:0}
+#allAnswersPanel .all-head{display:flex;align-items:center;justify-content:space-between;gap:10px}
+#allAnswersPanel button{border:1px solid #71caae;background:#1c5c54;color:#effff8;border-radius:9px;padding:8px 13px;font-weight:800}
+#confirmKeySettings .confirm-key-fields{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+#confirmKeySettings select{width:100%}
+@media (max-width:780px){
+  #view-game.classic-confirm-active.active{gap:3px!important}
+  #confirmControls{gap:4px;min-height:27px;max-height:32px}
+  #confirmControls button{font-size:9px;padding:4px 5px}
+  #openAllAnswers{font-size:9px;padding:4px 6px}
+  #confirmKeySettings .confirm-key-fields{grid-template-columns:1fr}
+}
+@media(pointer:coarse) and (orientation:landscape) and (max-height:540px){
+  #view-game.classic-confirm-active.active{gap:2px!important}
+  #confirmControls{min-height:24px;max-height:28px}
+  #confirmControls button{font-size:8px;padding:3px}
+}
+
 </style>
 </head>
 <body>
@@ -390,7 +453,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
     <header class="app-header">
       <button type="button" class="brand" data-nav="home" aria-label="Voltar ao início">
         <span class="brand-mark" aria-hidden="true"><span>◈</span></span>
-        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 2.5 PWA</small></span>
+        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 2.6 PWA</small></span>
       </button>
       <nav class="main-nav" aria-label="Navegação principal">
         <button class="nav-btn active" data-nav="home">Início</button>
@@ -574,7 +637,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
       <section class="view" id="view-final" aria-label="Resultado da partida"><div class="final-panel glass-panel"><div class="confetti-container" id="confetti"></div><span class="eyebrow" id="finalEyebrow">PARTIDA CONCLUÍDA</span><div class="winner-crown" id="winnerCrown">♛</div><h1 id="winnerTitle">VITÓRIA!</h1><p class="winner-subtitle" id="winnerSubtitle"></p><div class="final-duel" id="finalDuel"></div><div class="final-rank-info" id="finalRankInfo"></div><div class="final-actions"><button class="btn btn-primary" id="replayMatch">↻ JOGAR NOVAMENTE</button><button class="btn btn-outline" data-nav="ranking">♛ VER RANKING</button><button class="btn btn-outline" data-nav="home">⌂ INÍCIO</button></div></div></section>
     </main>
 
-    <footer class="app-footer"><span>© ECODATA ARENA 2.5 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
+    <footer class="app-footer"><span>© ECODATA ARENA 2.6 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
   </div>
   <div class="guide-layer" id="guideLayer" role="region" aria-label="Tutorial passo a passo" hidden>
     <div class="guide-shade" aria-hidden="true"></div>
@@ -645,9 +708,9 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
    this.canvas=canvas;this.ctx=canvas.getContext('2d');this.callbacks=callbacks;this.active=false;this.phase='idle';this.players=[];this.frame=0;this.last=0;this.camera=0;this.selected=[null,null];this.trainingStage=0;this.keyDown=e=>this.keyboard(e,true);this.keyUp=e=>this.keyboard(e,false);this.blur=()=>this.resetInputs();
    window.addEventListener('keydown',this.keyDown);window.addEventListener('keyup',this.keyUp);window.addEventListener('blur',this.blur);document.addEventListener('visibilitychange',this.blur);
   }
-  initRun(config,kind){this.stop();this.mode=kind;this.players=config.map(player);this.players.forEach(p=>{p.x=55;p.y=BASE-p.h;p.checkpoint=0});this.camera=0;this.selected=[null,null];this.phase='choose';this.allowed=null;this.active=true;this.last=performance.now();this.frame=requestAnimationFrame(t=>this.tick(t))}
+  initRun(config,kind){this.stop();this.mode=kind;this.players=config.map(player);this.players.forEach(p=>{p.x=55;p.y=BASE-p.h;p.checkpoint=0});this.camera=0;this.selected=[null,null];this.confirmedChoices=[null,null];this.rushReadyStart=0;this.rushLocked=false;this.allowBothRush=false;this.phase='choose';this.allowed=null;this.active=true;this.last=performance.now();this.frame=requestAnimationFrame(t=>this.tick(t))}
   startRound(question,config,time,allowed=null){this.initRun(config,'classic');this.question=question;this.allowed=allowed;this.duration=clamp(Number(time)||60,1,86400);this.deadline=performance.now()+this.duration*1000;this.remaining=this.duration;this.lastTime=Math.ceil(this.duration);this.callbacks.onTick?.(this.remaining,this.duration);this.callbacks.onSelect?.(this.selected)}
-  startRush(question,config,raceTime,answerTime){this.initRun(config,'rush');this.question=question;this.raceDuration=clamp(Number(raceTime)||75,1,86400);this.answerDuration=clamp(Number(answerTime)||35,1,86400);this.duration=this.raceDuration;this.remaining=this.raceDuration;this.lastTime=Math.ceil(this.duration);this.countdownEnd=performance.now()+3100;this.phase='rush-countdown';this.winner=null;this.pads=RUSH_PADS.map(p=>({...p,initialY:p.y,brokenAt:0}));this.callbacks.onStage?.('rush-countdown');this.callbacks.onTick?.(3,3)}
+  startRush(question,config,raceTime,answerTime,allowBothRush=false){this.initRun(config,'rush');this.allowBothRush=!!allowBothRush;this.question=question;this.raceDuration=clamp(Number(raceTime)||75,1,86400);this.answerDuration=clamp(Number(answerTime)||35,1,86400);this.duration=this.raceDuration;this.remaining=this.raceDuration;this.lastTime=Math.ceil(this.duration);this.countdownEnd=performance.now()+3100;this.phase='rush-countdown';this.winner=null;this.pads=RUSH_PADS.map(p=>({...p,initialY:p.y,brokenAt:0}));this.callbacks.onStage?.('rush-countdown');this.callbacks.onTick?.(3,3)}
   startTraining(config,stage=0){this.initRun(config,'training');this.question={options:['Alternativa A','Alternativa B','Alternativa C','Alternativa D'],correctIndex:2};this.setTrainingStage(stage)}
   setTrainingStage(stage){if(this.mode!=='training')return;this.trainingStage=clamp(Math.round(Number(stage)||0),0,2);this.phase='training';this.allowed=null;this.camera=0;this.selected=[null,null];this.pads=RUSH_PADS.map(p=>({...p,initialY:p.y,brokenAt:0}));this.players.forEach(p=>{const q=player({name:p.name,color:p.color},p.id);Object.assign(p,q)});this.resetInputs();this.callbacks.onStage?.('training-'+this.trainingStage);this.callbacks.onSelect?.(this.selected)}
   resetInputs(){for(const p of this.players||[]){p.inputs={left:false,right:false,up:false,down:false};p.axis=0;p.downAxis=false;p.jumpQueued=false}}
@@ -660,16 +723,16 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
    // Só na fase de pergunta o vencedor da corrida tem direito exclusivo de resposta.
    return this.phase==='choose'&&(this.allowed==null||this.allowed===id);
   }
-  setInput(id,key,on){if(!this.inputAllowed(id))return;const p=this.players[id],old=p.inputs[key];if(key==='up'&&on&&!old)p.jumpQueued=true;if(key==='down'&&on&&!old)this.dropThrough(p);p.inputs[key]=!!on}
-  setAnalog(id,x,y){if(!this.inputAllowed(id))return;const p=this.players[id];p.axis=clamp(Number(x)||0,-1,1);const up=y<-.68,down=y>.68;if(up&&!p.inputs.up)p.jumpQueued=true;if(down&&!p.downAxis)this.dropThrough(p);p.inputs.up=up;p.downAxis=down;p.inputs.down=down}
+  setInput(id,key,on){if(!this.inputAllowed(id)||(this.phase==='choose'&&this.confirmedChoices?.[id]!=null))return;const p=this.players[id],old=p.inputs[key];if(key==='up'&&on&&!old)p.jumpQueued=true;if(key==='down'&&on&&!old)this.dropThrough(p);p.inputs[key]=!!on}
+  setAnalog(id,x,y){if(!this.inputAllowed(id)||(this.phase==='choose'&&this.confirmedChoices?.[id]!=null))return;const p=this.players[id];p.axis=clamp(Number(x)||0,-1,1);const up=y<-.68,down=y>.68;if(up&&!p.inputs.up)p.jumpQueued=true;if(down&&!p.downAxis)this.dropThrough(p);p.inputs.up=up;p.downAxis=down;p.inputs.down=down}
   dropThrough(p){if(p.grounded&&p.groundIndex>=0){p.grounded=false;p.vy=120;p.y+=12;p.ignoreUntil=performance.now()+270;p.choice=null}}
   tick(t){if(!this.active)return;const dt=clamp((t-this.last)/1000,0,.036);this.last=t;
    if(this.phase==='rush-countdown'){const remaining=Math.max(0,Math.ceil((this.countdownEnd-t)/1000));if(remaining!==this.lastTime){this.lastTime=remaining;this.callbacks.onTick?.(remaining,3);this.callbacks.onCountdown?.()}if(t>=this.countdownEnd){this.phase='rush-race';this.deadline=t+this.raceDuration*1000;this.lastTime=Math.ceil(this.raceDuration);this.callbacks.onStage?.('rush-race');this.callbacks.onTick?.(this.raceDuration,this.raceDuration)}}
    else if(this.phase==='choose'||this.phase==='rush-race'){
     this.remaining=Math.max(0,(this.deadline-t)/1000);
     this.movePlatforms(t);
-    this.players.forEach(p=>this.updatePlayer(p,dt,t));
-    if(this.phase==='choose')this.recalcSelected();
+    this.players.forEach(p=>{if(this.phase!=='choose'||this.confirmedChoices?.[p.id]==null)this.updatePlayer(p,dt,t)});
+    if(this.phase==='choose'){this.recalcSelected();this.checkRushBoth(t);}
     const secs=Math.ceil(this.remaining);if(secs!==this.lastTime){this.lastTime=secs;this.callbacks.onTick?.(this.remaining,this.duration);if(secs<=5&&secs>0)this.callbacks.onCountdown?.()}
     if(this.phase==='rush-race'){
      const finished=this.players.filter(p=>p.alive&&p.x+p.w>=1950);
@@ -685,7 +748,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
    this.updateCamera(dt);this.render(t);this.frame=requestAnimationFrame(n=>this.tick(n));
   }
   restartRushCountdown(t){this.players.forEach(p=>Object.assign(p,player({name:p.name,color:p.color},p.id)));this.camera=0;this.allowed=null;this.pads=RUSH_PADS.map(p=>({...p,initialY:p.y,brokenAt:0}));this.phase='rush-countdown';this.countdownEnd=t+2500;this.lastTime=4;this.callbacks.onStage?.('rush-countdown')}
-  beginRushAnswer(t){this.phase='choose';this.mode='rush-answer';this.allowed=this.winner;this.players.forEach(p=>{const q=player({name:p.name,color:p.color},p.id);Object.assign(p,q)});this.camera=0;this.selected=[null,null];this.duration=this.answerDuration;this.remaining=this.duration;this.deadline=t+this.duration*1000;this.lastTime=Math.ceil(this.duration);this.callbacks.onStage?.('rush-answer');this.callbacks.onTick?.(this.remaining,this.duration);this.callbacks.onSelect?.(this.selected)}
+  beginRushAnswer(t){this.phase='choose';this.mode='rush-answer';this.allowed=this.allowBothRush?null:this.winner;this.rushReadyStart=0;this.rushLocked=false;this.confirmedChoices=[null,null];this.players.forEach(p=>{const q=player({name:p.name,color:p.color},p.id);Object.assign(p,q)});this.camera=0;this.selected=[null,null];this.duration=this.answerDuration;this.remaining=this.duration;this.deadline=t+this.duration*1000;this.lastTime=Math.ceil(this.duration);this.callbacks.onStage?.('rush-answer');this.callbacks.onTick?.(this.remaining,this.duration);this.callbacks.onSelect?.(this.selected)}
   movePlatforms(t){if(!this.pads)return;for(const p of this.pads){
    if(p.moving)p.y=p.initialY+Math.sin(t/950+p.x/150)*p.moving;
    if(p.temporary&&p.brokenAt&&t-p.brokenAt>=TEMP_HOLD+TEMP_FADE+TEMP_HIDDEN+TEMP_REFORM)p.brokenAt=0;
@@ -704,8 +767,24 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
    const elapsed=t-p.brokenAt;
    return elapsed<TEMP_HOLD+TEMP_FADE||elapsed>=TEMP_HOLD+TEMP_FADE+TEMP_HIDDEN+TEMP_REFORM;
   }
+  checkRushBoth(t){
+    if(this.mode!=='rush-answer'||!this.allowBothRush||this.rushLocked||this.phase!=='choose')return;
+    if(this.selected.length!==2||this.selected.some(v=>v===null)){
+      if(this.rushReadyStart)this.callbacks.onRushReadyCanceled?.();
+      this.rushReadyStart=0;return;
+    }
+    if(!this.rushReadyStart){this.rushReadyStart=t;this.callbacks.onRushBothReady?.();return;}
+    if(t-this.rushReadyStart<2000)return;
+    this.rushLocked=true;
+    this.confirmedChoices=[...this.selected];
+    for(const p of this.players){p.vx=0;p.axis=0;p.jumpQueued=false;p.inputs={left:false,right:false,up:false,down:false};}
+    this.deadline=Math.min(this.deadline,t+5000);
+    this.remaining=Math.max(0,(this.deadline-t)/1000);
+    this.lastTime=Math.ceil(this.remaining)+1;
+    this.callbacks.onRushBothLocked?.();
+  }
   getPlatforms(){if(this.phase==='training'&&this.trainingStage===0)return [{x:0,y:350,w:1000,h:22,index:-1}];if(this.mode==='classic'||this.mode==='rush-answer'||this.mode==='training'&&this.trainingStage===1)return [...CHOICES,SPAWN];return this.pads||RUSH_PADS}
-  recalcSelected(){const next=this.players.map(p=>p.alive&&p.grounded&&p.groundIndex>=0?p.groundIndex:null);if(next[0]!==this.selected[0]||next[1]!==this.selected[1]){this.selected=next;this.callbacks.onSelect?.(next)}}
+  recalcSelected(){const next=this.players.map(p=>this.confirmedChoices?.[p.id]!=null?this.confirmedChoices[p.id]:p.alive&&p.grounded&&p.groundIndex>=0?p.groundIndex:null);if(next[0]!==this.selected[0]||next[1]!==this.selected[1]){this.selected=next;this.callbacks.onSelect?.(next)}}
   updatePlayer(p,dt,now){if(!p.alive){if(now>=p.respawnAt){const platforms=this.getPlatforms(),spawnX=this.mode==='rush'||this.mode==='training'&&this.trainingStage===2?p.checkpoint:55;const landing=platforms.find(q=>q.x<=spawnX+15&&q.x+q.w>spawnX+15);p.x=spawnX;p.y=(landing?.y??BASE)-p.h;p.vy=0;p.alive=true;p.grounded=true;p.groundIndex=landing?.index??-1;p.ignoreUntil=0;p.jumpQueued=false;this.callbacks.onRespawn?.(p.id)}return}
    const wasGrounded=p.grounded;
    if(p.jumpQueued){if(p.grounded||now-p.lastGrounded<95){p.vy=-608;p.grounded=false;p.groundIndex=null;p.ignoreUntil=now+65;this.callbacks.onJump?.(p.id)}p.jumpQueued=false}
@@ -725,7 +804,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
   }
   worldWidth(){return this.mode==='training'&&this.trainingStage===2?1370:this.mode==='rush'?RUSH_WIDTH:W}
   updateCamera(dt){if(this.worldWidth()===W){this.camera=0;return}const alive=this.players.filter(p=>p.alive);if(!alive.length)return;const minX=Math.min(...alive.map(p=>p.x)),maxX=Math.max(...alive.map(p=>p.x));const target=clamp((minX+maxX)/2-450,0,this.worldWidth()-W);this.camera+=(target-this.camera)*Math.min(1,dt*7)}
-  lock(t){if(this.phase!=='choose')return;this.recalcSelected();this.phase='reveal';this.phaseSince=t;this.remaining=0;this.players.forEach(p=>{p.choice=p.alive&&p.grounded&&p.groundIndex>=0&& (this.allowed==null||this.allowed===p.id)?p.groundIndex:null;p.inputs={left:false,right:false,up:false,down:false};p.axis=0;p.jumpQueued=false;p.vx=0});this.selected=this.players.map(p=>p.choice);this.callbacks.onTick?.(0,this.duration);this.callbacks.onSelect?.(this.selected);this.callbacks.onLock?.(this.selected)}
+  lock(t){if(this.phase!=='choose')return;this.recalcSelected();this.phase='reveal';this.phaseSince=t;this.remaining=0;this.players.forEach(p=>{p.choice=this.confirmedChoices?.[p.id]!=null?this.confirmedChoices[p.id]:p.alive&&p.grounded&&p.groundIndex>=0&& (this.allowed==null||this.allowed===p.id)?p.groundIndex:null;p.inputs={left:false,right:false,up:false,down:false};p.axis=0;p.jumpQueued=false;p.vx=0});this.selected=this.players.map(p=>p.choice);this.callbacks.onTick?.(0,this.duration);this.callbacks.onSelect?.(this.selected);this.callbacks.onLock?.(this.selected)}
   finish(){this.active=false;this.phase='finished';this.callbacks.onFinish?.()}
   stop(){this.active=false;this.phase='idle';if(this.frame)cancelAnimationFrame(this.frame);this.frame=0;this.resetInputs()}
   destroy(){this.stop();window.removeEventListener('keydown',this.keyDown);window.removeEventListener('keyup',this.keyUp);window.removeEventListener('blur',this.blur);document.removeEventListener('visibilitychange',this.blur)}
@@ -756,7 +835,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
    let base='#2e6775',top='#72bcb8',stroke='#b1e7d9';if(isChoice){base='#536977';top='#9bafbf';stroke='#c7dde5';if(revealed){const good=p.index===this.question.correctIndex;base=good?'#177957':'#873544';top=good?'#60edb3':'#fa8295';stroke=good?'#b9ffe5':'#ffd0d6'}else{const occ=this.players.filter(q=>q.choice===p.index&&q.alive&&(this.allowed==null||q.id===this.allowed));if(occ.length===1){base=occ[0].color;top=occ[0].color;stroke='#ffffff'}else if(occ.length===2){base=occ[0].color;top=occ[1].color;stroke='#ffffff'}}}
    if(p.temporary){base='#51496b';top='#ab95ed';stroke='#d6cbff'}if(p.moving){base='#285c78';top='#69bde0'}
    g.shadowColor=top;g.shadowBlur=12;rect(g,x,y,p.w,p.h,7);g.fillStyle=base;g.fill();g.shadowBlur=0;g.strokeStyle=stroke;g.lineWidth=2;g.stroke();rect(g,x,y,p.w,6,4);g.fillStyle=top;g.fill();
-   if(isChoice){const users=this.players.filter(q=>q.choice===p.index&&(this.allowed==null||q.id===this.allowed));if(users.length===2&&!revealed){g.fillStyle=users[0].color;g.fillRect(x+4,y+8,p.w/2-4,13);g.fillStyle=users[1].color;g.fillRect(x+p.w/2,y+8,p.w/2-4,13)}g.fillStyle=revealed?'#112f2a':'#f8fffa';g.textAlign='center';g.font='900 17px system-ui';g.fillText(String.fromCharCode(65+p.index),x+p.w/2,y+18);const label=String(this.question?.options[p.index]||'');g.fillStyle='#c8f8f1';g.font='700 13px system-ui';g.fillText(label.length>25?label.slice(0,23)+'…':label,x+p.w/2,y-12,p.w-10)}else if(p.index===-1){g.fillStyle='#acffe4';g.font='800 11px monospace';g.textAlign='center';g.fillText('SPAWN P1 + P2',x+p.w/2,y+16)}g.restore()}
+   if(isChoice){const users=this.players.filter(q=>q.choice===p.index&&(this.allowed==null||q.id===this.allowed));if(users.length===2&&!revealed){g.fillStyle=users[0].color;g.fillRect(x+4,y+8,p.w/2-4,13);g.fillStyle=users[1].color;g.fillRect(x+p.w/2,y+8,p.w/2-4,13)}g.fillStyle=revealed?'#112f2a':'#f8fffa';g.textAlign='center';g.font='900 17px system-ui';g.fillText(String.fromCharCode(65+p.index),x+p.w/2,y+18);g.fillStyle='#c8f8f1';g.font='700 13px system-ui';g.fillText('LEIA '+String.fromCharCode(65+p.index)+' NO PAINEL',x+p.w/2,y-12,p.w-10)}else if(p.index===-1){g.fillStyle='#acffe4';g.font='800 11px monospace';g.textAlign='center';g.fillText('SPAWN P1 + P2',x+p.w/2,y+16)}g.restore()}
   // Animações procedurais: caminhada com pernas e braços alternados;
   // subida com propulsão, queda com braços abertos e aterrissagem com partículas.
   drawPlayer(g,p,t,id){
@@ -914,20 +993,20 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
  function enterArena(){if(!session||!session.current)return;trainingMode=false;session.locked=false;session.rushWinner=null;const q=session.current,isRush=q.type==='rush';
   $('#hudName1').textContent=session.players[0].name;$('#hudName2').textContent=session.players[1].name;$('#hudDot1').style.setProperty('--player-color',session.players[0].color);$('#hudDot2').style.setProperty('--player-color',session.players[1].color);$('#hudScore1').textContent=session.scores[0];$('#hudScore2').textContent=session.scores[1];$('#hudRound').textContent=`RODADA ${String(session.roundIndex+1).padStart(2,'0')}/${session.rounds}`;
   $('#gameCategory').textContent=isRush?'⚡ MODO RUSH':(q.category||'CLÁSSICO').toUpperCase();$('#gameQuestion').textContent=isRush?'CRUZE A LINHA DE CHEGADA PARA REVELAR A PERGUNTA!':q.text;$('#arenaHint').textContent=isRush?'Ambos começam juntos! Corra até a meta.':'Escolha uma plataforma antes do tempo acabar!';$('#revealTag').hidden=true;$('#stageTag').textContent=isRush?'ECODATA / CIRCUITO RUSH':'ECODATA / ARENA CLÁSSICA';$('#tutorialActions').hidden=true;
-  $('#answerStrip').innerHTML=q.options.map((opt,i)=>`<div class="answer-card" data-choice="${i}"><span class="letter">${letters[i]}</span><span class="text">${esc(opt)}</span></div>`).join('');document.body.classList.toggle('rush-racing',isRush);show('game');if(isRush)game.startRush(q,session.players,session.raceTime,session.answerTime);else game.startRound(q,session.players,session.time);}
+  $('#answerStrip').innerHTML=q.options.map((opt,i)=>`<div class="answer-card" data-choice="${i}"><span class="letter">${letters[i]}</span><span class="text">${esc(opt)}</span></div>`).join('');document.body.classList.toggle('rush-racing',isRush);show('game');if(isRush)game.startRush(q,session.players,session.raceTime,session.answerTime,true);else game.startRound(q,session.players,session.time);}
  function onGameStage(stage){if(view!=='game')return;if(trainingPractice){onPracticeStage(stage);return}document.body.classList.toggle('rush-racing',stage.startsWith('rush-')&&stage!=='rush-answer');if(stage==='rush-countdown'||stage==='rush-tie'){$('#gameCategory').textContent='⚡ CIRCUITO RUSH';$('#gameQuestion').textContent='3 • 2 • 1 — PREPARE-SE PARA CORRER!';$('#arenaHint').textContent=stage==='rush-tie'?'Chegada simultânea: nova largada justa!':'P1 e P2: mesmo ponto de início';}
  else if(stage==='rush-race'){$('#gameCategory').textContent='⚡ CORRIDA';$('#gameQuestion').textContent='Alcance primeiro a linha de chegada para responder à questão.';$('#arenaHint').textContent='Checkpoints dourados • cuidado com a lava!'}
  else if(stage==='rush-winner'){$('#gameQuestion').textContent=`${session.players[game.winner].name} ganhou o direito de responder!`;$('#arenaHint').textContent='Preparando área de alternativas...'}
- else if(stage==='rush-answer'){$('#gameCategory').textContent='⚡ DIREITO DE RESPOSTA';$('#gameQuestion').textContent=session.current.text;$('#arenaHint').textContent=`Somente ${session.players[session.rushWinner].name} pode escolher a alternativa!`;audio.play('save')}
+ else if(stage==='rush-answer'){$('#gameCategory').textContent='⚡ RESPOSTAS RUSH';$('#gameQuestion').textContent=session.current.text;$('#arenaHint').textContent='Ambos podem escolher. Só o vencedor da corrida pontua.';audio.play('save')}
  else if(stage==='rush-timeout'){$('#gameCategory').textContent='TEMPO ESGOTADO';$('#gameQuestion').textContent='Ninguém chegou à meta. A rodada termina sem pontos.';$('#arenaHint').textContent='A pergunta não foi revelada.'}
  else if(stage.startsWith('training-'))updateTrainingUI();}
  function onRushWinner(i){if(trainingPractice){trainingPractice.winner=i;$('#arenaHint').textContent=`${trainingPractice.players[i].name} chegou primeiro!`;audio.play('win');return}if(!session)return;session.rushWinner=i;audio.play('win');$('#arenaHint').textContent=`${session.players[i].name} chegou primeiro!`}
  function onRushTimeout(){if(trainingPractice){trainingPractice.timedOut=true;audio.play('lose');return}if(!session||session.locked)return;session.locked=true;session.history.push({questionId:session.current.id,mode:'rush',winner:null,rushTimeout:true,selected:[null,null],awards:[0,0]});audio.play('lose')}
  function updateTimer(remaining,total){if(view!=='game'||trainingMode&&!trainingPractice)return;$('#hudTimer').textContent=fmtTime(remaining);$('#hudTimer').classList.toggle('urgent',remaining<=10&&remaining>0);$('#timerBarFill').style.width=Math.min(100,Math.max(0,remaining/total*100))+'%';$('#timerBarFill').style.background=remaining<=10?'#ff777b':'#5df4b4'}
- function updateChoices(selected){if(view!=='game')return;if(trainingPractice){updatePracticeChoices(selected);return}if(trainingMode){if(game.trainingStage===1)$('#arenaHint').textContent=selected.map((v,i)=>`${game.players[i].name}: ${v==null?'sem alternativa':letters[v]}`).join(' • ');return}if(!session)return;const cards=$$('#answerStrip .answer-card');cards.forEach((card,i)=>{card.classList.remove('choice-one','choice-two','choice-both');card.style.setProperty('--c1',session.players[0].color);card.style.setProperty('--c2',session.players[1].color);if(session.locked)return;const p1=selected[0]===i,p2=selected[1]===i;if(p1&&p2)card.classList.add('choice-both');else if(p1)card.classList.add('choice-one');else if(p2)card.classList.add('choice-two')});if(!session.locked&&game.phase==='choose'){$('#arenaHint').textContent=selected.map((n,i)=>`${session.players[i].name}: ${session.rushWinner!=null&&i!==session.rushWinner?'espectador':n===null?'sem resposta':letters[n]}`).join(' • ')}}
+ function updateChoices(selected){if(view!=='game')return;if(trainingPractice){updatePracticeChoices(selected);return}if(trainingMode){if(game.trainingStage===1)$('#arenaHint').textContent=selected.map((v,i)=>`${game.players[i].name}: ${v==null?'sem alternativa':letters[v]}`).join(' • ');return}if(!session)return;const cards=$$('#answerStrip .answer-card');cards.forEach((card,i)=>{card.classList.remove('choice-one','choice-two','choice-both');card.style.setProperty('--c1',session.players[0].color);card.style.setProperty('--c2',session.players[1].color);if(session.locked)return;const p1=selected[0]===i,p2=selected[1]===i;if(p1&&p2)card.classList.add('choice-both');else if(p1)card.classList.add('choice-one');else if(p2)card.classList.add('choice-two')});if(!session.locked&&game.phase==='choose'){$('#arenaHint').textContent=selected.map((n,i)=>`${session.players[i].name}: ${n===null?'sem resposta':letters[n]}`).join(' • ')}}
  function lockRound(selected){if(trainingPractice){lockPracticeRound(selected);return}if(!session||session.locked)return;session.locked=true;const q=session.current,win=session.rushWinner,isRush=q.type==='rush';const awards=selected.map((choice,i)=>choice===q.correctIndex&&(!isRush||win===i)?1:0);awards.forEach((pts,i)=>session.scores[i]+=pts);session.history.push({questionId:q.id,mode:isRush?'rush':'classic',winner:win,correctIndex:q.correctIndex,selected:[...selected],awards});$('#hudScore1').textContent=session.scores[0];$('#hudScore2').textContent=session.scores[1];$$('#answerStrip .answer-card').forEach((card,i)=>{card.classList.remove('choice-one','choice-two','choice-both');card.classList.add(i===q.correctIndex?'correct':'wrong')});$('#arenaHint').textContent=`RESPOSTA CORRETA: ${letters[q.correctIndex]} • ${isRush&&awards.every(v=>v===0)?'Ninguém pontua.':'Resultado registrado!'}`;$('#revealTag').hidden=false;audio.play('reveal')}
  function showRoundResults(){if(trainingPractice){showPracticeResult();return}if(trainingMode||!session)return;const q=session.current,h=session.history[session.history.length-1];if(!h)return;$('#roundHeadline').textContent=h.rushTimeout?'Corrida encerrada sem vencedor!':`Rodada ${session.roundIndex+1} concluída!`;$('#roundCorrect').textContent=h.rushTimeout?'Tempo de corrida esgotado. Questão não revelada.':`Resposta correta: ${letters[q.correctIndex]} — ${q.options[q.correctIndex]}`;
-  $('#roundResults').innerHTML=session.players.map((p,i)=>{const choice=h.selected[i],correct=h.awards[i]===1,status=h.rushTimeout?'TEMPO DE CORRIDA ESGOTADO':h.mode==='rush'&&h.winner!==i?'ESPECTADOR • SEM DIREITO DE RESPOSTA':choice===null?'SEM RESPOSTA':correct?'RESPOSTA CERTA':'RESPOSTA ERRADA';return `<div class="round-player"><span class="eyebrow">JOGADOR ${i+1}</span><b style="color:${p.color}">${esc(p.name)}</b><span class="status">${status} ${choice===null?'':`• Alternativa ${letters[choice]}`}</span><strong class="${correct?'':'zero'}">+${h.awards[i]} PONTO</strong></div>`}).join('');$('#roundScoreSummary').textContent=`PLACAR ATUAL: ${session.players[0].name} ${session.scores[0]} — ${session.scores[1]} ${session.players[1].name}`;$('#nextRound').textContent=session.roundIndex+1>=session.rounds?'VER RESULTADO FINAL →':'PRÓXIMA RODADA →';show('round');document.body.classList.remove('rush-racing');audio.play('save')}
+  $('#roundResults').innerHTML=session.players.map((p,i)=>{const choice=h.selected[i],correct=h.awards[i]===1,status=h.rushTimeout?'TEMPO DE CORRIDA ESGOTADO':h.mode==='rush'&&h.winner!==i?'PARTICIPOU • PONTO RESERVADO AO VENCEDOR':choice===null?'SEM RESPOSTA':correct?'RESPOSTA CERTA':'RESPOSTA ERRADA';return `<div class="round-player"><span class="eyebrow">JOGADOR ${i+1}</span><b style="color:${p.color}">${esc(p.name)}</b><span class="status">${status} ${choice===null?'':`• Alternativa ${letters[choice]}`}</span><strong class="${correct?'':'zero'}">+${h.awards[i]} PONTO</strong></div>`}).join('');$('#roundScoreSummary').textContent=`PLACAR ATUAL: ${session.players[0].name} ${session.scores[0]} — ${session.scores[1]} ${session.players[1].name}`;$('#nextRound').textContent=session.roundIndex+1>=session.rounds?'VER RESULTADO FINAL →':'PRÓXIMA RODADA →';show('round');document.body.classList.remove('rush-racing');audio.play('save')}
 
  function nextRound(){if(!session)return;
   if(session.roundIndex+1>=session.rounds){
@@ -1125,6 +1204,153 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
     <button type="button" id="pwaUpdateLater">Depois</button>
     <button type="button" id="pwaUpdateNow">Atualizar agora</button>
   </div>
+
+<script id="ecoDataResponses26">
+(function(){
+ 'use strict';
+ const $=s=>document.querySelector(s);
+ const DEFAULT=['KeyQ','KeyP'];
+ const STORAGE_KEY='ecodata:confirmation-keys:1';
+ const MOVEMENT=new Set(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowDown','ArrowLeft','ArrowRight']);
+ const CODES='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(x=>'Key'+x).filter(x=>!MOVEMENT.has(x));
+ let codes=[...DEFAULT], game=null,confirmButtons=[],hintTimer=null,installed=false;
+ function safeRead(){try{const v=JSON.parse(localStorage.getItem(STORAGE_KEY));if(Array.isArray(v)&&v.length===2&&v.every(c=>CODES.includes(c))&&v[0]!==v[1])codes=v;}catch(e){}}
+ function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(codes));}catch(e){console.info('Preferências de teclas não persistidas',e)}}
+ const letter=c=>c.replace(/^Key/,'');
+ function makeSettings(){
+   const grid=$('#view-settings .settings-grid');if(!grid)return;
+   const card=document.createElement('div');card.id='confirmKeySettings';card.className='glass-panel settings-card';
+   card.innerHTML='<div class="setting-head"><span class="overview-icon green">✓</span><div><h3>Confirmar alternativas</h3><p>Modo Clássico: escolha uma tecla diferente para cada jogador. WASD e setas ficam reservadas ao movimento.</p></div></div><div class="confirm-key-fields"><div><label class="field-label" for="confirmKeyP1">JOGADOR 1 — CONFIRMAR</label><select class="field" id="confirmKeyP1"></select></div><div><label class="field-label" for="confirmKeyP2">JOGADOR 2 — CONFIRMAR</label><select class="field" id="confirmKeyP2"></select></div></div><p class="tiny-muted">Padrão: Q para o jogador 1 e P para o jogador 2. No celular também há botões para tocar.</p>';
+   grid.appendChild(card);
+   [0,1].forEach(i=>{
+     const sel=$('#confirmKeyP'+(i+1));
+     for(const code of CODES){const opt=document.createElement('option');opt.value=code;opt.textContent=letter(code);sel.append(opt);}
+     sel.value=codes[i];
+     sel.addEventListener('change',()=>{
+       if(codes[1-i]===sel.value){sel.value=codes[i];alert('Escolha uma tecla diferente para cada jogador.');return;}
+       codes[i]=sel.value;save();refreshUI();
+     });
+   });
+ }
+ function makeConfirmRow(){
+   const row=document.createElement('div');row.id='confirmControls';row.hidden=true;
+   confirmButtons=[0,1].map(i=>{
+     const btn=document.createElement('button');btn.type='button';
+     btn.id='confirmP'+(i+1);btn.hidden=true;
+     btn.addEventListener('click',()=>confirm(i));row.append(btn);return btn;
+   });
+   const banner=$('#view-game .question-banner');banner.insertAdjacentElement('afterend',row);
+ }
+ function makeFullAnswers(){
+   const open=document.createElement('button');open.id='openAllAnswers';open.type='button';
+   open.textContent='▤ Ler alternativas completas';open.hidden=true;
+   $('#view-game .question-banner').append(open);
+   const overlay=document.createElement('div');overlay.id='allAnswersOverlay';overlay.hidden=true;
+   overlay.innerHTML='<section id="allAnswersPanel" role="dialog" aria-modal="true" aria-labelledby="allAnswersHeading"><div class="all-head"><h3 id="allAnswersHeading">Alternativas completas</h3><button type="button" id="closeAllAnswers">Fechar ✕</button></div><div class="all-options-list" id="allOptionsList"></div><small>Para responder, volte à arena e posicione seu personagem na plataforma escolhida.</small></section>';
+   document.body.append(overlay);
+   const close=()=>{overlay.hidden=true;open.focus({preventScroll:true})};
+   open.addEventListener('click',()=>{
+     if(!canRead()||!game?.question?.options)return;
+     const root=$('#allOptionsList');root.replaceChildren();
+     game.question.options.forEach((value,i)=>{
+       const item=document.createElement('div');item.className='all-option';
+       const strong=document.createElement('strong');strong.textContent='ABCD'[i]+'.';
+       const span=document.createElement('span');span.textContent=String(value);
+       item.append(strong,span);root.append(item);
+     });
+     overlay.hidden=false;$('#closeAllAnswers').focus();
+   });
+   $('#closeAllAnswers').addEventListener('click',close);
+   overlay.addEventListener('click',e=>{if(e.target===overlay)close()});
+   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!overlay.hidden){e.preventDefault();close()}},true);
+ }
+ function canRead(){return window.EcoDataDebug?.state?.view==='game'&&
+      (game?.mode==='classic'||game?.mode==='rush-answer')&&['choose','reveal','collapse'].includes(game?.phase)}
+ function isClassic(){return window.EcoDataDebug?.state?.view==='game'&&game?.mode==='classic'&&game?.phase==='choose'}
+ function refreshUI(){
+   const classic=isClassic();
+   const root=$('#view-game'),row=$('#confirmControls');
+   if(!root||!row)return;
+   root.classList.toggle('classic-confirm-active',classic);
+   row.hidden=!classic;
+   $('#openAllAnswers').hidden=!canRead();
+   if(!classic)return;
+   game.players.forEach((p,i)=>{
+     const b=confirmButtons[i];
+     const locked=game.confirmedChoices?.[i]!=null;
+     if(locked){
+       if(b.dataset.confirmed!=='yes'){
+         b.dataset.confirmed='yes';b.classList.add('is-locked');b.textContent='P'+(i+1)+' ✓ CONFIRMADO';
+         setTimeout(()=>{if(game.confirmedChoices?.[i]!=null)b.hidden=true},780);
+       }
+     }else{
+       b.dataset.confirmed='no';b.classList.remove('is-locked');
+       b.hidden=!(p.alive&&p.grounded&&p.choice!=null);
+       b.textContent='P'+(i+1)+' · Confirmar (aperte tecla '+letter(codes[i])+')';
+     }
+   });
+ }
+ function confirm(id){
+   if(!isClassic()||game.confirmedChoices?.[id]!=null)return;
+   const p=game.players[id];
+   if(!p?.alive||!p.grounded||p.choice==null)return;
+   game.confirmedChoices[id]=p.choice;
+   p.vx=0;p.axis=0;p.jumpQueued=false;
+   p.inputs={left:false,right:false,up:false,down:false};
+   game.recalcSelected();
+   refreshUI();
+   if(game.confirmedChoices.every(x=>x!=null)){
+     const now=performance.now();game.deadline=Math.min(game.deadline,now+5000);
+     game.remaining=Math.max(0,(game.deadline-now)/1000);
+     game.lastTime=Math.ceil(game.remaining)+1;
+     const hint=$('#arenaHint');if(hint)hint.textContent='Ambos confirmaram! Últimos '+Math.ceil(game.remaining)+' segundos.';
+   }
+ }
+ function bindKeys(){
+   document.addEventListener('keydown',e=>{
+     if(e.repeat||!isClassic()||!overlayClosed()||['INPUT','TEXTAREA','SELECT'].includes(document.activeElement?.tagName))return;
+     const id=codes.indexOf(e.code);
+     if(id<0)return;
+     e.preventDefault();confirm(id);
+   },true);
+ }
+ function overlayClosed(){return $('#allAnswersOverlay')?.hidden!==false}
+ function attachCallbacks(){
+   const oldSelect=game.callbacks.onSelect;
+   game.callbacks.onSelect=function(selected){oldSelect?.(selected);refreshUI();};
+   const oldStage=game.callbacks.onStage;
+   game.callbacks.onStage=function(stage){
+     oldStage?.(stage);
+     if(stage==='rush-answer'&&game.allowBothRush){const hint=$('#arenaHint');if(hint)hint.textContent='Ambos escolhem alternativas. Só o vencedor do parkour pontua.'}
+     refreshUI();
+   };
+   game.callbacks.onRushBothReady=()=>{
+     const h=$('#arenaHint');if(h)h.textContent='Ambos escolheram! Mantenham-se nas plataformas por 2 segundos...';
+   };
+   game.callbacks.onRushReadyCanceled=()=>{
+     const h=$('#arenaHint');if(h)h.textContent='Um jogador saiu da plataforma. O tempo de espera foi reiniciado.';
+   };
+   game.callbacks.onRushBothLocked=()=>{
+     const h=$('#arenaHint');if(h)h.textContent='Alternativas travadas! Últimos 5 segundos.';
+   };
+   const oldFinish=game.callbacks.onFinish;
+   game.callbacks.onFinish=function(){oldFinish?.();refreshUI()};
+ }
+ function start(){
+   if(installed)return;
+   game=window.EcoDataDebug?.game;
+   if(!game){setTimeout(start,100);return}
+   installed=true;
+   safeRead();makeSettings();makeConfirmRow();makeFullAnswers();bindKeys();attachCallbacks();
+   // A interface não altera a física e é sincronizada somente quando há uma rodada.
+   const sync=()=>{if(!document.hidden)refreshUI()};
+   document.addEventListener('visibilitychange',sync);
+   setInterval(()=>{if(window.EcoDataDebug?.state?.view==='game')refreshUI()},190);
+   refreshUI();
+ }
+ if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();
+</script>
   <script src="./pwa.js"></script>
 </body>
 </html>
