@@ -193,5 +193,63 @@ const World={
  drawRobot:robot,
  renderThumb(canvas,map){if(!canvas)return;const g=canvas.getContext('2d');if(!g)return;g.clearRect(0,0,canvas.width,canvas.height);g.save();g.scale(canvas.width/1000,canvas.height/460);this.drawBackground(g,6500,map,0);g.restore();}
 };
+
+/* 3.1: artes reais escolhidas + sobreposição animada leve, com fallback vetorial */
+const FILES={forest:'./assets/map-forest.webp',technology:'./assets/map-factory.webp',robots:'./assets/robot-atlas.webp'};
+const PICS={};
+if(typeof Image!=='undefined')for(const key of Object.keys(FILES)){
+ const im=new Image();im.src=FILES[key];PICS[key]=im;
+ im.onerror=()=>console.warn('EcoData: recurso indisponível',FILES[key]);
+}
+function loaded(key){return !!(PICS[key]?.complete&&PICS[key].naturalWidth>0)}
+const originalBackground=World.drawBackground;
+World.drawBackground=function(g,t,map,camera){
+ const k=map==='forest'?'forest':'technology';
+ if(!loaded(k))return originalBackground.call(World,g,t,k,camera);
+ const pic=PICS[k],w=pic.naturalWidth,h=pic.naturalHeight,srcH=Math.min(h,w*.46);
+ g.save();g.drawImage(pic,0,(h-srcH)*.49,w,srcH,0,0,1000,460);
+ const sec=t/1000;
+ if(k==='forest'){
+  for(let i=0;i<17;i++){
+   const x=(i*117+sec*(7+i%3*2))%1060-20,y=18+i*37%189+Math.sin(sec*.7+i)*7;
+   g.save();g.globalAlpha=.14+.12*(1+Math.sin(sec*.7+i))*.5;g.fillStyle=i%2?'#eaffaf':'#b5e576';
+   g.translate(x,y);g.rotate(.18*Math.sin(sec*.75+i));g.beginPath();g.ellipse(0,0,4,2,.4,0,TAU);g.fill();g.restore();
+  }
+  for(let i=0;i<8;i++){g.save();g.globalAlpha=.08+.1*(1+Math.sin(sec*1.3+i))*.5;line(g,370+i*36,300+i%3*17,380+i*36,300+i%3*17,'#d3feec',1);g.restore()}
+ }else{
+  for(let i=0;i<23;i++){
+   const x=31+i*137%944,y=45+i*67%280;
+   g.save();g.globalAlpha=.2+.3*(1+Math.sin(sec*(.65+i%4*.18)+i))*.5;
+   circle(g,x,y,1.7+i%2,i%3?'#9af9e5':'#ffdfaa');g.restore();
+  }
+ }
+ g.restore();
+};
+const originalRobot=World.drawRobot;
+World.drawRobot=function(g,p,t,id,worldWidth,spectator){
+ if(!loaded('robots')||!p.alive)return originalRobot(g,p,t,id,worldWidth,spectator);
+ const color=p.color||(id===0?'#5df4b4':'#6cbcff');
+ const moving=p.grounded&&Math.abs(p.vx)>15;
+ const sx=(p.grounded?(moving?1:0):2)*120,sy=id*144;
+ const bob=moving?Math.abs(Math.sin(p.step*1.45))*1.2:Math.sin(t/370+id)*.4;
+ g.save();g.translate(p.x+16,p.y+37+bob);g.scale(p.facing||1,1);
+ g.rotate(p.grounded?(moving?Math.sin(p.step)*.03:0):(p.vy<0?-.08:.06));
+ g.shadowColor=color;g.shadowBlur=12;
+ if('filter' in g)g.filter='drop-shadow(0px 0px 1px '+color+')';
+ g.drawImage(PICS.robots,sx,sy,120,144,-24,-48,48,54);
+ if('filter' in g)g.filter='none';
+ g.shadowBlur=0;g.strokeStyle=color;g.globalAlpha=.95;g.lineWidth=2;
+ g.beginPath();g.ellipse(0,7,14,3,0,0,TAU);g.stroke();
+ g.restore();
+ g.save();g.font='800 11px system-ui';
+ const label=String(p.name).slice(0,17),width=Math.min(178,Math.max(56,g.measureText(label).width+18));
+ const x=Math.max(2,Math.min((worldWidth||1000)-width-2,p.x+16-width/2));
+ rounded(g,x,p.y-29,width,19,6,'#092331ec',color,1.2);
+ g.fillStyle='#f5fffc';g.textAlign='center';g.fillText(label,x+width/2,p.y-16);
+ if(spectator){g.font='800 10px monospace';g.fillText('ESPECTADOR',p.x+16,p.y-35)}
+ g.restore();
+};
+World.assetsReady=()=>Object.keys(FILES).every(loaded);
+
 window.EcoWorld=World;
 })();

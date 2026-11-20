@@ -1,10 +1,10 @@
 /* EcoData Arena PWA 2.5 — atualização mediante aprovação, offline sem apagar dados locais */
 'use strict';
-const CACHE_NAME='ecodata-arena-shell-v3.0.0';
+const CACHE_NAME='ecodata-arena-shell-v3.1.0';
 const APP_SHELL=[
   './','./index.html','./manifest.webmanifest','./eco-world.js','./pwa.css','./pwa.js',
   './icons/icon.svg','./icons/icon-192.png','./icons/icon-512.png',
-  './icons/icon-maskable-512.png','./icons/apple-touch-icon.png'
+  './icons/icon-maskable-512.png','./icons/apple-touch-icon.png','./assets/map-forest.webp','./assets/map-factory.webp','./assets/robot-atlas.webp'
 ];
 const base=new URL(self.registration.scope);
 self.addEventListener('install',event=>{
