@@ -477,7 +477,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
     <header class="app-header">
       <button type="button" class="brand" data-nav="home" aria-label="Voltar ao início">
         <span class="brand-mark" aria-hidden="true"><span>◈</span></span>
-        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 2.7 PWA</small></span>
+        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 2.8 PWA</small></span>
       </button>
       <nav class="main-nav" aria-label="Navegação principal">
         <button class="nav-btn active" data-nav="home">Início</button>
@@ -645,8 +645,8 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
         <div class="question-banner"><span class="question-flag" id="gameCategory">DESAFIO</span><h2 id="gameQuestion">Aguardando pergunta...</h2><span class="reveal-tag" id="revealTag" hidden>RESPOSTA REVELADA</span></div>
         <div class="arena-container" id="arenaContainer"><canvas id="gameCanvas" width="1000" height="460" aria-label="Arena 2D com plataformas, parkour e dois jogadores"></canvas><div class="stage-tag" id="stageTag">ECODATA / STAGE 01</div><div class="arena-hint" id="arenaHint">Vá até a plataforma da sua resposta!</div>
           <div class="touch-controls" id="touchControls" aria-label="Dois controles analógicos independentes">
-            <div class="touch-side left-touch" style="--joy-color:#5df4b4"><div class="touch-joystick" data-analog="0" aria-label="Analógico do jogador 1" role="group"><div class="joystick-nub"></div><span class="joy-label">P1</span></div><button class="touch-jump" data-player="0" data-key="up" aria-label="Jogador 1 pular">PULAR</button></div>
-            <div class="touch-side right-touch" style="--joy-color:#6cbcff"><button class="touch-jump" data-player="1" data-key="up" aria-label="Jogador 2 pular">PULAR</button><div class="touch-joystick" data-analog="1" aria-label="Analógico do jogador 2" role="group"><div class="joystick-nub"></div><span class="joy-label">P2</span></div></div>
+            <div class="touch-side left-touch" style="--joy-color:#5df4b4"><div class="touch-joystick" data-analog="0" aria-label="Analógico do jogador 1: para cima pula" role="group"><div class="joystick-nub"></div><span class="joy-label">P1</span></div></div>
+            <div class="touch-side right-touch" style="--joy-color:#6cbcff"><div class="touch-joystick" data-analog="1" aria-label="Analógico do jogador 2: para cima pula" role="group"><div class="joystick-nub"></div><span class="joy-label">P2</span></div></div>
           </div>
         </div>
         <div class="answer-strip" id="answerStrip" aria-label="Alternativas da questão"></div>
@@ -661,7 +661,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
       <section class="view" id="view-final" aria-label="Resultado da partida"><div class="final-panel glass-panel"><div class="confetti-container" id="confetti"></div><span class="eyebrow" id="finalEyebrow">PARTIDA CONCLUÍDA</span><div class="winner-crown" id="winnerCrown">♛</div><h1 id="winnerTitle">VITÓRIA!</h1><p class="winner-subtitle" id="winnerSubtitle"></p><div class="final-duel" id="finalDuel"></div><div class="final-rank-info" id="finalRankInfo"></div><div class="final-actions"><button class="btn btn-primary" id="replayMatch">↻ JOGAR NOVAMENTE</button><button class="btn btn-outline" data-nav="ranking">♛ VER RANKING</button><button class="btn btn-outline" data-nav="home">⌂ INÍCIO</button></div></div></section>
     </main>
 
-    <footer class="app-footer"><span>© ECODATA ARENA 2.7 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
+    <footer class="app-footer"><span>© ECODATA ARENA 2.8 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
   </div>
   <div class="guide-layer" id="guideLayer" role="region" aria-label="Tutorial passo a passo" hidden>
     <div class="guide-shade" aria-hidden="true"></div>
@@ -748,7 +748,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
    return this.phase==='choose'&&(this.allowed==null||this.allowed===id);
   }
   setInput(id,key,on){if(!this.inputAllowed(id)||(this.phase==='choose'&&this.confirmedChoices?.[id]!=null))return;const p=this.players[id],old=p.inputs[key];if(key==='up'&&on&&!old)p.jumpQueued=true;if(key==='down'&&on&&!old)this.dropThrough(p);p.inputs[key]=!!on}
-  setAnalog(id,x,y){if(!this.inputAllowed(id)||(this.phase==='choose'&&this.confirmedChoices?.[id]!=null))return;const p=this.players[id];p.axis=clamp(Number(x)||0,-1,1);const up=y<-.68,down=y>.68;if(up&&!p.inputs.up)p.jumpQueued=true;if(down&&!p.downAxis)this.dropThrough(p);p.inputs.up=up;p.downAxis=down;p.inputs.down=down}
+  setAnalog(id,x,y){if(!this.inputAllowed(id)||(this.phase==='choose'&&this.confirmedChoices?.[id]!=null))return;const p=this.players[id];p.axis=clamp(Number(x)||0,-1,1);const up=y<-.58,down=y>.68;if(up&&!p.inputs.up)p.jumpQueued=true;if(down&&!p.downAxis)this.dropThrough(p);p.inputs.up=up;p.downAxis=down;p.inputs.down=down}
   dropThrough(p){if(p.grounded&&p.groundIndex>=0){p.grounded=false;p.vy=120;p.y+=12;p.ignoreUntil=performance.now()+270;p.choice=null}}
   tick(t){if(!this.active)return;const dt=clamp((t-this.last)/1000,0,.036);this.last=t;
    if(this.phase==='rush-countdown'){const remaining=Math.max(0,Math.ceil((this.countdownEnd-t)/1000));if(remaining!==this.lastTime){this.lastTime=remaining;this.callbacks.onTick?.(remaining,3);this.callbacks.onCountdown?.()}if(t>=this.countdownEnd){this.phase='rush-race';this.deadline=t+this.raceDuration*1000;this.lastTime=Math.ceil(this.raceDuration);this.callbacks.onStage?.('rush-race');this.callbacks.onTick?.(this.raceDuration,this.raceDuration)}}
@@ -1020,7 +1020,6 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
    $('#nextRound').addEventListener('click',nextRound);
    $('#replayMatch').addEventListener('click',()=>{show('setup');toast('Configure a revanche e inicie uma nova partida.')});
    $('#quitMatch').addEventListener('click',()=>navigate('modes'));$('#gameFullscreen').addEventListener('click',tryFullscreen);$$('[data-train-step]').forEach(b=>b.addEventListener('click',()=>setTrainingStep(Number(b.dataset.trainStep))));$('#restartTraining').addEventListener('click',()=>setTrainingStep(game.trainingStage));['joySize','joyOpacity','joySensitivity'].forEach(id=>$('#'+id).addEventListener('input',()=>{applyTouchSettings();savePrefs()}));bindAnalogControls();
-   const touch=$$('#touchControls button[data-player]');for(const b of touch){const player=Number(b.dataset.player),key=b.dataset.key;const release=e=>{e.preventDefault();b.classList.remove('pressed');game.setInput(player,key,false)};b.addEventListener('pointerdown',e=>{e.preventDefault();try{b.setPointerCapture(e.pointerId)}catch{}b.classList.add('pressed');game.setInput(player,key,true)});b.addEventListener('pointerup',release);b.addEventListener('pointercancel',release);b.addEventListener('lostpointercapture',release);b.addEventListener('contextmenu',e=>e.preventDefault())}
    window.addEventListener('pagehide',()=>game.stop());
  }
  function renderPalette(){[0,1].forEach(i=>{const root=$('#colorsP'+(i+1));root.replaceChildren();COLORS.forEach(color=>{const b=document.createElement('button');b.type='button';b.className='color-option'+(color===colors[i]?' active':'');b.style.setProperty('--swatch',color);b.setAttribute('aria-label','Selecionar cor '+color+' para jogador '+(i+1));b.setAttribute('aria-pressed',color===colors[i]?'true':'false');b.addEventListener('click',()=>{colors[i]=color;audio.play('select');renderPalette();updatePreview();validateSetup();savePrefs()});root.append(b)})})}
@@ -1099,9 +1098,9 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
  function startTraining(){hideGuide();$('#practiceResults').hidden=true;trainingPractice=null;document.body.classList.remove('training-practice');game?.stop();cancelAnimationFrame(spinFrame);spinning=false;session=null;trainingMode=true;const names=[$('#nameP1').value.trim()||'Jogador 1',$('#nameP2').value.trim()||'Jogador 2'];const players=names.map((name,i)=>({name,color:colors[i]}));$('#hudName1').textContent=players[0].name;$('#hudName2').textContent=players[1].name;$('#hudDot1').style.setProperty('--player-color',players[0].color);$('#hudDot2').style.setProperty('--player-color',players[1].color);$('#hudScore1').textContent='—';$('#hudScore2').textContent='—';$('#hudTimer').textContent='LIVRE';$('#timerBarFill').style.width='100%';$('#hudRound').textContent='TREINAMENTO';$('#revealTag').hidden=true;$('#tutorialActions').hidden=false;$('#stageTag').textContent='LAB / TESTE SEM PONTOS';document.body.classList.remove('rush-racing');show('game');game.startTraining(players,0);applyTouchSettings();audio.play('save');beginGuide()}
  function setTrainingStep(stage){if(!trainingMode||!game||trainingPractice)return;game.setTrainingStage(stage);audio.play('select')}
  function updateTrainingUI(){if(!trainingMode||view!=='game')return;const step=game.trainingStage,touch=isTouchDevice();document.body.classList.toggle('training-platforms',step===1);document.body.classList.toggle('rush-racing',false);$('#gameCategory').textContent=['◎ TUTORIAL • MOVIMENTO','▤ TUTORIAL • PLATAFORMAS','⚡ TUTORIAL • PARKOUR'][step];$('#hudTimer').textContent='∞';$('#hudTimer').classList.remove('urgent');$('#gameQuestion').textContent=touch?[
-  'CELULAR: arraste o analógico do seu jogador. Toque em PULAR. Arraste para baixo para descer de uma plataforma.',
+  'CELULAR: mova o analógico para os lados para andar, para cima para pular e para baixo para descer da plataforma. A diagonal permite andar e pular.',
   'CELULAR: mova o analógico até a letra da plataforma. Mude de plataforma e observe a sua cor.',
-  'CELULAR: direcione o analógico e use PULAR para atravessar o percurso. Cair permite recomeçar no checkpoint.'
+  'CELULAR: use o analógico para andar e empurre para cima (ou na diagonal superior) para saltar no parkour. Cair permite recomeçar no checkpoint.'
  ][step]:[
   'PC: P1 anda com A/D, pula com W e desce com S. P2 usa ←/→, ↑ para pular e ↓ para descer.',
   'PC: alcance as plataformas A–D usando WASD ou as setas. Observe como cada jogador marca sua alternativa.',
@@ -1130,9 +1129,9 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
      {title:'Conheça a arena',text:'Os dois personagens partem juntos do lado esquerdo. O centro mostra o cenário 2D, as plataformas e os obstáculos. '+walk,target:'#arenaContainer',stage:0},
      ...(touch?[
        {title:'Analógico do P1',text:'Controle o primeiro personagem arrastando este analógico. Ele volta ao centro quando você solta.',target:'.left-touch .touch-joystick',stage:0},
-       {title:'Pulo do P1',text:'Toque no botão PULAR do P1 enquanto movimenta o analógico. É possível usar os dois ao mesmo tempo.',target:'.left-touch .touch-jump',stage:0},
+       {title:'Salto do P1',text:'Empurre o analógico para cima para pular. Mova na diagonal para cima para correr e saltar ao mesmo tempo.',target:'.left-touch .touch-joystick',stage:0},
        {title:'Analógico do P2',text:'O segundo jogador usa este analógico independente, do outro lado da tela. Os dois podem jogar simultaneamente.',target:'.right-touch .touch-joystick',stage:0},
-       {title:'Pulo do P2',text:'O P2 também tem um botão de salto exclusivo. Para descer de uma plataforma, mova o analógico para baixo.',target:'.right-touch .touch-jump',stage:0}
+       {title:'Salto do P2',text:'Empurre o analógico do P2 para cima para pular, inclusive na diagonal. Para descer de uma plataforma, mova-o para baixo.',target:'.right-touch .touch-joystick',stage:0}
      ]:[
        {title:'Teclado — Jogador 1',text:'P1 usa W para pular, A/D para andar e S para descer de uma plataforma. Experimente essas teclas na prática depois da apresentação.',target:'#gameControlHint',stage:0},
        {title:'Teclado — Jogador 2',text:'P2 usa ↑ para pular, ← e → para andar e ↓ para descer. Ambos podem apertar as teclas ao mesmo tempo.',target:'#gameCanvas',stage:0}
@@ -1308,7 +1307,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
      btn.setAttribute('aria-label','Jogador '+(i+1)+': confirmar alternativa');
      btn.hidden=true;btn.textContent='Confirmar';
      btn.addEventListener('click',e=>{e.preventDefault();confirm(i)});
-     side.insertBefore(btn,side.querySelector(i===0?'.touch-jump':'.touch-joystick'));
+     if(i===0)side.appendChild(btn);else side.insertBefore(btn,side.querySelector('.touch-joystick'));
      return btn;
    });
  }
