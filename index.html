@@ -444,6 +444,30 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
   #confirmControls button{font-size:8px;padding:3px}
 }
 
+
+/* EcoData 2.7 — botão de confirmação individual no mesmo quadro dos analógicos */
+.touch-confirm{display:none}
+@media(pointer:coarse){
+ #confirmControls{display:none!important}
+ #view-game.classic-confirm-active.active{grid-template-rows:unset!important}
+ #view-game .touch-controls .touch-confirm{
+   display:inline-flex!important;align-items:center;justify-content:center;
+   flex:none;pointer-events:auto;touch-action:manipulation;user-select:none;
+   width:clamp(56px,9vw,78px);height:clamp(36px,10dvh,48px);
+   padding:3px 5px;border:2px solid #a3ffe0;border-radius:11px;
+   background:#197e57;color:#f5fff9;box-shadow:0 4px 15px #001f1bc0;
+   font:800 clamp(9px,1.3vw,12px) system-ui;white-space:nowrap;z-index:12;
+ }
+ #view-game .touch-controls .touch-confirm[hidden]{display:none!important}
+ #view-game .touch-controls .touch-confirm.is-locked{background:#b73f50;border-color:#ff9eab;color:#fff}
+ #view-game .touch-controls .touch-side{gap:clamp(3px,.7vw,7px)!important}
+}
+@media(pointer:coarse) and (orientation:landscape) and (max-height:430px){
+ #view-game .touch-controls .touch-confirm{width:clamp(54px,8.7vw,69px);height:clamp(30px,9dvh,40px);font-size:9px}
+}
+@media(pointer:coarse) and (orientation:portrait){
+ #view-game .touch-controls .touch-confirm{width:clamp(46px,12vw,65px);height:38px;font-size:9px}
+}
 </style>
 </head>
 <body>
@@ -453,7 +477,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
     <header class="app-header">
       <button type="button" class="brand" data-nav="home" aria-label="Voltar ao início">
         <span class="brand-mark" aria-hidden="true"><span>◈</span></span>
-        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 2.6 PWA</small></span>
+        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 2.7 PWA</small></span>
       </button>
       <nav class="main-nav" aria-label="Navegação principal">
         <button class="nav-btn active" data-nav="home">Início</button>
@@ -637,7 +661,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
       <section class="view" id="view-final" aria-label="Resultado da partida"><div class="final-panel glass-panel"><div class="confetti-container" id="confetti"></div><span class="eyebrow" id="finalEyebrow">PARTIDA CONCLUÍDA</span><div class="winner-crown" id="winnerCrown">♛</div><h1 id="winnerTitle">VITÓRIA!</h1><p class="winner-subtitle" id="winnerSubtitle"></p><div class="final-duel" id="finalDuel"></div><div class="final-rank-info" id="finalRankInfo"></div><div class="final-actions"><button class="btn btn-primary" id="replayMatch">↻ JOGAR NOVAMENTE</button><button class="btn btn-outline" data-nav="ranking">♛ VER RANKING</button><button class="btn btn-outline" data-nav="home">⌂ INÍCIO</button></div></div></section>
     </main>
 
-    <footer class="app-footer"><span>© ECODATA ARENA 2.6 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
+    <footer class="app-footer"><span>© ECODATA ARENA 2.7 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
   </div>
   <div class="guide-layer" id="guideLayer" role="region" aria-label="Tutorial passo a passo" hidden>
     <div class="guide-shade" aria-hidden="true"></div>
@@ -835,7 +859,45 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
    let base='#2e6775',top='#72bcb8',stroke='#b1e7d9';if(isChoice){base='#536977';top='#9bafbf';stroke='#c7dde5';if(revealed){const good=p.index===this.question.correctIndex;base=good?'#177957':'#873544';top=good?'#60edb3':'#fa8295';stroke=good?'#b9ffe5':'#ffd0d6'}else{const occ=this.players.filter(q=>q.choice===p.index&&q.alive&&(this.allowed==null||q.id===this.allowed));if(occ.length===1){base=occ[0].color;top=occ[0].color;stroke='#ffffff'}else if(occ.length===2){base=occ[0].color;top=occ[1].color;stroke='#ffffff'}}}
    if(p.temporary){base='#51496b';top='#ab95ed';stroke='#d6cbff'}if(p.moving){base='#285c78';top='#69bde0'}
    g.shadowColor=top;g.shadowBlur=12;rect(g,x,y,p.w,p.h,7);g.fillStyle=base;g.fill();g.shadowBlur=0;g.strokeStyle=stroke;g.lineWidth=2;g.stroke();rect(g,x,y,p.w,6,4);g.fillStyle=top;g.fill();
-   if(isChoice){const users=this.players.filter(q=>q.choice===p.index&&(this.allowed==null||q.id===this.allowed));if(users.length===2&&!revealed){g.fillStyle=users[0].color;g.fillRect(x+4,y+8,p.w/2-4,13);g.fillStyle=users[1].color;g.fillRect(x+p.w/2,y+8,p.w/2-4,13)}g.fillStyle=revealed?'#112f2a':'#f8fffa';g.textAlign='center';g.font='900 17px system-ui';g.fillText(String.fromCharCode(65+p.index),x+p.w/2,y+18);g.fillStyle='#c8f8f1';g.font='700 13px system-ui';g.fillText('LEIA '+String.fromCharCode(65+p.index)+' NO PAINEL',x+p.w/2,y-12,p.w-10)}else if(p.index===-1){g.fillStyle='#acffe4';g.font='800 11px monospace';g.textAlign='center';g.fillText('SPAWN P1 + P2',x+p.w/2,y+16)}g.restore()}
+   if(isChoice){const users=this.players.filter(q=>q.choice===p.index&&(this.allowed==null||q.id===this.allowed));if(users.length===2&&!revealed){g.fillStyle=users[0].color;g.fillRect(x+4,y+8,p.w/2-4,13);g.fillStyle=users[1].color;g.fillRect(x+p.w/2,y+8,p.w/2-4,13)}g.fillStyle=revealed?'#112f2a':'#f8fffa';g.textAlign='center';g.font='900 17px system-ui';g.fillText(String.fromCharCode(65+p.index),x+p.w/2,y+18);this.drawChoiceLabel(g,p)}else if(p.index===-1){g.fillStyle='#acffe4';g.font='800 11px monospace';g.textAlign='center';g.fillText('SPAWN P1 + P2',x+p.w/2,y+16)}g.restore()}
+
+  drawChoiceLabel(g,p){
+   const value=String(this.question?.options?.[p.index]??'');
+   if(!value)return;
+   const w=p.w-6,maxWidth=w-18;
+   const compact=window.matchMedia('(pointer:coarse) and (orientation:landscape) and (max-height:620px)').matches;
+   const maxHeight=Math.max(65,p.y-(compact?163:45)-12);
+   function wrap(font){
+     g.font='700 '+font+'px system-ui';const rows=[];
+     for(const paragraph of value.replace(/\r/g,'').split('\n')){
+       if(!paragraph.trim()){rows.push('');continue}
+       let current='';
+       for(const word of paragraph.trim().split(/\s+/)){
+         const candidate=current?current+' '+word:word;
+         if(g.measureText(candidate).width<=maxWidth){current=candidate;continue}
+         if(current){rows.push(current);current=''}
+         let chunk='';
+         for(const char of word){
+           if(chunk&&g.measureText(chunk+char).width>maxWidth){rows.push(chunk);chunk=char}
+           else chunk+=char;
+         }
+         current=chunk;
+       }
+       if(current)rows.push(current);
+     }
+     return rows.length?rows:[''];
+   }
+   let font=13,lines=wrap(font),lineHeight=font*1.26;
+   while(font>6.5&&lines.length*lineHeight+18>maxHeight){font-=.5;lines=wrap(font);lineHeight=font*1.26}
+   const h=lines.length*lineHeight+18,x=p.x+3,y=Math.max(2,p.y-h-12);
+   g.save();g.shadowColor='#030e16a0';g.shadowBlur=8;
+   rect(g,x,y,w,h,8);g.fillStyle='#0b2536e9';g.fill();
+   g.shadowBlur=0;g.strokeStyle='#70b8ae';g.lineWidth=1.25;g.stroke();
+   g.strokeStyle='#88dec2';g.beginPath();g.moveTo(x+w/2,y+h);g.lineTo(x+w/2,p.y-3);g.stroke();
+   g.font='700 '+font+'px system-ui';g.fillStyle='#e7fff6';g.textAlign='left';
+   lines.forEach((line,i)=>g.fillText(line,x+9,y+10+font+i*lineHeight));
+   g.restore();
+  }
   // Animações procedurais: caminhada com pernas e braços alternados;
   // subida com propulsão, queda com braços abertos e aterrissagem com partículas.
   drawPlayer(g,p,t,id){
@@ -1213,7 +1275,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
  const STORAGE_KEY='ecodata:confirmation-keys:1';
  const MOVEMENT=new Set(['KeyW','KeyA','KeyS','KeyD','ArrowUp','ArrowDown','ArrowLeft','ArrowRight']);
  const CODES='ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').map(x=>'Key'+x).filter(x=>!MOVEMENT.has(x));
- let codes=[...DEFAULT], game=null,confirmButtons=[],hintTimer=null,installed=false;
+ let codes=[...DEFAULT], game=null,confirmButtons=[],mobileButtons=[],hintTimer=null,installed=false;
  function safeRead(){try{const v=JSON.parse(localStorage.getItem(STORAGE_KEY));if(Array.isArray(v)&&v.length===2&&v.every(c=>CODES.includes(c))&&v[0]!==v[1])codes=v;}catch(e){}}
  function save(){try{localStorage.setItem(STORAGE_KEY,JSON.stringify(codes));}catch(e){console.info('Preferências de teclas não persistidas',e)}}
  const letter=c=>c.replace(/^Key/,'');
@@ -1235,11 +1297,20 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
  function makeConfirmRow(){
    const row=document.createElement('div');row.id='confirmControls';row.hidden=true;
    confirmButtons=[0,1].map(i=>{
-     const btn=document.createElement('button');btn.type='button';
-     btn.id='confirmP'+(i+1);btn.hidden=true;
-     btn.addEventListener('click',()=>confirm(i));row.append(btn);return btn;
+     const btn=document.createElement('button');btn.type='button';btn.id='confirmP'+(i+1);
+     btn.hidden=true;btn.addEventListener('click',()=>confirm(i));row.append(btn);return btn;
    });
-   const banner=$('#view-game .question-banner');banner.insertAdjacentElement('afterend',row);
+   $('#view-game .question-banner').insertAdjacentElement('afterend',row);
+   mobileButtons=[0,1].map(i=>{
+     const side=$('#touchControls .'+(i===0?'left-touch':'right-touch'));
+     const btn=document.createElement('button');
+     btn.type='button';btn.className='touch-confirm';btn.id='confirmTouchP'+(i+1);
+     btn.setAttribute('aria-label','Jogador '+(i+1)+': confirmar alternativa');
+     btn.hidden=true;btn.textContent='Confirmar';
+     btn.addEventListener('click',e=>{e.preventDefault();confirm(i)});
+     side.insertBefore(btn,side.querySelector(i===0?'.touch-jump':'.touch-joystick'));
+     return btn;
+   });
  }
  function makeFullAnswers(){
    const open=document.createElement('button');open.id='openAllAnswers';open.type='button';
@@ -1268,27 +1339,31 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
       (game?.mode==='classic'||game?.mode==='rush-answer')&&['choose','reveal','collapse'].includes(game?.phase)}
  function isClassic(){return window.EcoDataDebug?.state?.view==='game'&&game?.mode==='classic'&&game?.phase==='choose'}
  function refreshUI(){
-   const classic=isClassic();
+   const classic=isClassic(),touch=window.matchMedia('(pointer:coarse)').matches;
    const root=$('#view-game'),row=$('#confirmControls');
    if(!root||!row)return;
-   root.classList.toggle('classic-confirm-active',classic);
-   row.hidden=!classic;
+   root.classList.toggle('classic-confirm-active',classic&&!touch);
+   row.hidden=!classic||touch;
    $('#openAllAnswers').hidden=!canRead();
-   if(!classic)return;
-   game.players.forEach((p,i)=>{
-     const b=confirmButtons[i];
-     const locked=game.confirmedChoices?.[i]!=null;
-     if(locked){
-       if(b.dataset.confirmed!=='yes'){
-         b.dataset.confirmed='yes';b.classList.add('is-locked');b.textContent='P'+(i+1)+' ✓ CONFIRMADO';
-         setTimeout(()=>{if(game.confirmedChoices?.[i]!=null)b.hidden=true},780);
+   for(let i=0;i<2;i++){
+     const p=game.players?.[i],locked=classic&&game.confirmedChoices?.[i]!=null;
+     const available=classic&&p?.alive&&p?.grounded&&p.choice!=null;
+     [confirmButtons[i],mobileButtons[i]].forEach((b,j)=>{
+       if(!b)return;
+       const correctDevice=(j===1)===touch;
+       if(!classic||!correctDevice){b.hidden=true;b.dataset.confirmed='no';b.classList.remove('is-locked');return}
+       if(locked){
+         if(b.dataset.confirmed!=='yes'){
+           b.dataset.confirmed='yes';b.classList.add('is-locked');b.hidden=false;
+           b.textContent=touch?'Confirmado':'P'+(i+1)+' ✓ CONFIRMADO';
+           setTimeout(()=>{if(game.confirmedChoices?.[i]!=null)b.hidden=true},780);
+         }
+       }else{
+         b.dataset.confirmed='no';b.classList.remove('is-locked');b.hidden=!available;
+         b.textContent=touch?'Confirmar':'P'+(i+1)+' · Confirmar (aperte tecla '+letter(codes[i])+')';
        }
-     }else{
-       b.dataset.confirmed='no';b.classList.remove('is-locked');
-       b.hidden=!(p.alive&&p.grounded&&p.choice!=null);
-       b.textContent='P'+(i+1)+' · Confirmar (aperte tecla '+letter(codes[i])+')';
-     }
-   });
+     });
+   }
  }
  function confirm(id){
    if(!isClassic()||game.confirmedChoices?.[id]!=null)return;
