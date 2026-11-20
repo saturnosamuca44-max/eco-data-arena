@@ -468,6 +468,65 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
 @media(pointer:coarse) and (orientation:portrait){
  #view-game .touch-controls .touch-confirm{width:clamp(46px,12vw,65px);height:38px;font-size:9px}
 }
+
+/* EcoData 3.0 — telas completas, seleção de cenários e roleta responsiva */
+html,body{max-width:100%;overflow-x:clip}
+.shell, main, .view, .glass-panel {min-width:0}
+.view:not(.game-view){max-width:100%;overflow:visible}
+#view-roulette{max-width:100%;padding-bottom:36px;overflow:visible}
+#view-roulette .section-head{flex-wrap:wrap;gap:12px}
+#view-roulette .roulette-layout{grid-template-columns:minmax(0,1.15fr) minmax(250px,.85fr);align-items:stretch;gap:14px}
+#view-roulette .roulette-panel{padding:18px;min-height:0;min-width:0;overflow:visible}
+#view-roulette .roulette-side{padding:clamp(17px,2.2vw,30px);min-width:0}
+#view-roulette .wheel-wrap{width:min(385px,86vw,56svh);max-width:100%;flex-shrink:0;margin-top:18px}
+#view-roulette .roulette-pointer{top:12px}
+#view-roulette .roulette-hint{margin:15px 0 13px}
+#view-roulette .wheel-center{width:clamp(35px,9vw,72px);height:clamp(35px,9vw,72px);font-size:clamp(14px,3vw,30px);border-width:clamp(3px,1vw,6px)}
+.arena-map-picker{width:100%;border:1px solid #41736e;border-radius:16px;padding:clamp(12px,2vw,20px);background:linear-gradient(135deg,#102e38,#132b37);margin:14px 0 18px}
+.map-picker-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:13px}
+.map-picker-heading h3{margin:6px 0 2px;font-size:clamp(18px,2vw,24px)}
+.map-picker-heading p{font-size:12px;line-height:1.4;margin:0}
+.map-selection-status{font:800 11px var(--mono);color:#b4f7d4;background:#123e41;border:1px solid #4c9181;border-radius:100px;padding:8px 12px;white-space:normal}
+.map-picker-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.map-picker-card{display:grid;grid-template-columns:135px 1fr auto;gap:13px;align-items:center;min-width:0;padding:9px;border:2px solid #35616b;border-radius:12px;background:#0c2531;text-align:left;color:#e5faf5;transition:border-color .18s,background .18s,transform .18s;overflow:hidden}
+.map-picker-card:hover{border-color:#7edcc4;background:#183949}
+.map-picker-card.is-selected{border-color:#7befb5;background:#164b46;box-shadow:0 0 0 2px #64f4ba28}
+.map-picker-card canvas{display:block;width:100%;height:auto;aspect-ratio:400/184;border-radius:8px;background:#1e4b4d}
+.map-choice-info{display:flex;flex-direction:column;min-width:0;gap:5px}
+.map-choice-info strong{font-size:clamp(11px,1.3vw,15px);line-height:1.35}
+.map-choice-info small{font-size:10px;color:#a7c6c6;line-height:1.45}
+.map-check{color:#aefbd3;opacity:0;font-size:20px;font-weight:900}
+.is-selected .map-check{opacity:1}
+@media(max-width:850px){
+ #view-roulette .roulette-layout{grid-template-columns:minmax(0,1fr)}
+ #view-roulette .roulette-panel{min-height:0}
+ #view-roulette .wheel-wrap{width:min(370px,79vw,55svh)}
+ #view-roulette .roulette-side{padding:17px}
+ #view-roulette .roulette-side h3{font-size:23px}
+ #view-roulette .roulette-stat{padding:9px 0}
+ .map-picker-card{grid-template-columns:100px 1fr auto;gap:8px}
+}
+@media(max-width:480px){
+ #view-roulette .wheel-wrap{width:min(310px,77vw,55svh)}
+ #view-roulette .roulette-pointer{font-size:23px}
+ .map-picker-grid{grid-template-columns:minmax(0,1fr)}
+ .map-picker-card{grid-template-columns:116px 1fr auto}
+ .map-picker-heading p{font-size:11px}
+}
+@media(orientation:landscape) and (max-height:520px){
+ #view-roulette .roulette-layout{grid-template-columns:minmax(0,1fr) minmax(0,.8fr)}
+ #view-roulette .wheel-wrap{width:min(250px,52svh);margin-top:8px}
+ #view-roulette .roulette-panel{padding:10px}
+ #view-roulette .roulette-hint{margin:6px 0;font-size:11px}
+ #view-roulette .roulette-side{padding:11px}
+ #view-roulette .roulette-side h3{font-size:18px;margin:6px 0}
+ #view-roulette .roulette-side p{line-height:1.35;margin-bottom:5px}
+ #view-roulette .roulette-tip{padding:8px}
+ .arena-map-picker{padding:10px;margin:8px 0}
+ .map-picker-heading{margin-bottom:7px}
+ .map-picker-card{grid-template-columns:90px 1fr auto;padding:5px}
+}
+
 </style>
 </head>
 <body>
@@ -477,7 +536,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
     <header class="app-header">
       <button type="button" class="brand" data-nav="home" aria-label="Voltar ao início">
         <span class="brand-mark" aria-hidden="true"><span>◈</span></span>
-        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 2.8 PWA</small></span>
+        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 3.0 PWA</small></span>
       </button>
       <nav class="main-nav" aria-label="Navegação principal">
         <button class="nav-btn active" data-nav="home">Início</button>
@@ -628,6 +687,13 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
       <!-- ROULETTE -->
       <section class="view" id="view-roulette" aria-label="Sorteio de questões">
         <div class="section-head"><div><span class="eyebrow">05 / SORTEIO DO DESAFIO</span><h2>O destino está girando.</h2><p>Uma pergunta aleatória será selecionada sem repetição, respeitando a modalidade escolhida.</p></div><span class="progress-chip" id="rouletteRound">RODADA 01 / 10</span></div>
+        <div class="arena-map-picker" id="arenaMapPicker" aria-label="Escolha do cenário">
+          <div class="map-picker-heading"><div><span class="eyebrow">ANTES DE GIRAR A ROLETA</span><h3>Escolha um cenário para esta partida</h3><p>Seu mapa permanece em todas as rodadas. Você pode trocá-lo antes de outro sorteio.</p></div><span class="map-selection-status" id="mapSelectionStatus">Escolha um mapa abaixo</span></div>
+          <div class="map-picker-grid">
+            <button class="map-picker-card" type="button" data-select-map="forest" aria-pressed="false"><canvas width="400" height="184" aria-hidden="true"></canvas><span class="map-choice-info"><strong>01 · Floresta sustentável</strong><small>Rio, oceano e navio distante • natureza em movimento</small></span><span class="map-check">✓</span></button>
+            <button class="map-picker-card" type="button" data-select-map="technology" aria-pressed="false"><canvas width="400" height="184" aria-hidden="true"></canvas><span class="map-choice-info"><strong>02 · Fábrica tecnológica</strong><small>Reatores, circuitos e luzes pulsantes • eco-informática</small></span><span class="map-check">✓</span></button>
+          </div>
+        </div>
         <div class="roulette-layout"><div class="glass-panel roulette-panel"><span class="roulette-pointer">▼</span><div class="wheel-wrap"><canvas id="rouletteCanvas" width="600" height="600" aria-label="Roleta de perguntas"></canvas><div class="wheel-center">✦</div></div><div class="roulette-hint" id="rouletteStatus">Prontos para descobrir o próximo desafio?</div><button class="btn btn-primary btn-large" id="spinButton">↻ GIRAR ROLETA</button></div>
           <div class="glass-panel roulette-side"><span class="eyebrow">PRÓXIMO DESAFIO</span><h3>Dados, escolhas e desafios.</h3><p>No modo clássico, escolha uma plataforma. No Rush, atravesse o circuito antes de responder.</p><div class="roulette-stat"><small>QUESTÕES RESTANTES</small><strong id="remainingQuestions">0</strong></div><div class="roulette-stat"><small>TEMPO POR DESAFIO</small><strong id="rouletteTime">01:00</strong></div><div class="roulette-stat"><small>PONTUAÇÃO ATUAL</small><strong id="rouletteScore">0 — 0</strong></div><div class="roulette-tip">As plataformas erradas desaparecem depois do cronômetro.</div></div></div>
       </section>
@@ -661,7 +727,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
       <section class="view" id="view-final" aria-label="Resultado da partida"><div class="final-panel glass-panel"><div class="confetti-container" id="confetti"></div><span class="eyebrow" id="finalEyebrow">PARTIDA CONCLUÍDA</span><div class="winner-crown" id="winnerCrown">♛</div><h1 id="winnerTitle">VITÓRIA!</h1><p class="winner-subtitle" id="winnerSubtitle"></p><div class="final-duel" id="finalDuel"></div><div class="final-rank-info" id="finalRankInfo"></div><div class="final-actions"><button class="btn btn-primary" id="replayMatch">↻ JOGAR NOVAMENTE</button><button class="btn btn-outline" data-nav="ranking">♛ VER RANKING</button><button class="btn btn-outline" data-nav="home">⌂ INÍCIO</button></div></div></section>
     </main>
 
-    <footer class="app-footer"><span>© ECODATA ARENA 2.8 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
+    <footer class="app-footer"><span>© ECODATA ARENA 3.0 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
   </div>
   <div class="guide-layer" id="guideLayer" role="region" aria-label="Tutorial passo a passo" hidden>
     <div class="guide-shade" aria-hidden="true"></div>
@@ -702,6 +768,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
 })();
 
 </script>
+  <script src="./eco-world.js"></script>
   <script>
 (function(){'use strict';
  const W=1000,H=460,LAVA=420,BASE=350;
@@ -847,7 +914,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
    if(this.phase==='rush-timeout')this.drawBanner(g,'TEMPO ESGOTADO','NENHUM JOGADOR PONTUA');
    if(this.phase==='reveal'||this.phase==='collapse')this.drawBanner(g,`ALTERNATIVA ${String.fromCharCode(65+this.question.correctIndex)}`,'RESPOSTA REVELADA');
    g.restore();}
-  drawSky(g,t){const grad=g.createLinearGradient(0,0,W,H);grad.addColorStop(0,'#112841');grad.addColorStop(.52,'#0b3440');grad.addColorStop(1,'#0b2633');g.fillStyle=grad;g.fillRect(0,0,W,H);g.strokeStyle='rgba(91,187,219,.11)';g.lineWidth=1;const shift=(this.camera*.14)%44;for(let x=-shift;x<W;x+=44){g.beginPath();g.moveTo(x,0);g.lineTo(x,H);g.stroke()}for(let y=0;y<H;y+=44){g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke()}g.fillStyle='rgba(64,135,157,.24)';g.beginPath();g.moveTo(0,320);for(let x=0;x<=W;x+=20)g.lineTo(x,285+Math.sin(x/91+t/10000)*19);g.lineTo(W,H);g.lineTo(0,H);g.fill();for(let i=0;i<15;i++){const x=(i*137+90-(this.camera*.24))%(W+100);const y=60+(i*47)%195;g.fillStyle=i%3===0?'#77d8eb38':'#7cebb43b';g.fillRect((x+W+100)%(W+100),y,2,2)}
+  drawSky(g,t){if(window.EcoWorld){window.EcoWorld.drawBackground(g,t,this.map||window.EcoWorld.map,this.camera);return;}const grad=g.createLinearGradient(0,0,W,H);grad.addColorStop(0,'#112841');grad.addColorStop(.52,'#0b3440');grad.addColorStop(1,'#0b2633');g.fillStyle=grad;g.fillRect(0,0,W,H);g.strokeStyle='rgba(91,187,219,.11)';g.lineWidth=1;const shift=(this.camera*.14)%44;for(let x=-shift;x<W;x+=44){g.beginPath();g.moveTo(x,0);g.lineTo(x,H);g.stroke()}for(let y=0;y<H;y+=44){g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke()}g.fillStyle='rgba(64,135,157,.24)';g.beginPath();g.moveTo(0,320);for(let x=0;x<=W;x+=20)g.lineTo(x,285+Math.sin(x/91+t/10000)*19);g.lineTo(W,H);g.lineTo(0,H);g.fill();for(let i=0;i<15;i++){const x=(i*137+90-(this.camera*.24))%(W+100);const y=60+(i*47)%195;g.fillStyle=i%3===0?'#77d8eb38':'#7cebb43b';g.fillRect((x+W+100)%(W+100),y,2,2)}
    g.save();g.translate(30,30);g.strokeStyle='#6de4d065';g.lineWidth=2;for(let j=0;j<3;j++){rect(g,0,j*21,54,15,4);g.stroke();g.fillStyle=j%2?'#70e2d0':'#f1c37e';g.fillRect(7,j*21+6,4,4)}g.restore();
    g.save();g.translate(885,75);g.strokeStyle='#b4e9db6b';g.lineWidth=2;g.beginPath();g.moveTo(52,108);g.lineTo(52,15);g.stroke();g.translate(52,15);g.rotate(t/2900);for(let i=0;i<3;i++){g.rotate(2*Math.PI/3);g.beginPath();g.moveTo(0,0);g.lineTo(0,-44);g.stroke()}g.restore();
    g.font='800 10px monospace';g.fillStyle='#87d9d0aa';g.fillText('SQL  •  CRUD  •  ENERGIA LIMPA',80,22);
@@ -901,6 +968,7 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
   // Animações procedurais: caminhada com pernas e braços alternados;
   // subida com propulsão, queda com braços abertos e aterrissagem com partículas.
   drawPlayer(g,p,t,id){
+   if(window.EcoWorld){window.EcoWorld.drawRobot(g,p,t,id,this.worldWidth(),this.allowed!=null&&this.phase==='choose'&&id!==this.allowed);return;}
    if(!p.alive)return;
    g.save();
    let shift=0;
@@ -1016,6 +1084,12 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
    $('#fxEnabled').addEventListener('change',()=>{audio.fx=$('#fxEnabled').checked;renderSettings();savePrefs();audio.play('click')});
    $('#musicEnabled').addEventListener('change',()=>{audio.music=$('#musicEnabled').checked;audio.syncMusic();renderSettings();savePrefs()});
    $('#volumeSetting').addEventListener('input',()=>{audio.setVolume(Number($('#volumeSetting').value)/100);renderSettings();savePrefs()});
+   $('[data-select-map]').forEach(btn=>btn.addEventListener('click',()=>{
+     if(!session||spinning||session.current)return;
+     session.map=btn.dataset.selectMap;
+     if(window.EcoWorld)window.EcoWorld.map=session.map;
+     renderMapPicker();audio.play('select');
+   }));
    $('#spinButton').addEventListener('click',spinWheel);
    $('#nextRound').addEventListener('click',nextRound);
    $('#replayMatch').addEventListener('click',()=>{show('setup');toast('Configure a revanche e inicie uma nova partida.')});
@@ -1045,13 +1119,25 @@ body.training-practice #view-game .question-banner{background:linear-gradient(10
  function renderRanking(){const list=sortedRanking();$('#rankPeople').textContent=list.length;$('#rankMatches').textContent=Math.floor(rankings.reduce((n,r)=>n+(r.matches||0),0)/2);$('#rankPoints').textContent=rankings.reduce((n,r)=>n+(r.points||0),0);$('#rankingList').innerHTML=list.length?list.map((r,i)=>`<div class="rank-row"><div class="rank-person"><span class="rank-medal">${i<3?['♛','Ⅱ','Ⅲ'][i]:String(i+1).padStart(2,'0')}</span><span class="rank-avatar" style="--profile:${COLORS.includes(r.color)?r.color:COLORS[0]}">✦</span><div class="rank-person-text"><strong title="${esc(r.name)}">${esc(r.name)}</strong><small>${r.correct||0} acertos • ${r.rounds||0} rodadas • ${r.classicPoints||0} cláss. / ${r.rushPoints||0} Rush</small></div></div><span class="rank-metric points">${r.points||0}</span><span class="rank-metric">${r.wins||0}</span><span class="rank-metric">${r.matches||0}</span></div>`).join(''):'<div class="empty-state"><span class="empty-icon">♛</span><h4>O pódio está esperando</h4><p>Concluam a primeira partida para inaugurar o ranking.</p></div>'}
  function chooseMode(mode){closeModePicker();if(mode==='training'){startTraining();return}selectedMode=mode==='rush'?'rush':'classic';$('#matchMode').value=selectedMode;updateModeUI();show('setup');toast(selectedMode==='rush'?'Modo Rush selecionado!':'Modo Clássico selecionado!')}
  function startMatch(){if(!validateSetup())return;game.stop();trainingMode=false;cancelAnimationFrame(spinFrame);spinning=false;const n1=$('#nameP1').value.trim().replace(/\s+/g,' '),n2=$('#nameP2').value.trim().replace(/\s+/g,' '),rounds=int($('#roundCount').value,10),time=int($('#timePerRound').value,60),raceTime=int($('#rushRaceTime').value,75),answerTime=int($('#rushAnswerTime').value,35);let pool;if(selectedMode==='mixed'){const rushN=int($('#mixedRushCount').value,0);pool=[...shuffle(questions.filter(q=>q.type==='rush')).slice(0,rushN),...shuffle(questions.filter(q=>q.type!=='rush')).slice(0,rounds-rushN)];pool=shuffle(pool)}else pool=shuffle(eligibleQuestions()).slice(0,rounds);
-  session={mode:selectedMode,players:[{name:n1,color:colors[0]},{name:n2,color:colors[1]}],rounds,time,raceTime,answerTime,pool,roundIndex:0,scores:[0,0],history:[],current:null,locked:false,completed:false,rushWinner:null};finalizing=false;savePrefs();audio.play('save');show('roulette')}
+  session={mode:selectedMode,map:null,players:[{name:n1,color:colors[0]},{name:n2,color:colors[1]}],rounds,time,raceTime,answerTime,pool,roundIndex:0,scores:[0,0],history:[],current:null,locked:false,completed:false,rushWinner:null};finalizing=false;savePrefs();audio.play('save');show('roulette')}
 
- function renderRoulette(){if(!session)return;spinning=false;$('#spinButton').disabled=false;$('#spinButton').textContent='↻ GIRAR ROLETA';$('#rouletteStatus').textContent='Prontos para descobrir o próximo desafio?';$('#rouletteRound').textContent=`RODADA ${String(session.roundIndex+1).padStart(2,'0')} / ${session.rounds}`;$('#remainingQuestions').textContent=session.pool.length;$('#rouletteTime').textContent=session.mode==='rush'?fmtTime(session.raceTime)+' + '+fmtTime(session.answerTime):session.mode==='mixed'?'CLÁSSICO / RUSH':fmtTime(session.time);$('#rouletteScore').textContent=`${session.scores[0]} — ${session.scores[1]}`;wheelItems=shuffle(session.pool).slice(0,Math.min(12,session.pool.length));wheelRotation=0;drawWheel(0)}
+ function renderRoulette(){if(!session)return;spinning=false;$('#spinButton').disabled=!session.map;$('#spinButton').textContent='↻ GIRAR ROLETA';$('#rouletteStatus').textContent='Prontos para descobrir o próximo desafio?';$('#rouletteRound').textContent=`RODADA ${String(session.roundIndex+1).padStart(2,'0')} / ${session.rounds}`;$('#remainingQuestions').textContent=session.pool.length;$('#rouletteTime').textContent=session.mode==='rush'?fmtTime(session.raceTime)+' + '+fmtTime(session.answerTime):session.mode==='mixed'?'CLÁSSICO / RUSH':fmtTime(session.time);$('#rouletteScore').textContent=`${session.scores[0]} — ${session.scores[1]}`;wheelItems=shuffle(session.pool).slice(0,Math.min(12,session.pool.length));wheelRotation=0;drawWheel(0);renderMapPicker()}
+ function renderMapPicker(){
+   if(!$('#arenaMapPicker'))return;
+   $('[data-select-map]').forEach(btn=>{
+     const active=session?.map===btn.dataset.selectMap;
+     btn.classList.toggle('is-selected',active);btn.setAttribute('aria-pressed',String(active));
+     btn.disabled=spinning;
+     const preview=btn.querySelector('canvas');
+     if(window.EcoWorld&&preview&&!preview.dataset.rendered){window.EcoWorld.renderThumb(preview,btn.dataset.selectMap);preview.dataset.rendered='1'}
+   });
+   $('#mapSelectionStatus').textContent=session?.map==='forest'?'✓ Floresta escolhida':session?.map==='technology'?'✓ Fábrica escolhida':'Selecione um mapa para liberar a roleta';
+   if(session&&!spinning)$('#spinButton').disabled=!session.map;
+ }
  function drawWheel(rotation){const c=$('#rouletteCanvas'),g=c.getContext('2d'),count=wheelItems.length||1,step=Math.PI*2/count,cx=300,cy=300,r=286;g.clearRect(0,0,600,600);const scheme=['#226d5b','#215b67','#30605d','#25525a','#386d62','#244e64','#2c705c','#265a62','#315d74','#2b6550','#306e73','#25595c'];for(let i=0;i<count;i++){const begin=-Math.PI/2+rotation+step*i,end=begin+step;g.beginPath();g.moveTo(cx,cy);g.arc(cx,cy,r,begin,end);g.closePath();g.fillStyle=scheme[i%scheme.length];g.fill();g.lineWidth=4;g.strokeStyle='#0b2b30';g.stroke();g.save();g.translate(cx,cy);g.rotate(begin+step/2);g.textAlign='right';g.textBaseline='middle';g.fillStyle='#d3fff1';g.font=`900 ${count>9?21:26}px ui-monospace, monospace`;const id=questions.findIndex(q=>q.id===wheelItems[i]?.id)+1;g.fillText('Q'+String(id).padStart(2,'0'),r-31,0);g.restore()}g.beginPath();g.arc(cx,cy,r,0,Math.PI*2);g.strokeStyle='#6ce6b0';g.lineWidth=8;g.stroke();for(let i=0;i<32;i++){const a=i*Math.PI/16;g.fillStyle=i%2?'#efffe9':'#5cf1b8';g.beginPath();g.arc(cx+277*Math.sin(a),cy+277*Math.cos(a),3.5,0,Math.PI*2);g.fill()}}
- function spinWheel(){if(!session||spinning||!session.pool.length)return;spinning=true;$('#spinButton').disabled=true;$('#spinButton').textContent='SORTEANDO...';const chosen=session.pool[Math.floor(Math.random()*session.pool.length)];const count=Math.min(12,session.pool.length);wheelItems=shuffle([chosen,...shuffle(session.pool.filter(q=>q.id!==chosen.id)).slice(0,count-1)]);const idx=wheelItems.findIndex(q=>q.id===chosen.id),slice=2*Math.PI/wheelItems.length,start=wheelRotation,targetBase=-(idx+.5)*slice;const totalTurns=7+Math.ceil((start-targetBase)/(2*Math.PI));const target=targetBase+2*Math.PI*totalTurns;const started=performance.now();audio.play('spin');$('#rouletteStatus').textContent='Selecionando uma pergunta do seu banco...';
+ function spinWheel(){if(!session||spinning||!session.pool.length)return;if(!session.map){toast('Selecione Floresta ou Fábrica antes de girar.','error');renderMapPicker();return;}spinning=true;renderMapPicker();$('#spinButton').disabled=true;$('#spinButton').textContent='SORTEANDO...';const chosen=session.pool[Math.floor(Math.random()*session.pool.length)];const count=Math.min(12,session.pool.length);wheelItems=shuffle([chosen,...shuffle(session.pool.filter(q=>q.id!==chosen.id)).slice(0,count-1)]);const idx=wheelItems.findIndex(q=>q.id===chosen.id),slice=2*Math.PI/wheelItems.length,start=wheelRotation,targetBase=-(idx+.5)*slice;const totalTurns=7+Math.ceil((start-targetBase)/(2*Math.PI));const target=targetBase+2*Math.PI*totalTurns;const started=performance.now();audio.play('spin');$('#rouletteStatus').textContent='Selecionando uma pergunta do seu banco...';
   function step(t){if(!session||view!=='roulette'){spinning=false;return}const progress=Math.min(1,(t-started)/3900),ease=1-Math.pow(1-progress,4);wheelRotation=start+(target-start)*ease;drawWheel(wheelRotation);if(progress<1){spinFrame=requestAnimationFrame(step)}else{spinning=false;session.current=chosen;session.pool=session.pool.filter(q=>q.id!==chosen.id);audio.play('save');$('#rouletteStatus').textContent=(chosen.type==='rush'?'⚡ QUESTÃO RUSH':'▤ QUESTÃO CLÁSSICA')+' selecionada!';$('#spinButton').textContent='✓ QUESTÃO SELECIONADA';setTimeout(()=>{if(session&&!session.completed&&session.current?.id===chosen.id&&view==='roulette')enterArena()},1100)}}spinFrame=requestAnimationFrame(step)}
- function enterArena(){if(!session||!session.current)return;trainingMode=false;session.locked=false;session.rushWinner=null;const q=session.current,isRush=q.type==='rush';
+ function enterArena(){if(!session||!session.current)return;game.map=session.map||'technology';if(window.EcoWorld)window.EcoWorld.map=game.map;trainingMode=false;session.locked=false;session.rushWinner=null;const q=session.current,isRush=q.type==='rush';
   $('#hudName1').textContent=session.players[0].name;$('#hudName2').textContent=session.players[1].name;$('#hudDot1').style.setProperty('--player-color',session.players[0].color);$('#hudDot2').style.setProperty('--player-color',session.players[1].color);$('#hudScore1').textContent=session.scores[0];$('#hudScore2').textContent=session.scores[1];$('#hudRound').textContent=`RODADA ${String(session.roundIndex+1).padStart(2,'0')}/${session.rounds}`;
   $('#gameCategory').textContent=isRush?'⚡ MODO RUSH':(q.category||'CLÁSSICO').toUpperCase();$('#gameQuestion').textContent=isRush?'CRUZE A LINHA DE CHEGADA PARA REVELAR A PERGUNTA!':q.text;$('#arenaHint').textContent=isRush?'Ambos começam juntos! Corra até a meta.':'Escolha uma plataforma antes do tempo acabar!';$('#revealTag').hidden=true;$('#stageTag').textContent=isRush?'ECODATA / CIRCUITO RUSH':'ECODATA / ARENA CLÁSSICA';$('#tutorialActions').hidden=true;
   $('#answerStrip').innerHTML=q.options.map((opt,i)=>`<div class="answer-card" data-choice="${i}"><span class="letter">${letters[i]}</span><span class="text">${esc(opt)}</span></div>`).join('');document.body.classList.toggle('rush-racing',isRush);show('game');if(isRush)game.startRush(q,session.players,session.raceTime,session.answerTime,true);else game.startRound(q,session.players,session.time);}
