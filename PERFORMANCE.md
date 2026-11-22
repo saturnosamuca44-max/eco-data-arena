@@ -32,4 +32,11 @@
 - DevTools → Application → Service Workers e Cache Storage: validar a nova revisão do cache após atualizar.
 - Validar em pelo menos um dispositivo móvel e um computador quando possível. Se não houver acesso a dispositivos reais, informar que os testes foram simulados e não alegar validação real.
 
+## Regressão visual obrigatória após bug da versão 3.2 (corrigido na 3.3)
+- Nunca combinar `getContext('2d',{desynchronized:true})` com limpeza completa do canvas em uma animação com FPS limitado: pode expor frames incompletos e causar piscadas.
+- Desenhar o fundo opaco inteiro antes de plataformas, robôs, avisos e efeitos; não apagar o quadro entre pinturas.
+- Em frames ignorados pelo limite de FPS, a imagem anterior deve permanecer intacta, sem `clearRect()` do canvas visível.
+- Testar a ausência de piscadas tanto nos desenhos dentro da arena quanto nos cartões de alternativas do DOM, especialmente no modo Clássico, Rush e no celular em paisagem.
+- Validar que plataformas temporárias do Rush desapareçam **somente** pelo efeito planejado e reapareçam suavemente; as demais plataformas devem permanecer sempre visíveis.
+
 Este arquivo também serve como referência para futuras contribuições e melhorias do EcoData Arena.
