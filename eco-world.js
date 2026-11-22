@@ -194,53 +194,115 @@ const World={
  renderThumb(canvas,map){if(!canvas)return;const g=canvas.getContext('2d');if(!g)return;g.clearRect(0,0,canvas.width,canvas.height);g.save();g.scale(canvas.width/1000,canvas.height/460);this.drawBackground(g,6500,map,0);g.restore();}
 };
 
-/* 3.1: artes reais escolhidas + sobreposição animada leve, com fallback vetorial */
+
+/* EcoData 3.2 — imagens pré-processadas, partículas econômicas e sprites já coloridos.
+   Não altera física, paleta, pontuação, posição das plataformas ou interação. */
 const FILES={forest:'./assets/map-forest.webp',technology:'./assets/map-factory.webp',robots:'./assets/robot-atlas.webp'};
 const PICS={};
+const BG_CACHE=new Map(), ROBOT_CACHE=new Map();
+const lowMemory=typeof navigator!=='undefined' && (
+  (Number(navigator.deviceMemory)||8)<=4 || (Number(navigator.hardwareConcurrency)||8)<=4
+);
+const reduceMotion=typeof matchMedia==='function'&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fxCount=reduceMotion?0:(lowMemory?10:17);
 if(typeof Image!=='undefined')for(const key of Object.keys(FILES)){
- const im=new Image();im.src=FILES[key];PICS[key]=im;
- im.onerror=()=>console.warn('EcoData: recurso indisponível',FILES[key]);
+ const image=new Image();
+ image.decoding='async';image.src=FILES[key];PICS[key]=image;
+ image.addEventListener('error',()=>console.warn('EcoData: imagem não disponível',FILES[key]));
 }
 function loaded(key){return !!(PICS[key]?.complete&&PICS[key].naturalWidth>0)}
-const originalBackground=World.drawBackground;
+function createOffscreen(w,h){
+ if(typeof document==='undefined')return null;
+ const canvas=document.createElement('canvas');
+ canvas.width=w;canvas.height=h;
+ const ctx=canvas.getContext('2d',{alpha:true});
+ if(!ctx)return null;
+ return {canvas,ctx};
+}
+function fixedBackground(key){
+ if(BG_CACHE.has(key))return BG_CACHE.get(key);
+ if(!loaded(key))return null;
+ const surface=createOffscreen(1000,460);
+ if(!surface)return null;
+ const pic=PICS[key],w=pic.naturalWidth,h=pic.naturalHeight;
+ const cropH=Math.min(h,w*.46),cropY=(h-cropH)*.49;
+ surface.ctx.drawImage(pic,0,cropY,w,cropH,0,0,1000,460);
+ BG_CACHE.set(key,surface.canvas);
+ return surface.canvas;
+}
+const baseBackground=World.drawBackground;
 World.drawBackground=function(g,t,map,camera){
- const k=map==='forest'?'forest':'technology';
- if(!loaded(k))return originalBackground.call(World,g,t,k,camera);
- const pic=PICS[k],w=pic.naturalWidth,h=pic.naturalHeight,srcH=Math.min(h,w*.46);
- g.save();g.drawImage(pic,0,(h-srcH)*.49,w,srcH,0,0,1000,460);
- const sec=t/1000;
- if(k==='forest'){
-  for(let i=0;i<17;i++){
-   const x=(i*117+sec*(7+i%3*2))%1060-20,y=18+i*37%189+Math.sin(sec*.7+i)*7;
-   g.save();g.globalAlpha=.14+.12*(1+Math.sin(sec*.7+i))*.5;g.fillStyle=i%2?'#eaffaf':'#b5e576';
-   g.translate(x,y);g.rotate(.18*Math.sin(sec*.75+i));g.beginPath();g.ellipse(0,0,4,2,.4,0,TAU);g.fill();g.restore();
-  }
-  for(let i=0;i<8;i++){g.save();g.globalAlpha=.08+.1*(1+Math.sin(sec*1.3+i))*.5;line(g,370+i*36,300+i%3*17,380+i*36,300+i%3*17,'#d3feec',1);g.restore()}
- }else{
-  for(let i=0;i<23;i++){
-   const x=31+i*137%944,y=45+i*67%280;
-   g.save();g.globalAlpha=.2+.3*(1+Math.sin(sec*(.65+i%4*.18)+i))*.5;
-   circle(g,x,y,1.7+i%2,i%3?'#9af9e5':'#ffdfaa');g.restore();
-  }
+ const key=map==='forest'?'forest':'technology';
+ if(!loaded(key))return baseBackground.call(World,g,t,key,camera);
+ const surface=fixedBackground(key);
+ g.save();
+ if(surface)g.drawImage(surface,0,0);
+ else {
+  const pic=PICS[key],w=pic.naturalWidth,h=pic.naturalHeight;
+  const cropH=Math.min(h,w*.46);g.drawImage(pic,0,(h-cropH)*.49,w,cropH,0,0,1000,460);
+ }
+ if(fxCount){
+   const time=t*.001;
+   if(key==='forest'){
+    for(let i=0;i<fxCount;i++){
+     const x=(i*117+time*(7+i%3*2))%1060-20;
+     const y=18+i*37%189+Math.sin(time*.7+i)*7;
+     g.save();g.globalAlpha=.18+.11*(1+Math.sin(time*.7+i))*.5;
+     g.fillStyle=i%2?'#eaffaf':'#b5e576';
+     g.translate(x,y);g.rotate(Math.sin(time*.75+i)*.18);
+     g.beginPath();g.ellipse(0,0,4,2,.4,0,TAU);g.fill();g.restore();
+    }
+    for(let i=0;i<(lowMemory?3:6);i++){
+     g.save();g.globalAlpha=.12+.09*Math.sin(time*1.3+i);
+     line(g,370+i*43,300+i%3*17,383+i*43,300+i%3*17,'#d3feec',1);
+     g.restore();
+    }
+   }else{
+    const count=lowMemory?12:23;
+    for(let i=0;i<count;i++){
+     const x=31+i*137%944,y=45+i*67%280;
+     g.save();g.globalAlpha=.20+.3*(1+Math.sin(time*(.65+i%4*.18)+i))*.5;
+     circle(g,x,y,1.7+i%2,i%3?'#9af9e5':'#ffdfaa');g.restore();
+    }
+   }
  }
  g.restore();
 };
-const originalRobot=World.drawRobot;
+function colorHue(hex){
+ if(!/^#[0-9a-f]{6}$/i.test(hex))return 145;
+ const rgb=[1,3,5].map(i=>parseInt(hex.slice(i,i+2),16)/255);
+ const mx=Math.max(...rgb),mn=Math.min(...rgb),d=mx-mn;
+ if(!d)return 0;
+ let h=mx===rgb[0]?((rgb[1]-rgb[2])/d)%6:mx===rgb[1]?(rgb[2]-rgb[0])/d+2:(rgb[0]-rgb[1])/d+4;
+ return (h*60+360)%360;
+}
+function coloredRobot(id,color){
+ if(!loaded('robots'))return null;
+ const key=id+'_'+color;
+ if(ROBOT_CACHE.has(key))return ROBOT_CACHE.get(key);
+ const pic=PICS.robots,surface=createOffscreen(pic.naturalWidth,pic.naturalHeight);
+ if(!surface)return pic;
+ const degrees=Math.round(colorHue(color)-(id===0?115:198));
+ surface.ctx.filter='hue-rotate('+degrees+'deg) saturate(1.15)';
+ surface.ctx.drawImage(pic,0,0);
+ surface.ctx.filter='none';
+ if(ROBOT_CACHE.size>=8)ROBOT_CACHE.clear();
+ ROBOT_CACHE.set(key,surface.canvas);
+ return surface.canvas;
+}
+const baseRobot=World.drawRobot;
 World.drawRobot=function(g,p,t,id,worldWidth,spectator){
- if(!loaded('robots')||!p.alive)return originalRobot(g,p,t,id,worldWidth,spectator);
- const color=p.color||(id===0?'#5df4b4':'#6cbcff');
+ if(!loaded('robots')||!p.alive)return baseRobot(g,p,t,id,worldWidth,spectator);
+ const color=p.color||(id===0?'#5df4b4':'#6cbcff'),sprite=coloredRobot(id,color);
  const moving=p.grounded&&Math.abs(p.vx)>15;
  const sx=(p.grounded?(moving?1:0):2)*120,sy=id*144;
  const bob=moving?Math.abs(Math.sin(p.step*1.45))*1.2:Math.sin(t/370+id)*.4;
  g.save();g.translate(p.x+16,p.y+37+bob);g.scale(p.facing||1,1);
  g.rotate(p.grounded?(moving?Math.sin(p.step)*.03:0):(p.vy<0?-.08:.06));
- g.shadowColor=color;g.shadowBlur=12;
- if('filter' in g){const rgb=/^#[0-9a-f]{6}$/i.test(color)?[1,3,5].map(k=>parseInt(color.slice(k,k+2),16)/255):[.36,.96,.7];const hi=Math.max(...rgb),lo=Math.min(...rgb),d=hi-lo;let hue=0;if(d){hue=hi===rgb[0]?((rgb[1]-rgb[2])/d)%6:hi===rgb[1]?(rgb[2]-rgb[0])/d+2:(rgb[0]-rgb[1])/d+4;hue=(hue*60+360)%360}g.filter='hue-rotate('+Math.round(hue-(id===0?115:198))+'deg) saturate(1.15)'}
- g.drawImage(PICS.robots,sx,sy,120,144,-24,-48,48,54);
- if('filter' in g)g.filter='none';
- g.shadowBlur=0;g.strokeStyle=color;g.globalAlpha=.95;g.lineWidth=2;
- g.beginPath();g.ellipse(0,7,14,3,0,0,TAU);g.stroke();
- g.restore();
+ // Sem filtros e sombras caras por quadro. A cor já está no atlas.
+ g.drawImage(sprite,sx,sy,120,144,-24,-48,48,54);
+ g.strokeStyle=color;g.globalAlpha=.95;g.lineWidth=2;
+ g.beginPath();g.ellipse(0,7,14,3,0,0,TAU);g.stroke();g.restore();
  g.save();g.font='800 11px system-ui';
  const label=String(p.name).slice(0,17),width=Math.min(178,Math.max(56,g.measureText(label).width+18));
  const x=Math.max(2,Math.min((worldWidth||1000)-width-2,p.x+16-width/2));
@@ -250,6 +312,8 @@ World.drawRobot=function(g,p,t,id,worldWidth,spectator){
  g.restore();
 };
 World.assetsReady=()=>Object.keys(FILES).every(loaded);
+World.clearVisualCache=()=>{BG_CACHE.clear();ROBOT_CACHE.clear()};
+World.performanceInfo=()=>({lowMemory,reduceMotion,backgroundsCached:BG_CACHE.size,robotColorsCached:ROBOT_CACHE.size});
 
 window.EcoWorld=World;
 })();
