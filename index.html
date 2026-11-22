@@ -555,6 +555,22 @@ body:not(.game-focus) .view.active{height:auto!important;max-height:none!importa
  .roulette-panel,.glass-panel{box-shadow:0 8px 24px #06111427}
 }
 
+
+/* EcoData 3.3 — estabilização do quadro da arena e das alternativas */
+body.game-focus #view-game .arena-container canvas{
+  background:#10323b;
+  opacity:1!important;
+  visibility:visible!important;
+}
+body.game-focus #view-game .answer-strip,
+body.game-focus #view-game .answer-card{
+  opacity:1;
+  visibility:visible;
+}
+body.game-focus #view-game .answer-card{
+  transition:border-color .16s ease,box-shadow .16s ease;
+}
+
 </style>
 </head>
 <body>
@@ -564,7 +580,7 @@ body:not(.game-focus) .view.active{height:auto!important;max-height:none!importa
     <header class="app-header">
       <button type="button" class="brand" data-nav="home" aria-label="Voltar ao início">
         <span class="brand-mark" aria-hidden="true"><span>◈</span></span>
-        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 3.2 PWA</small></span>
+        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 3.3 PWA</small></span>
       </button>
       <nav class="main-nav" aria-label="Navegação principal">
         <button class="nav-btn active" data-nav="home">Início</button>
@@ -755,7 +771,7 @@ body:not(.game-focus) .view.active{height:auto!important;max-height:none!importa
       <section class="view" id="view-final" aria-label="Resultado da partida"><div class="final-panel glass-panel"><div class="confetti-container" id="confetti"></div><span class="eyebrow" id="finalEyebrow">PARTIDA CONCLUÍDA</span><div class="winner-crown" id="winnerCrown">♛</div><h1 id="winnerTitle">VITÓRIA!</h1><p class="winner-subtitle" id="winnerSubtitle"></p><div class="final-duel" id="finalDuel"></div><div class="final-rank-info" id="finalRankInfo"></div><div class="final-actions"><button class="btn btn-primary" id="replayMatch">↻ JOGAR NOVAMENTE</button><button class="btn btn-outline" data-nav="ranking">♛ VER RANKING</button><button class="btn btn-outline" data-nav="home">⌂ INÍCIO</button></div></div></section>
     </main>
 
-    <footer class="app-footer"><span>© ECODATA ARENA 3.2 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
+    <footer class="app-footer"><span>© ECODATA ARENA 3.3 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
   </div>
   <div class="guide-layer" id="guideLayer" role="region" aria-label="Tutorial passo a passo" hidden>
     <div class="guide-shade" aria-hidden="true"></div>
@@ -824,7 +840,12 @@ body:not(.game-focus) .view.active{height:auto!important;max-height:none!importa
  function player(config,id){return {id,name:config.name,color:config.color,x:55,y:BASE-43,w:32,h:43,vx:0,vy:0,alive:true,grounded:true,groundIndex:-1,choice:null,axis:0,downAxis:false,inputs:{left:false,right:false,up:false,down:false},jumpQueued:false,step:0,facing:1,landedAt:0,respawnAt:0,ignoreUntil:0,checkpoint:0,lastGrounded:0,temporaryStay:0,completed:false}}
  class EcoGame {
   constructor(canvas,callbacks={}){
-   this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false,desynchronized:true});this.callbacks=callbacks;
+   this.canvas=canvas;
+   // Evite contexto "desynchronized": alguns drivers exibem o canvas parcialmente
+   // limpo antes de terminar o desenho (pisca plataformas, personagens e HUD).
+   // "alpha:false" permite desenho opaco mais eficiente sem apresentar quadros vazios.
+   this.ctx=canvas.getContext('2d',{alpha:false})||canvas.getContext('2d');
+   this.callbacks=callbacks;
    const coarse=window.matchMedia('(pointer:coarse)').matches;
    const smallCpu=(Number(navigator.hardwareConcurrency)||8)<=4;
    const smallRam=(Number(navigator.deviceMemory)||8)<=4;
@@ -947,7 +968,12 @@ body:not(.game-focus) .view.active{height:auto!important;max-height:none!importa
   finish(){this.active=false;this.phase='finished';this.callbacks.onFinish?.()}
   stop(){this.active=false;this.phase='idle';if(this.frame)cancelAnimationFrame(this.frame);this.frame=0;this.resetInputs()}
   destroy(){this.stop();window.removeEventListener('keydown',this.keyDown);window.removeEventListener('keyup',this.keyUp);window.removeEventListener('blur',this.blur);document.removeEventListener('visibilitychange',this.blur)}
-  render(t){const g=this.ctx;g.clearRect(0,0,W,H);this.drawSky(g,t);g.save();g.translate(-Math.round(this.camera),0);const race=this.worldWidth()>W;
+  render(t){const g=this.ctx;
+   // O mapa já cobre os 1000×460 pixels em toda atualização.
+   // Não apague o frame visível antes de construir o próximo.
+   // Quadros pulados pelo limite de FPS preservam a imagem anterior.
+   this.drawSky(g,t);
+   g.save();g.translate(-Math.round(this.camera),0);const race=this.worldWidth()>W;
    if(race){this.drawRace(g,t)}else if(this.mode==='training'&&this.trainingStage===0)this.drawFloor(g,t);else this.drawClassic(g,t);
    this.players.forEach((p,i)=>this.drawPlayer(g,p,t,i));this.drawLava(g,t,race?RUSH_WIDTH:W);g.restore();
    // Em celulares deitados, CSS exibe o quadro inteiro na largura e recorta somente
@@ -962,7 +988,10 @@ body:not(.game-focus) .view.active{height:auto!important;max-height:none!importa
    if(this.phase==='rush-timeout')this.drawBanner(g,'TEMPO ESGOTADO','NENHUM JOGADOR PONTUA');
    if(this.phase==='reveal'||this.phase==='collapse')this.drawBanner(g,`ALTERNATIVA ${String.fromCharCode(65+this.question.correctIndex)}`,'RESPOSTA REVELADA');
    g.restore();}
-  drawSky(g,t){if(window.EcoWorld){window.EcoWorld.drawBackground(g,t,this.map||window.EcoWorld.map,this.camera);return;}const grad=g.createLinearGradient(0,0,W,H);grad.addColorStop(0,'#112841');grad.addColorStop(.52,'#0b3440');grad.addColorStop(1,'#0b2633');g.fillStyle=grad;g.fillRect(0,0,W,H);g.strokeStyle='rgba(91,187,219,.11)';g.lineWidth=1;const shift=(this.camera*.14)%44;for(let x=-shift;x<W;x+=44){g.beginPath();g.moveTo(x,0);g.lineTo(x,H);g.stroke()}for(let y=0;y<H;y+=44){g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke()}g.fillStyle='rgba(64,135,157,.24)';g.beginPath();g.moveTo(0,320);for(let x=0;x<=W;x+=20)g.lineTo(x,285+Math.sin(x/91+t/10000)*19);g.lineTo(W,H);g.lineTo(0,H);g.fill();for(let i=0;i<15;i++){const x=(i*137+90-(this.camera*.24))%(W+100);const y=60+(i*47)%195;g.fillStyle=i%3===0?'#77d8eb38':'#7cebb43b';g.fillRect((x+W+100)%(W+100),y,2,2)}
+  drawSky(g,t){if(window.EcoWorld){
+     window.EcoWorld.drawBackground(g,t,this.map||window.EcoWorld.map,this.camera);
+     return;
+   }const grad=g.createLinearGradient(0,0,W,H);grad.addColorStop(0,'#112841');grad.addColorStop(.52,'#0b3440');grad.addColorStop(1,'#0b2633');g.fillStyle=grad;g.fillRect(0,0,W,H);g.strokeStyle='rgba(91,187,219,.11)';g.lineWidth=1;const shift=(this.camera*.14)%44;for(let x=-shift;x<W;x+=44){g.beginPath();g.moveTo(x,0);g.lineTo(x,H);g.stroke()}for(let y=0;y<H;y+=44){g.beginPath();g.moveTo(0,y);g.lineTo(W,y);g.stroke()}g.fillStyle='rgba(64,135,157,.24)';g.beginPath();g.moveTo(0,320);for(let x=0;x<=W;x+=20)g.lineTo(x,285+Math.sin(x/91+t/10000)*19);g.lineTo(W,H);g.lineTo(0,H);g.fill();for(let i=0;i<15;i++){const x=(i*137+90-(this.camera*.24))%(W+100);const y=60+(i*47)%195;g.fillStyle=i%3===0?'#77d8eb38':'#7cebb43b';g.fillRect((x+W+100)%(W+100),y,2,2)}
    g.save();g.translate(30,30);g.strokeStyle='#6de4d065';g.lineWidth=2;for(let j=0;j<3;j++){rect(g,0,j*21,54,15,4);g.stroke();g.fillStyle=j%2?'#70e2d0':'#f1c37e';g.fillRect(7,j*21+6,4,4)}g.restore();
    g.save();g.translate(885,75);g.strokeStyle='#b4e9db6b';g.lineWidth=2;g.beginPath();g.moveTo(52,108);g.lineTo(52,15);g.stroke();g.translate(52,15);g.rotate(t/2900);for(let i=0;i<3;i++){g.rotate(2*Math.PI/3);g.beginPath();g.moveTo(0,0);g.lineTo(0,-44);g.stroke()}g.restore();
    g.font='800 10px monospace';g.fillStyle='#87d9d0aa';g.fillText('SQL  •  CRUD  •  ENERGIA LIMPA',80,22);
