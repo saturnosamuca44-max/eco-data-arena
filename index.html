@@ -555,7 +555,7 @@ body:not(.game-focus) .view.active{height:auto!important;max-height:none!importa
     <header class="app-header">
       <button type="button" class="brand" data-nav="home" aria-label="Voltar ao início">
         <span class="brand-mark" aria-hidden="true"><span>◈</span></span>
-        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 3.1 PWA</small></span>
+        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 3.2 PWA</small></span>
       </button>
       <nav class="main-nav" aria-label="Navegação principal">
         <button class="nav-btn active" data-nav="home">Início</button>
@@ -746,7 +746,7 @@ body:not(.game-focus) .view.active{height:auto!important;max-height:none!importa
       <section class="view" id="view-final" aria-label="Resultado da partida"><div class="final-panel glass-panel"><div class="confetti-container" id="confetti"></div><span class="eyebrow" id="finalEyebrow">PARTIDA CONCLUÍDA</span><div class="winner-crown" id="winnerCrown">♛</div><h1 id="winnerTitle">VITÓRIA!</h1><p class="winner-subtitle" id="winnerSubtitle"></p><div class="final-duel" id="finalDuel"></div><div class="final-rank-info" id="finalRankInfo"></div><div class="final-actions"><button class="btn btn-primary" id="replayMatch">↻ JOGAR NOVAMENTE</button><button class="btn btn-outline" data-nav="ranking">♛ VER RANKING</button><button class="btn btn-outline" data-nav="home">⌂ INÍCIO</button></div></div></section>
     </main>
 
-    <footer class="app-footer"><span>© ECODATA ARENA 3.1 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
+    <footer class="app-footer"><span>© ECODATA ARENA 3.2 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
   </div>
   <div class="guide-layer" id="guideLayer" role="region" aria-label="Tutorial passo a passo" hidden>
     <div class="guide-shade" aria-hidden="true"></div>
@@ -815,10 +815,17 @@ body:not(.game-focus) .view.active{height:auto!important;max-height:none!importa
  function player(config,id){return {id,name:config.name,color:config.color,x:55,y:BASE-43,w:32,h:43,vx:0,vy:0,alive:true,grounded:true,groundIndex:-1,choice:null,axis:0,downAxis:false,inputs:{left:false,right:false,up:false,down:false},jumpQueued:false,step:0,facing:1,landedAt:0,respawnAt:0,ignoreUntil:0,checkpoint:0,lastGrounded:0,temporaryStay:0,completed:false}}
  class EcoGame {
   constructor(canvas,callbacks={}){
-   this.canvas=canvas;this.ctx=canvas.getContext('2d');this.callbacks=callbacks;this.active=false;this.phase='idle';this.players=[];this.frame=0;this.last=0;this.camera=0;this.selected=[null,null];this.trainingStage=0;this.keyDown=e=>this.keyboard(e,true);this.keyUp=e=>this.keyboard(e,false);this.blur=()=>this.resetInputs();
+   this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false,desynchronized:true});this.callbacks=callbacks;
+   const coarse=window.matchMedia('(pointer:coarse)').matches;
+   const smallCpu=(Number(navigator.hardwareConcurrency)||8)<=4;
+   const smallRam=(Number(navigator.deviceMemory)||8)<=4;
+   const reduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+   this.lowPower=coarse||smallCpu||smallRam||reduced;
+   this.paintInterval=this.lowPower?1000/30:1000/60;
+   this.lastPaint=0;this.avgPaint=0;this.paintCount=0;this._labelCache=new Map();this.active=false;this.phase='idle';this.players=[];this.frame=0;this.last=0;this.camera=0;this.selected=[null,null];this.trainingStage=0;this.keyDown=e=>this.keyboard(e,true);this.keyUp=e=>this.keyboard(e,false);this.blur=()=>this.resetInputs();
    window.addEventListener('keydown',this.keyDown);window.addEventListener('keyup',this.keyUp);window.addEventListener('blur',this.blur);document.addEventListener('visibilitychange',this.blur);
   }
-  initRun(config,kind){this.stop();this.mode=kind;this.players=config.map(player);this.players.forEach(p=>{p.x=55;p.y=BASE-p.h;p.checkpoint=0});this.camera=0;this.selected=[null,null];this.confirmedChoices=[null,null];this.rushReadyStart=0;this.rushLocked=false;this.allowBothRush=false;this.phase='choose';this.allowed=null;this.active=true;this.last=performance.now();this.frame=requestAnimationFrame(t=>this.tick(t))}
+  initRun(config,kind){this.stop();this.mode=kind;this.players=config.map(player);this.players.forEach(p=>{p.x=55;p.y=BASE-p.h;p.checkpoint=0});this.camera=0;this.selected=[null,null];this._labelCache.clear();this.lastPaint=0;this.confirmedChoices=[null,null];this.rushReadyStart=0;this.rushLocked=false;this.allowBothRush=false;this.phase='choose';this.allowed=null;this.active=true;this.last=performance.now();this.frame=requestAnimationFrame(t=>this.tick(t))}
   startRound(question,config,time,allowed=null){this.initRun(config,'classic');this.question=question;this.allowed=allowed;this.duration=clamp(Number(time)||60,1,86400);this.deadline=performance.now()+this.duration*1000;this.remaining=this.duration;this.lastTime=Math.ceil(this.duration);this.callbacks.onTick?.(this.remaining,this.duration);this.callbacks.onSelect?.(this.selected)}
   startRush(question,config,raceTime,answerTime,allowBothRush=false){this.initRun(config,'rush');this.allowBothRush=!!allowBothRush;this.question=question;this.raceDuration=clamp(Number(raceTime)||75,1,86400);this.answerDuration=clamp(Number(answerTime)||35,1,86400);this.duration=this.raceDuration;this.remaining=this.raceDuration;this.lastTime=Math.ceil(this.duration);this.countdownEnd=performance.now()+3100;this.phase='rush-countdown';this.winner=null;this.pads=RUSH_PADS.map(p=>({...p,initialY:p.y,brokenAt:0}));this.callbacks.onStage?.('rush-countdown');this.callbacks.onTick?.(3,3)}
   startTraining(config,stage=0){this.initRun(config,'training');this.question={options:['Alternativa A','Alternativa B','Alternativa C','Alternativa D'],correctIndex:2};this.setTrainingStage(stage)}
@@ -855,10 +862,23 @@ body:not(.game-focus) .view.active{height:auto!important;max-height:none!importa
    else if(this.phase==='rush-timeout'&&t-this.phaseSince>2000){this.finish();return}
    else if(this.phase==='reveal'&&t-this.phaseSince>=1150){this.phase='collapse';this.phaseSince=t;this.players.forEach(p=>{if(this.allowed!=null&&p.id!==this.allowed)return;if(p.choice!==this.question.correctIndex){p.grounded=false;p.vy=Math.max(p.vy,65);p.ignoreUntil=t+9000}});this.callbacks.onCollapse?.()}
    else if(this.phase==='collapse'){this.players.forEach(p=>{if(this.allowed!=null&&p.id!==this.allowed)return;if(p.choice===this.question.correctIndex)return;p.vy=Math.min(850,p.vy+1450*dt);p.y+=p.vy*dt});if(t-this.phaseSince>=2000){this.finish();return}}
-   this.updateCamera(dt);this.render(t);this.frame=requestAnimationFrame(n=>this.tick(n));
+   this.updateCamera(dt);
+   if(!this.lastPaint||t-this.lastPaint>=this.paintInterval-1.5){
+     const start=performance.now();
+     this.render(t);
+     const cost=performance.now()-start;
+     this.avgPaint=this.avgPaint?this.avgPaint*.91+cost*.09:cost;
+     this.lastPaint=t;
+     this.paintCount++;
+     if(this.paintCount%80===0){
+       this.paintInterval=this.avgPaint>23?1000/24:
+         this.avgPaint>14?1000/30:this.lowPower?1000/30:1000/60;
+     }
+   }
+   this.frame=requestAnimationFrame(n=>this.tick(n));
   }
   restartRushCountdown(t){this.players.forEach(p=>Object.assign(p,player({name:p.name,color:p.color},p.id)));this.camera=0;this.allowed=null;this.pads=RUSH_PADS.map(p=>({...p,initialY:p.y,brokenAt:0}));this.phase='rush-countdown';this.countdownEnd=t+2500;this.lastTime=4;this.callbacks.onStage?.('rush-countdown')}
-  beginRushAnswer(t){this.phase='choose';this.mode='rush-answer';this.allowed=this.allowBothRush?null:this.winner;this.rushReadyStart=0;this.rushLocked=false;this.confirmedChoices=[null,null];this.players.forEach(p=>{const q=player({name:p.name,color:p.color},p.id);Object.assign(p,q)});this.camera=0;this.selected=[null,null];this.duration=this.answerDuration;this.remaining=this.duration;this.deadline=t+this.duration*1000;this.lastTime=Math.ceil(this.duration);this.callbacks.onStage?.('rush-answer');this.callbacks.onTick?.(this.remaining,this.duration);this.callbacks.onSelect?.(this.selected)}
+  beginRushAnswer(t){this.phase='choose';this.mode='rush-answer';this.allowed=this.allowBothRush?null:this.winner;this.rushReadyStart=0;this.rushLocked=false;this.confirmedChoices=[null,null];this.players.forEach(p=>{const q=player({name:p.name,color:p.color},p.id);Object.assign(p,q)});this.camera=0;this.selected=[null,null];this._labelCache.clear();this.duration=this.answerDuration;this.remaining=this.duration;this.deadline=t+this.duration*1000;this.lastTime=Math.ceil(this.duration);this.callbacks.onStage?.('rush-answer');this.callbacks.onTick?.(this.remaining,this.duration);this.callbacks.onSelect?.(this.selected)}
   movePlatforms(t){if(!this.pads)return;for(const p of this.pads){
    if(p.moving)p.y=p.initialY+Math.sin(t/950+p.x/150)*p.moving;
    if(p.temporary&&p.brokenAt&&t-p.brokenAt>=TEMP_HOLD+TEMP_FADE+TEMP_HIDDEN+TEMP_REFORM)p.brokenAt=0;
@@ -923,7 +943,7 @@ body:not(.game-focus) .view.active{height:auto!important;max-height:none!importa
    this.players.forEach((p,i)=>this.drawPlayer(g,p,t,i));this.drawLava(g,t,race?RUSH_WIDTH:W);g.restore();
    // Em celulares deitados, CSS exibe o quadro inteiro na largura e recorta somente
    // a faixa superior do céu. Reposicione os avisos para que continuem visíveis.
-   const compact=window.matchMedia('(pointer:coarse) and (orientation:landscape) and (max-height:620px)').matches;
+   const compact=this._compactMedia||(this._compactMedia=window.matchMedia('(pointer:coarse) and (orientation:landscape) and (max-height:620px)')).matches;
    if(race&&this.phase!=='rush-countdown'){
     g.save();if(compact)g.translate(0,145);this.drawRaceProgress(g,t);g.restore();
    }
@@ -944,44 +964,54 @@ body:not(.game-focus) .view.active{height:auto!important;max-height:none!importa
   drawPad(g,p,t,isChoice){const revealed=['reveal','collapse'].includes(this.phase);let alpha=1;if(revealed&&isChoice&&p.index!==this.question.correctIndex)alpha=clamp(1-(t-this.phaseSince)/800,0,1);if(p.temporary)alpha*=this.temporaryAlpha(p,t);if(alpha<=0)return;g.save();g.globalAlpha=alpha;const x=p.x,y=p.y;
    let base='#2e6775',top='#72bcb8',stroke='#b1e7d9';if(isChoice){base='#536977';top='#9bafbf';stroke='#c7dde5';if(revealed){const good=p.index===this.question.correctIndex;base=good?'#177957':'#873544';top=good?'#60edb3':'#fa8295';stroke=good?'#b9ffe5':'#ffd0d6'}else{const occ=this.players.filter(q=>q.choice===p.index&&q.alive&&(this.allowed==null||q.id===this.allowed));if(occ.length===1){base=occ[0].color;top=occ[0].color;stroke='#ffffff'}else if(occ.length===2){base=occ[0].color;top=occ[1].color;stroke='#ffffff'}}}
    if(p.temporary){base='#51496b';top='#ab95ed';stroke='#d6cbff'}if(p.moving){base='#285c78';top='#69bde0'}
-   g.shadowColor=top;g.shadowBlur=12;rect(g,x,y,p.w,p.h,7);g.fillStyle=base;g.fill();g.shadowBlur=0;g.strokeStyle=stroke;g.lineWidth=2;g.stroke();rect(g,x,y,p.w,6,4);g.fillStyle=top;g.fill();
+   g.shadowColor=top;g.shadowBlur=this.lowPower?2:8;rect(g,x,y,p.w,p.h,7);g.fillStyle=base;g.fill();g.shadowBlur=0;g.strokeStyle=stroke;g.lineWidth=2;g.stroke();rect(g,x,y,p.w,6,4);g.fillStyle=top;g.fill();
    if(isChoice){const users=this.players.filter(q=>q.choice===p.index&&(this.allowed==null||q.id===this.allowed));if(users.length===2&&!revealed){g.fillStyle=users[0].color;g.fillRect(x+4,y+8,p.w/2-4,13);g.fillStyle=users[1].color;g.fillRect(x+p.w/2,y+8,p.w/2-4,13)}g.fillStyle=revealed?'#112f2a':'#f8fffa';g.textAlign='center';g.font='900 17px system-ui';g.fillText(String.fromCharCode(65+p.index),x+p.w/2,y+18);this.drawChoiceLabel(g,p)}else if(p.index===-1){g.fillStyle='#acffe4';g.font='800 11px monospace';g.textAlign='center';g.fillText('SPAWN P1 + P2',x+p.w/2,y+16)}g.restore()}
+
 
   drawChoiceLabel(g,p){
    const value=String(this.question?.options?.[p.index]??'');
    if(!value)return;
    const w=p.w-6,maxWidth=w-18;
-   const compact=window.matchMedia('(pointer:coarse) and (orientation:landscape) and (max-height:620px)').matches;
+   const compact=this._compactMedia?.matches||false;
    const maxHeight=Math.max(65,p.y-(compact?163:45)-12);
-   function wrap(font){
-     g.font='700 '+font+'px system-ui';const rows=[];
-     for(const paragraph of value.replace(/\r/g,'').split('\n')){
-       if(!paragraph.trim()){rows.push('');continue}
-       let current='';
-       for(const word of paragraph.trim().split(/\s+/)){
-         const candidate=current?current+' '+word:word;
-         if(g.measureText(candidate).width<=maxWidth){current=candidate;continue}
-         if(current){rows.push(current);current=''}
-         let chunk='';
-         for(const char of word){
-           if(chunk&&g.measureText(chunk+char).width>maxWidth){rows.push(chunk);chunk=char}
-           else chunk+=char;
+   const key=p.index+'|'+value+'|'+w+'|'+p.y+'|'+(compact?1:0);
+   let layout=this._labelCache.get(key);
+   if(!layout){
+     function wrap(font){
+       g.font='700 '+font+'px system-ui';const rows=[];
+       for(const paragraph of value.replace(/\r/g,'').split('\n')){
+         if(!paragraph.trim()){rows.push('');continue}
+         let current='';
+         for(const word of paragraph.trim().split(/\s+/)){
+           const candidate=current?current+' '+word:word;
+           if(g.measureText(candidate).width<=maxWidth){current=candidate;continue}
+           if(current){rows.push(current);current=''}
+           let chunk='';
+           for(const ch of word){
+             if(chunk&&g.measureText(chunk+ch).width>maxWidth){rows.push(chunk);chunk=ch}
+             else chunk+=ch;
+           }
+           current=chunk;
          }
-         current=chunk;
+         if(current)rows.push(current);
        }
-       if(current)rows.push(current);
+       return rows.length?rows:[''];
      }
-     return rows.length?rows:[''];
+     let font=13,lines=wrap(font),lineHeight=font*1.26;
+     while(font>6.5&&lines.length*lineHeight+18>maxHeight){
+       font-=.5;lines=wrap(font);lineHeight=font*1.26;
+     }
+     layout={font,lines,lineHeight,h:lines.length*lineHeight+18};
+     if(this._labelCache.size>=12)this._labelCache.clear();
+     this._labelCache.set(key,layout);
    }
-   let font=13,lines=wrap(font),lineHeight=font*1.26;
-   while(font>6.5&&lines.length*lineHeight+18>maxHeight){font-=.5;lines=wrap(font);lineHeight=font*1.26}
-   const h=lines.length*lineHeight+18,x=p.x+3,y=Math.max(2,p.y-h-12);
-   g.save();g.shadowColor='#030e16a0';g.shadowBlur=8;
+   const {font,lines,lineHeight,h}=layout,x=p.x+3,y=Math.max(2,p.y-h-12);
+   g.save();g.shadowColor='#030e16a0';g.shadowBlur=this.lowPower?3:7;
    rect(g,x,y,w,h,8);g.fillStyle='#0b2536e9';g.fill();
    g.shadowBlur=0;g.strokeStyle='#70b8ae';g.lineWidth=1.25;g.stroke();
    g.strokeStyle='#88dec2';g.beginPath();g.moveTo(x+w/2,y+h);g.lineTo(x+w/2,p.y-3);g.stroke();
    g.font='700 '+font+'px system-ui';g.fillStyle='#e7fff6';g.textAlign='left';
-   lines.forEach((line,i)=>g.fillText(line,x+9,y+10+font+i*lineHeight));
+   for(let i=0;i<lines.length;i++)g.fillText(lines[i],x+9,y+10+font+i*lineHeight);
    g.restore();
   }
   // Animações procedurais: caminhada com pernas e braços alternados;
@@ -1031,7 +1061,7 @@ body:not(.game-focus) .view.active{height:auto!important;max-height:none!importa
    if(this.allowed!=null&&this.phase==='choose'&&id!==this.allowed){g.fillStyle='#c1cbd2';g.font='800 12px monospace';g.fillText('ESPECTADOR',x+16,y-36)}
    g.restore();
   }
-  drawLava(g,t,width){g.save();const grad=g.createLinearGradient(0,LAVA,0,H);grad.addColorStop(0,'#f4b66f');grad.addColorStop(.2,'#d96957');grad.addColorStop(1,'#77384d');g.beginPath();g.moveTo(0,LAVA);for(let x=0;x<width;x+=9)g.lineTo(x,LAVA+Math.sin(x/32+t/470)*3);g.lineTo(width,H);g.lineTo(0,H);g.closePath();g.fillStyle=grad;g.fill();g.fillStyle='#ffd68daa';for(let i=0;i<35;i++){const x=(i*173+19)%width,y=LAVA+12+(i*23)%22;g.beginPath();g.arc(x,y,2+(i%3),0,Math.PI*2);g.fill()}g.restore()}
+  drawLava(g,t,width){g.save();const grad=g.createLinearGradient(0,LAVA,0,H);grad.addColorStop(0,'#f4b66f');grad.addColorStop(.2,'#d96957');grad.addColorStop(1,'#77384d');g.beginPath();g.moveTo(0,LAVA);for(let x=0;x<width;x+=(this.lowPower?21:12))g.lineTo(x,LAVA+Math.sin(x/32+t/470)*3);g.lineTo(width,H);g.lineTo(0,H);g.closePath();g.fillStyle=grad;g.fill();g.fillStyle='#ffd68daa';for(let i=0;i<(this.lowPower?17:27);i++){const x=(i*173+19)%width,y=LAVA+12+(i*23)%22;g.beginPath();g.arc(x,y,2+(i%3),0,Math.PI*2);g.fill()}g.restore()}
   drawCountdown(g,t){this.drawBanner(g,String(Math.max(1,Math.ceil((this.countdownEnd-t)/1000)))+'  •  RUSH','PREPARE-SE PARA A CORRIDA')}
   drawBanner(g,title,small){g.save();rect(g,260,42,480,80,14);g.fillStyle='#0c2133ef';g.fill();g.strokeStyle='#66d9c2';g.lineWidth=2;g.stroke();g.textAlign='center';g.fillStyle='#b8ffe0';g.font='900 25px system-ui';g.fillText(title.length>32?title.slice(0,31)+'…':title,500,76);g.fillStyle='#b1d6df';g.font='800 12px monospace';g.fillText(small,500,101);g.restore()}
   drawRaceProgress(g){const a=this.players;g.save();rect(g,260,8,480,23,10);g.fillStyle='#081e2cdb';g.fill();g.fillStyle='#5b8991';g.fillRect(286,19,427,2);for(let i=0;i<2;i++){const x=286+clamp((a[i].x/(this.mode==='training'?1180:1950)),0,1)*427;g.fillStyle=a[i].color;g.beginPath();g.arc(x,20,6,0,2*Math.PI);g.fill()}g.fillStyle='#d8f7ee';g.font='700 11px monospace';g.fillText('INÍCIO',267,37);g.fillText('META',690,37);g.restore()}
@@ -1524,7 +1554,7 @@ body:not(.game-focus) .view.active{height:auto!important;max-height:none!importa
    // A interface não altera a física e é sincronizada somente quando há uma rodada.
    const sync=()=>{if(!document.hidden)refreshUI()};
    document.addEventListener('visibilitychange',sync);
-   setInterval(()=>{if(window.EcoDataDebug?.state?.view==='game')refreshUI()},190);
+   setInterval(()=>{if(!document.hidden&&window.EcoDataDebug?.state?.view==='game')refreshUI()},280);
    refreshUI();
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
