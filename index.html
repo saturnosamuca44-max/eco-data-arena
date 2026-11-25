@@ -600,7 +600,7 @@ body.game-focus #view-game .answer-card{
     <header class="app-header">
       <button type="button" class="brand" data-nav="home" aria-label="Voltar ao início">
         <span class="brand-mark" aria-hidden="true"><span>◈</span></span>
-        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 3.5 PWA</small></span>
+        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 3.6 PWA</small></span>
       </button>
       <nav class="main-nav" aria-label="Navegação principal">
         <button class="nav-btn active" data-nav="home">Início</button>
@@ -627,7 +627,9 @@ body.game-focus #view-game .answer-card{
               <button class="btn btn-primary btn-large" id="homePlay"><span class="btn-icon">▶</span> ESCOLHER MODO <span class="arrow">↗</span></button>
               <button class="btn btn-quiet btn-large" data-nav="questions">＋ CRIAR QUESTÕES</button>
               <button class="btn btn-quiet btn-large pwa-install" id="pwaInstall" type="button" aria-label="Instalar EcoData Arena">↓ INSTALAR APP</button>
+              <button class="btn btn-quiet btn-large" id="pwaCheckUpdates" type="button" aria-label="Verificar atualizações do EcoData Arena">↻ VERIFICAR ATUALIZAÇÕES</button>
             </div>
+            <div class="pwa-update-status" id="pwaCheckStatus" role="status" aria-live="polite">EcoData Arena 3.6 • Você pode verificar atualizações a qualquer momento.</div>
             <div class="hero-notice" id="homeNotice"><span class="pulse-mark">●</span> Treine livremente ou cadastre perguntas para competir.</div>
             <div class="theme-tags"><span>⌘ CIÊNCIA DOS DADOS</span><span>⚡ ENERGIA LIMPA</span><span>♻ ECONOMIA CIRCULAR</span></div>
           </div>
@@ -794,7 +796,7 @@ body.game-focus #view-game .answer-card{
       <section class="view" id="view-final" aria-label="Resultado da partida"><div class="final-panel glass-panel"><div class="confetti-container" id="confetti"></div><span class="eyebrow" id="finalEyebrow">PARTIDA CONCLUÍDA</span><div class="winner-crown" id="winnerCrown">♛</div><h1 id="winnerTitle">VITÓRIA!</h1><p class="winner-subtitle" id="winnerSubtitle"></p><div class="final-duel" id="finalDuel"></div><div class="final-rank-info" id="finalRankInfo"></div><div class="final-actions"><button class="btn btn-primary" id="replayMatch">↻ JOGAR NOVAMENTE</button><button class="btn btn-outline" data-nav="ranking">♛ VER RANKING</button><button class="btn btn-outline" data-nav="home">⌂ INÍCIO</button></div></div></section>
     </main>
 
-    <footer class="app-footer"><span>© ECODATA ARENA 3.5 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
+    <footer class="app-footer"><span>© ECODATA ARENA 3.6 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
   </div>
   <div class="guide-layer" id="guideLayer" role="region" aria-label="Tutorial passo a passo" hidden>
     <div class="guide-shade" aria-hidden="true"></div>
@@ -1693,6 +1695,103 @@ body.game-focus #view-game .answer-card{
    refreshUI();
  }
  if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start);else start();
+})();
+</script>
+
+<script id="ecoDataManualUpdater">
+(()=>{
+ 'use strict';
+ const CURRENT='3.6.0',button=document.querySelector('#pwaCheckUpdates'),label=document.querySelector('#pwaCheckStatus');
+ if(!button||!label)return;
+ let applying=false,waiting=null,remote=CURRENT,refreshOnly=false,working=false;
+ const say=message=>{label.textContent=message};
+ const reset=()=>{button.disabled=false;working=false};
+ const reload=()=>{
+   const url=new URL(window.location.href);
+   url.searchParams.set('v',remote);
+   window.location.replace(url.href);
+ };
+ if('serviceWorker' in navigator)navigator.serviceWorker.addEventListener('controllerchange',()=>{
+   if(applying)reload();
+ });
+ const waitForInstall=async reg=>{
+   if(!reg?.installing)return;
+   const worker=reg.installing;
+   await Promise.race([
+     new Promise(resolve=>{
+       if(worker.state==='installed'||worker.state==='redundant')return resolve();
+       worker.addEventListener('statechange',()=>{
+         if(worker.state==='installed'||worker.state==='redundant')resolve();
+       });
+     }),
+     new Promise(resolve=>setTimeout(resolve,2400))
+   ]);
+ };
+ const compare=(a,b)=>{
+   const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);
+   for(let i=0;i<3;i++){if((x[i]||0)!==(y[i]||0))return(x[i]||0)-(y[i]||0)}
+   return 0;
+ };
+ const check=async()=>{
+   if(working)return;
+   if(document.body.classList.contains('game-focus')){
+     say('Saia da partida antes de atualizar, para não interromper o jogo.');return;
+   }
+   if(waiting||refreshOnly){
+     if(waiting){
+       applying=true;say('Aplicando atualização. Suas perguntas e o ranking serão preservados...');
+       button.disabled=true;
+       waiting.postMessage({type:'SKIP_WAITING'});
+       setTimeout(()=>{if(applying)reload()},3500);
+     }else reload();
+     return;
+   }
+   if(!navigator.onLine){say('Sem conexão. Conecte-se à internet para verificar novas versões.');return}
+   working=true;button.disabled=true;say('Consultando a versão publicada...');
+   let networkAvailable=false;
+   try{
+     const url=new URL('./version.json',window.location.href);
+     url.searchParams.set('check',String(Date.now()));
+     const response=await fetch(url.href,{cache:'no-store'});
+     if(response.ok){
+       const info=await response.json();
+       if(!/^\d+\.\d+\.\d+$/.test(String(info.version)))throw Error('Versão inválida');
+       remote=info.version;networkAvailable=true;
+     }
+   }catch(err){console.warn('Não foi possível consultar a versão publicada:',err)}
+   try{
+     if(!('serviceWorker' in navigator)){
+       if(compare(remote,CURRENT)>0){
+         refreshOnly=true;button.textContent='↻ ABRIR VERSÃO NOVA';
+         say('Versão '+remote+' disponível. Toque para carregar.');
+       }else say('Versão '+CURRENT+'. Atualize no próprio navegador quando necessário.');
+       return;
+     }
+     const reg=(await navigator.serviceWorker.getRegistration('./'))||
+         (await navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'}));
+     await reg.update();
+     await waitForInstall(reg);
+     if(reg.waiting){
+       waiting=reg.waiting;
+       button.textContent='✓ ATUALIZAR AGORA';
+       say('Atualização pronta. Toque em ATUALIZAR AGORA. Seus dados locais não serão apagados.');
+     }else if(compare(remote,CURRENT)>0){
+       refreshOnly=true;button.textContent='↻ CARREGAR NOVA VERSÃO';
+       say('Versão '+remote+' publicada. Toque para recarregar o aplicativo.');
+     }else if(networkAvailable){
+       say('Tudo certo! Você está na versão '+CURRENT+'. Não há nova versão disponível.');
+     }else{
+       say('Não foi possível confirmar a última versão do servidor. Verifique a conexão ou tente novamente.');
+     }
+   }catch(err){
+     console.warn('Falha ao verificar atualização PWA:',err);
+     if(compare(remote,CURRENT)>0){
+       refreshOnly=true;button.textContent='↻ CARREGAR NOVA VERSÃO';
+       say('Uma versão nova foi encontrada. Toque para atualizar a página.');
+     }else say('Falha na verificação. O serviço de hospedagem pode estar indisponível. Tente novamente.');
+   }finally{reset()}
+ };
+ button.addEventListener('click',check);
 })();
 </script>
   <script src="./pwa.js"></script>

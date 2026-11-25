@@ -1,0 +1,9 @@
+{
+  "version": "3.6.0",
+  "name": "EcoData Arena",
+  "updates": [
+    "Atualizador manual no PWA",
+    "Preservação de perguntas e ranking",
+    "Suporte a questões A–E"
+  ]
+}

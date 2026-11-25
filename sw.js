@@ -1,8 +1,8 @@
 /* EcoData Arena PWA 2.5 — atualização mediante aprovação, offline sem apagar dados locais */
 'use strict';
-const CACHE_NAME='ecodata-arena-shell-v3.5.0';
+const CACHE_NAME='ecodata-arena-shell-v3.6.0';
 const APP_SHELL=[
-  './','./index.html','./manifest.webmanifest','./eco-world.js','./pwa.css','./pwa.js',
+  './','./index.html','./manifest.webmanifest','./eco-world.js','./pwa.css','./pwa.js','./version.json',
   './icons/icon.svg','./icons/icon-192.png','./icons/icon-512.png',
   './icons/icon-maskable-512.png','./icons/apple-touch-icon.png','./assets/map-forest.webp','./assets/map-factory.webp','./assets/robot-atlas.webp'
 ];
@@ -26,6 +26,13 @@ self.addEventListener('fetch',event=>{
   if(request.method!=='GET')return;
   const url=new URL(request.url);
   if(url.origin!==base.origin||!url.pathname.startsWith(base.pathname))return;
+  if(url.pathname.endsWith('/version.json')){
+    event.respondWith(fetch(request).catch(async()=>{
+      const cache=await caches.open(CACHE_NAME);
+      return await cache.match('./version.json')||Response.error();
+    }));
+    return;
+  }
   if(request.mode==='navigate'){
     event.respondWith((async()=>{
       try{

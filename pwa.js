@@ -36,12 +36,13 @@
   window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();deferredInstall=event;updateInstallUI()});
   window.addEventListener('appinstalled',()=>{deferredInstall=null;overlay.hidden=true;updateInstallUI()});
   updateInstallUI();
-  const showUpdate=()=>{if(reg?.waiting&&navigator.serviceWorker.controller)updateBanner.hidden=false};
+  const showUpdate=()=>{if(reg?.waiting)updateBanner.hidden=false};
   $('#pwaUpdateLater').addEventListener('click',()=>updateBanner.hidden=true);
   $('#pwaUpdateNow').addEventListener('click',()=>{
     if(document.body.classList.contains('game-focus'))return;
     if(reg?.waiting){refreshing=true;reg.waiting.postMessage({type:'SKIP_WAITING'});updateBanner.hidden=true}
   });
+  // O verificador manual na página também funciona quando este arquivo está em cache de uma versão antiga.
   if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1')){
     navigator.serviceWorker.addEventListener('controllerchange',()=>{if(refreshing)window.location.reload()});
     window.addEventListener('load',async()=>{

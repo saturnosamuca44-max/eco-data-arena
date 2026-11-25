@@ -14,3 +14,8 @@
 .pwa-update-banner #pwaUpdateNow{background:#5df4b4;color:#062a24}
 body.game-focus .pwa-update-banner{display:none!important}
 @media(max-width:600px){.pwa-dialog{padding:23px 18px}.pwa-update-banner{bottom:8px}.pwa-install{font-size:12px}}
+
+/* EcoData 3.6: atualização manual disponível no app instalado */
+.pwa-update-status{margin:12px 0;padding:8px 11px;max-width:640px;background:#11383180;color:#baf2dd;border-left:3px solid #5df4b4;border-radius:6px;font-size:12px;line-height:1.5}
+#pwaCheckUpdates{min-height:40px;white-space:normal}
+#pwaCheckUpdates:disabled{opacity:.68;cursor:progress}
