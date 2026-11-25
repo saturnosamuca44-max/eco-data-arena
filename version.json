@@ -1,11 +1,11 @@
 {
-  "version": "3.14.1",
+  "version": "3.14.2",
   "name": "EcoData Arena",
   "updates": [
-    "Tela cheia automática solicitada ao tocar em Girar roleta",
-    "A arena abre já em tela cheia no PC e celular quando navegador permitir",
-    "Saída de tela cheia ao apresentar resultados e nova solicitação na próxima roleta",
-    "Visualização ampliada utilizada como alternativa quando o navegador bloqueia tela cheia",
-    "Controles personalizados, perguntas e ranking preservados"
+    "A tela cheia ativa automaticamente ao girar a roleta, usando o clique do jogador exigido pelos navegadores",
+    "A tela cheia permanece ativa entre resultado, personalização de avatares, roleta e partida seguinte",
+    "Não é mais necessário usar o botão de tela cheia a cada pergunta",
+    "ESC/Voltar continuam permitindo saída manual, sujeita às regras do navegador",
+    "Sem modificar ranking, partidas, perguntas ou controles"
   ]
 }
