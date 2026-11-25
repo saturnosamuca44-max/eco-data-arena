@@ -592,7 +592,7 @@ body.game-focus #view-game .answer-card{
 }
 
 
-/* EcoData 3.14.0 — aba Sobre: somente texto e CSS, sem efeitos por quadro. */
+/* EcoData 3.14.1 — aba Sobre: somente texto e CSS, sem efeitos por quadro. */
 .about-view{padding-bottom:48px}
 .about-intro{padding:clamp(18px,3.6vw,35px);display:flex;align-items:center;gap:21px;margin-bottom:18px}
 .about-intro-icon{flex:none;width:74px;height:74px;display:grid;place-items:center;font-size:39px;color:#7ff6c4;border:1px solid #458d75;border-radius:19px;background:#173f3c}
@@ -675,7 +675,7 @@ body.game-focus #view-game .answer-card{
 }
 
 
-/* EcoData 3.14.0 — prioridade real para o quadro inteiro quando ativado em navegadores mobile. */
+/* EcoData 3.14.1 — prioridade real para o quadro inteiro quando ativado em navegadores mobile. */
 body.game-focus #view-game:fullscreen.active{
  display:flex!important;flex-direction:column!important;grid-template-rows:none!important;
  width:100vw!important;height:100dvh!important;min-height:0!important;max-height:100dvh!important;
@@ -708,7 +708,7 @@ body.game-focus #view-game:fullscreen .game-bottom{flex:none!important}
 }
 
 
-/* EcoData 3.14.0: oito órbitas simultâneas, profundidade real e movimento suave.
+/* EcoData 3.14.1: oito órbitas simultâneas, profundidade real e movimento suave.
    Layout vetorial leve; animação limitada a 30 quadros/s e pausada fora de vista. */
 .eco-art-clean{display:grid!important;place-items:center!important;position:relative;overflow:hidden;isolation:isolate;min-height:420px;background:radial-gradient(ellipse at 50% 50%,#12504d28,#061a2608 70%)}
 .eco-art-clean .eco-art-visual{width:min(370px,94%);aspect-ratio:1;position:relative;display:grid;place-items:center;animation:eco-symbol-float 6.5s ease-in-out infinite;transform:translate3d(0,0,0)}
@@ -738,14 +738,14 @@ body.game-focus #view-game:fullscreen .game-bottom{flex:none!important}
 </style>
 <link rel="stylesheet" href="./fullscreen.css">
 </head>
-<body data-eco-version="3.14.0">
+<body data-eco-version="3.14.1">
   <div class="ambient ambient-a" aria-hidden="true"></div>
   <div class="ambient ambient-b" aria-hidden="true"></div>
   <div class="shell" id="shell">
     <header class="app-header">
       <button type="button" class="brand" data-nav="home" aria-label="Voltar ao início">
         <span class="brand-mark" aria-hidden="true"><span>◈</span></span>
-        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 3.14.0 PWA</small></span>
+        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 3.14.1 PWA</small></span>
       </button>
       <nav class="main-nav" aria-label="Navegação principal">
         <button class="nav-btn active" data-nav="home">Início</button>
@@ -770,14 +770,14 @@ body.game-focus #view-game:fullscreen .game-bottom{flex:none!important}
             <h1>Aprender é uma <em>aventura.</em><br>Vencer é uma <span class="h1-highlight">escolha.</span></h1>
             <p>Tecnologia que conecta pessoas e ideias para um planeta melhor. Treine seus reflexos, dispute questões, atravesse circuitos e mostre seus conhecimentos sobre dados e sustentabilidade.</p>
             <div class="hero-actions">
-              <span class="pwa-auto-badge" id="pwaVersionBadge" aria-label="Versão atual e atualizações automáticas">3.14.0 · AUTOATUALIZAÇÃO</span>
+              <span class="pwa-auto-badge" id="pwaVersionBadge" aria-label="Versão atual e atualizações automáticas">3.14.1 · AUTOATUALIZAÇÃO</span>
               <button class="btn btn-primary btn-large" id="homePlay"><span class="btn-icon">▶</span> ESCOLHER MODO <span class="arrow">↗</span></button>
               <button class="btn btn-quiet btn-large" data-nav="questions">＋ CRIAR QUESTÕES</button>
               <button class="btn btn-quiet btn-large pwa-install" id="pwaInstall" type="button" aria-label="Instalar EcoData Arena pelo navegador">↓ INSTALAR APP</button>
               <a class="btn btn-quiet btn-large" id="pwaOfficialSite" href="https://saturnosamuca44-max.github.io/eco-data-arena/" rel="noopener" target="_blank" title="Para instalar, abra o jogo pela internet no Chrome">🌐 ABRIR SITE OFICIAL PARA INSTALAR</a>
               <button class="btn btn-quiet btn-large" id="pwaCheckUpdates" type="button" aria-label="Verificar atualizações do EcoData Arena">↻ VERIFICAR ATUALIZAÇÕES</button>
             </div>
-            <div class="pwa-update-status" id="pwaCheckStatus" role="status" aria-live="polite">EcoData Arena 3.14.0 • Atualizações automáticas ao abrir e reconectar.</div>
+            <div class="pwa-update-status" id="pwaCheckStatus" role="status" aria-live="polite">EcoData Arena 3.14.1 • Atualizações automáticas ao abrir e reconectar.</div>
             <div class="hero-notice" id="homeNotice"><span class="pulse-mark">●</span> Treine livremente ou cadastre perguntas para competir.</div>
             <div class="theme-tags"><span>⌘ CIÊNCIA DOS DADOS</span><span>⚡ ENERGIA LIMPA</span><span>♻ ECONOMIA CIRCULAR</span></div>
           </div>
@@ -993,7 +993,7 @@ body.game-focus #view-game:fullscreen .game-bottom{flex:none!important}
         </div>
         <div class="about-facts" aria-label="Ficha técnica do jogo">
           <div class="about-fact glass-panel"><span>ANO DE PUBLICAÇÃO</span><strong>2026</strong><small>Primeira publicação do projeto</small></div>
-          <div class="about-fact glass-panel"><span>VERSÃO ATUAL</span><strong id="aboutVersion">3.14.0</strong><small>PWA com atualizações pelo site oficial</small></div>
+          <div class="about-fact glass-panel"><span>VERSÃO ATUAL</span><strong id="aboutVersion">3.14.1</strong><small>PWA com atualizações pelo site oficial</small></div>
           <div class="about-fact glass-panel"><span>JOGADORES</span><strong>2</strong><small>Disputa local e simultânea</small></div>
           <div class="about-fact glass-panel"><span>QUESTÕES DISPONÍVEIS</span><strong id="aboutQuestionsCount">—</strong><small>Salvas neste navegador</small></div>
         </div>
@@ -1045,7 +1045,7 @@ body.game-focus #view-game:fullscreen .game-bottom{flex:none!important}
 
     </main>
 
-    <footer class="app-footer"><span>© ECODATA ARENA 3.14.0 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
+    <footer class="app-footer"><span>© ECODATA ARENA 3.14.1 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
   </div>
   <div class="guide-layer" id="guideLayer" role="region" aria-label="Tutorial passo a passo" hidden>
     <div class="guide-shade" aria-hidden="true"></div>
@@ -1527,7 +1527,7 @@ A.stopMusic=function(){
    document.addEventListener('pointerdown',()=>{audio.init();audio.syncMusic()},{once:true});
  }
  function savePrefs(){settings.names=[$('#nameP1').value,$('#nameP2').value];settings.colors=[...colors];settings.rounds=int($('#roundCount').value,settings.rounds);settings.time=int($('#timePerRound').value,settings.time);settings.raceTime=int($('#rushRaceTime').value,settings.raceTime);settings.answerTime=int($('#rushAnswerTime').value,settings.answerTime);settings.mixedRush=int($('#mixedRushCount').value,settings.mixedRush);settings.joySize=int($('#joySize').value,100);settings.joyOpacity=int($('#joyOpacity').value,82);settings.joySensitivity=int($('#joySensitivity').value,100);settings.fx=$('#fxEnabled').checked;settings.music=$('#musicEnabled').checked;settings.volume=int($('#volumeSetting').value,60);return storage.write('settings',{key:'preferences',value:settings}).catch(e=>toast(e.message,'error'))}
- function show(dest){if(!$('#view-'+dest))return;if(dest!=='game'&&$('#view-game')?.classList.contains('eco-fs-fallback'))endFallback();closeModePicker();view=dest;document.body.classList.toggle('game-focus',dest==='game');document.body.classList.toggle('training-mode',dest==='game'&&trainingMode);$$('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+dest));$$('[data-nav]').forEach(b=>b.classList.toggle('active',b.getAttribute('data-nav')===dest));window.scrollTo({top:0,behavior:'instant'});if(dest==='home')renderHome();if(dest==='about'){const version=$('#aboutVersion'),count=$('#aboutQuestionsCount');if(version)version.textContent=document.body.dataset.ecoVersion||'3.14.0';if(count)count.textContent=String(questions.length)}if(dest==='questions')renderQuestions();if(dest==='ranking')renderRanking();if(dest==='setup'){const total=eligibleQuestions().length;if(total>0&&int($('#roundCount').value,10)>total)$('#roundCount').value=Math.min(10,total);$('#matchMode').value=selectedMode;updateModeUI();validateSetup()}if(dest==='roulette')renderRoulette();if(dest==='avatar-break')renderAvatarBreak()}
+ function show(dest){if(!$('#view-'+dest))return;if(dest!=='game'&&$('#view-game')?.classList.contains('eco-fs-fallback'))endFallback();closeModePicker();view=dest;document.body.classList.toggle('game-focus',dest==='game');document.body.classList.toggle('training-mode',dest==='game'&&trainingMode);const arenaView=$('#view-game');arenaView?.classList.toggle('eco-root-fullscreen',dest==='game'&&document.fullscreenElement===document.documentElement);if(dest!=='game'&&dest!=='roulette'&&document.fullscreenElement===document.documentElement)document.exitFullscreen?.().catch(()=>{});$$('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+dest));$$('[data-nav]').forEach(b=>b.classList.toggle('active',b.getAttribute('data-nav')===dest));window.scrollTo({top:0,behavior:'instant'});if(dest==='home')renderHome();if(dest==='about'){const version=$('#aboutVersion'),count=$('#aboutQuestionsCount');if(version)version.textContent=document.body.dataset.ecoVersion||'3.14.1';if(count)count.textContent=String(questions.length)}if(dest==='questions')renderQuestions();if(dest==='ranking')renderRanking();if(dest==='setup'){const total=eligibleQuestions().length;if(total>0&&int($('#roundCount').value,10)>total)$('#roundCount').value=Math.min(10,total);$('#matchMode').value=selectedMode;updateModeUI();validateSetup()}if(dest==='roulette')renderRoulette();if(dest==='avatar-break')renderAvatarBreak()}
  function navigate(dest){audio.play('click');if(dest==='setup'&&questions.length===0){show('questions');toast('Cadastre pelo menos uma questão antes de jogar.');return}
    const wantModes=dest==='modes',destination=wantModes?'home':dest;
    if(trainingMode&&view==='game'&&dest!=='game'){leaveTraining();show(destination);if(wantModes)openModePicker();return}
@@ -1632,12 +1632,12 @@ A.stopMusic=function(){
    if(session&&!spinning)$('#spinButton').disabled=!session.map;
  }
  function drawWheel(rotation){const c=$('#rouletteCanvas'),g=c.getContext('2d'),count=wheelItems.length||1,step=Math.PI*2/count,cx=300,cy=300,r=286;g.clearRect(0,0,600,600);const scheme=['#226d5b','#215b67','#30605d','#25525a','#386d62','#244e64','#2c705c','#265a62','#315d74','#2b6550','#306e73','#25595c'];for(let i=0;i<count;i++){const begin=-Math.PI/2+rotation+step*i,end=begin+step;g.beginPath();g.moveTo(cx,cy);g.arc(cx,cy,r,begin,end);g.closePath();g.fillStyle=scheme[i%scheme.length];g.fill();g.lineWidth=4;g.strokeStyle='#0b2b30';g.stroke();g.save();g.translate(cx,cy);g.rotate(begin+step/2);g.textAlign='right';g.textBaseline='middle';g.fillStyle='#d3fff1';g.font=`900 ${count>9?21:26}px ui-monospace, monospace`;const id=questions.findIndex(q=>q.id===wheelItems[i]?.id)+1;g.fillText('Q'+String(id).padStart(2,'0'),r-31,0);g.restore()}g.beginPath();g.arc(cx,cy,r,0,Math.PI*2);g.strokeStyle='#6ce6b0';g.lineWidth=8;g.stroke();for(let i=0;i<32;i++){const a=i*Math.PI/16;g.fillStyle=i%2?'#efffe9':'#5cf1b8';g.beginPath();g.arc(cx+277*Math.sin(a),cy+277*Math.cos(a),3.5,0,Math.PI*2);g.fill()}}
- function spinWheel(){if(!session||spinning||!session.pool.length)return;if(!session.map){toast('Selecione Floresta ou Fábrica antes de girar.','error');renderMapPicker();return;}spinning=true;renderMapPicker();$('#spinButton').disabled=true;$('#spinButton').textContent='SORTEANDO...';const chosen=session.pool[Math.floor(Math.random()*session.pool.length)];const count=Math.min(12,session.pool.length);wheelItems=shuffle([chosen,...shuffle(session.pool.filter(q=>q.id!==chosen.id)).slice(0,count-1)]);drawWheel(0);const wheel=$('#rouletteCanvas');wheel.style.willChange='transform';const idx=wheelItems.findIndex(q=>q.id===chosen.id),slice=2*Math.PI/wheelItems.length,start=wheelRotation,targetBase=-(idx+.5)*slice;const totalTurns=7+Math.ceil((start-targetBase)/(2*Math.PI));const target=targetBase+2*Math.PI*totalTurns;const started=performance.now();audio.play('spin');$('#rouletteStatus').textContent='Selecionando uma pergunta do seu banco...';
+ function spinWheel(){if(!session||spinning||!session.pool.length)return;if(!session.map){toast('Selecione Floresta ou Fábrica antes de girar.','error');renderMapPicker();return;}requestAutomaticArenaFullscreen();spinning=true;renderMapPicker();$('#spinButton').disabled=true;$('#spinButton').textContent='SORTEANDO...';const chosen=session.pool[Math.floor(Math.random()*session.pool.length)];const count=Math.min(12,session.pool.length);wheelItems=shuffle([chosen,...shuffle(session.pool.filter(q=>q.id!==chosen.id)).slice(0,count-1)]);drawWheel(0);const wheel=$('#rouletteCanvas');wheel.style.willChange='transform';const idx=wheelItems.findIndex(q=>q.id===chosen.id),slice=2*Math.PI/wheelItems.length,start=wheelRotation,targetBase=-(idx+.5)*slice;const totalTurns=7+Math.ceil((start-targetBase)/(2*Math.PI));const target=targetBase+2*Math.PI*totalTurns;const started=performance.now();audio.play('spin');$('#rouletteStatus').textContent='Selecionando uma pergunta do seu banco...';
   function step(t){if(!session||view!=='roulette'){spinning=false;return}const progress=Math.min(1,(t-started)/3900),ease=1-Math.pow(1-progress,4);wheelRotation=start+(target-start)*ease;wheel.style.transform='rotate('+wheelRotation+'rad)';if(progress<1){spinFrame=requestAnimationFrame(step)}else{wheel.style.willChange='auto';spinning=false;session.current=chosen;session.pool=session.pool.filter(q=>q.id!==chosen.id);audio.play('save');$('#rouletteStatus').textContent=(chosen.type==='rush'?'⚡ QUESTÃO RUSH':'▤ QUESTÃO CLÁSSICA')+' selecionada!';$('#spinButton').textContent='✓ QUESTÃO SELECIONADA';setTimeout(()=>{if(session&&!session.completed&&session.current?.id===chosen.id&&view==='roulette')enterArena()},1100)}}spinFrame=requestAnimationFrame(step)}
  function enterArena(){if(!session||!session.current)return;game.map=session.map||'technology';if(window.EcoWorld)window.EcoWorld.map=game.map;trainingMode=false;session.locked=false;session.rushWinner=null;const q=session.current,isRush=q.type==='rush';
   $('#hudName1').textContent=session.players[0].name;$('#hudName2').textContent=session.players[1].name;$('#hudDot1').style.setProperty('--player-color',session.players[0].color);$('#hudDot2').style.setProperty('--player-color',session.players[1].color);$('#hudScore1').textContent=session.scores[0];$('#hudScore2').textContent=session.scores[1];$('#hudRound').textContent=`RODADA ${String(session.roundIndex+1).padStart(2,'0')}/${session.rounds}`;
   $('#gameCategory').textContent=isRush?'⚡ MODO RUSH':(q.category||'CLÁSSICO').toUpperCase();$('#gameQuestion').textContent=isRush?'CRUZE A LINHA DE CHEGADA PARA REVELAR A PERGUNTA!':q.text;$('#arenaHint').textContent=isRush?'Ambos começam juntos! Corra até a meta.':'Escolha uma plataforma antes do tempo acabar!';$('#revealTag').hidden=true;$('#stageTag').textContent=isRush?'ECODATA / CIRCUITO RUSH':'ECODATA / ARENA CLÁSSICA';$('#tutorialActions').hidden=true;
-  $('#answerStrip').classList.toggle('five-options',q.options.length===5);$('#answerStrip').innerHTML=q.options.map((opt,i)=>`<div class="answer-card" data-choice="${i}"><span class="letter">${letters[i]}</span><span class="text">${esc(opt)}</span></div>`).join('');document.body.classList.toggle('rush-racing',isRush);show('game');if(isRush)game.startRush(q,session.players,session.raceTime,session.answerTime,true);else game.startRound(q,session.players,session.time);}
+  $('#answerStrip').classList.toggle('five-options',q.options.length===5);$('#answerStrip').innerHTML=q.options.map((opt,i)=>`<div class="answer-card" data-choice="${i}"><span class="letter">${letters[i]}</span><span class="text">${esc(opt)}</span></div>`).join('');document.body.classList.toggle('rush-racing',isRush);show('game');if(autoFullscreenPending&&document.fullscreenElement!==document.documentElement){$('#view-game').classList.add('eco-fs-fallback');document.body.classList.add('eco-fs-active');reflectFullscreen()}autoFullscreenPending=false;if(isRush)game.startRush(q,session.players,session.raceTime,session.answerTime,true);else game.startRound(q,session.players,session.time);}
  function onGameStage(stage){if(view!=='game')return;if(trainingPractice){onPracticeStage(stage);return}document.body.classList.toggle('rush-racing',stage.startsWith('rush-')&&stage!=='rush-answer');if(stage==='rush-countdown'){$('#gameCategory').textContent='⚡ CIRCUITO RUSH';$('#gameQuestion').textContent='3 • 2 • 1 — PREPARE-SE PARA CORRER!';$('#arenaHint').textContent='P1 e P2: mesmo ponto de início';}else if(stage==='rush-tie'){$('#gameCategory').textContent='⚡ EMPATE NA CHEGADA';$('#gameQuestion').textContent='Chegaram juntos! Os dois respondem.';$('#arenaHint').textContent='O acerto mais rápido vence.';}
  else if(stage==='rush-race'){$('#gameCategory').textContent='⚡ CORRIDA';$('#gameQuestion').textContent='Alcance primeiro a linha de chegada para responder à questão.';$('#arenaHint').textContent='Checkpoints dourados • cuidado com a lava!'}
  else if(stage==='rush-winner'){$('#gameQuestion').textContent=`${session.players[game.winner].name} chegou primeiro à meta!`;$('#arenaHint').textContent='Ambos responderão. Quem acertar primeiro vence.'}
@@ -1809,7 +1809,25 @@ A.stopMusic=function(){
  function bindAnalogControls(){for(const pad of $$('.touch-joystick')){const id=Number(pad.dataset.analog),nub=pad.querySelector('.joystick-nub');let current=null;const move=e=>{if(current!==e.pointerId)return;e.preventDefault();const r=pad.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,rad=Math.max(10,r.width*.36),dx=e.clientX-cx,dy=e.clientY-cy,length=Math.hypot(dx,dy),scale=length>rad?rad/length:1;const px=dx*scale,py=dy*scale;nub.style.transform=`translate(calc(-50% + ${px}px),calc(-50% + ${py}px))`;const sens=Math.max(.6,Math.min(1.4,Number($('#joySensitivity').value)/100||1));game?.setAnalog(id,Math.abs(px/rad)<.12?0:Math.max(-1,Math.min(1,(px/rad)*sens)),Math.abs(py/rad)<.13?0:Math.max(-1,Math.min(1,(py/rad)*sens)))};
   const release=e=>{if(current!==e.pointerId)return;e.preventDefault();current=null;nub.style.transform='translate(-50%,-50%)';game?.setAnalog(id,0,0)};pad.addEventListener('pointerdown',e=>{if(current!==null)return;e.preventDefault();current=e.pointerId;try{pad.setPointerCapture(e.pointerId)}catch{}move(e)});pad.addEventListener('pointermove',move);pad.addEventListener('pointerup',release);pad.addEventListener('pointercancel',release);pad.addEventListener('lostpointercapture',release);window.addEventListener('blur',()=>{if(current!==null)release({pointerId:current,preventDefault(){}})});pad.addEventListener('contextmenu',e=>e.preventDefault());}
  }
- async function tryFullscreen(){
+ 
+let autoFullscreenPending=false,autoFullscreenEntered=false;
+function requestAutomaticArenaFullscreen(){
+ // Precisa acontecer no clique real da roleta, antes da animação assíncrona.
+ if(document.fullscreenElement||$('#view-game')?.classList.contains('eco-fs-fallback'))return;
+ autoFullscreenPending=true;
+ if(typeof document.documentElement.requestFullscreen==='function'){
+  try{
+   const request=document.documentElement.requestFullscreen({navigationUI:'hide'});
+   Promise.resolve(request).then(()=>{
+     autoFullscreenEntered=true;
+     if(isTouchDevice()&&screen.orientation?.lock){
+       Promise.resolve(screen.orientation.lock('landscape')).catch(()=>{});
+     }
+   }).catch(()=>{autoFullscreenEntered=false});
+  }catch{autoFullscreenEntered=false}
+ }
+}
+async function tryFullscreen(){
  const target=$('#view-game');if(!target||view!=='game')return;
  if(document.fullscreenElement){await document.exitFullscreen();return}
  if(target.classList.contains('eco-fs-fallback')){endFallback();return}
@@ -1838,7 +1856,7 @@ function reflectFullscreen(){
   tip.hidden=false;fullscreenMessageTimer=setTimeout(()=>{tip.hidden=true},3200);
  }else{tip.hidden=true;try{screen.orientation?.unlock?.()}catch{}}
 }
-document.addEventListener('fullscreenchange',reflectFullscreen);
+document.addEventListener('fullscreenchange',()=>{const onRoot=document.fullscreenElement===document.documentElement;$('#view-game')?.classList.toggle('eco-root-fullscreen',onRoot&&view==='game');if(!document.fullscreenElement&&autoFullscreenEntered){autoFullscreenPending=false;autoFullscreenEntered=false}reflectFullscreen()});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&$('#view-game')?.classList.contains('eco-fs-fallback')){e.preventDefault();endFallback()}});
 window.addEventListener('popstate',()=>{if($('#view-game')?.classList.contains('eco-fs-fallback'))endFallback()});
 
@@ -2159,7 +2177,7 @@ window.addEventListener('popstate',()=>{if($('#view-game')?.classList.contains('
 <script id="ecoDataManualUpdater">
 (()=>{
  'use strict';
- const CURRENT='3.14.0',button=document.querySelector('#pwaCheckUpdates'),label=document.querySelector('#pwaCheckStatus');
+ const CURRENT='3.14.1',button=document.querySelector('#pwaCheckUpdates'),label=document.querySelector('#pwaCheckStatus');
  if(!button||!label)return;
  let applying=false,waiting=null,remote=CURRENT,refreshOnly=false,working=false;
  const say=message=>{label.textContent=message};

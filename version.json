@@ -1,11 +1,11 @@
 {
-  "version": "3.14.0",
+  "version": "3.14.1",
   "name": "EcoData Arena",
   "updates": [
-    "Permite alterar nomes e cores dos dois avatares entre perguntas",
-    "Ranking atualizado e salvo ao terminar cada pergunta, mesmo quando o nome muda depois",
-    "Nomes iguais sem diferença entre maiúsculas e minúsculas acumulam vitórias e pontos",
-    "Letras extras, números e nomes distintos têm registros separados",
-    "As estatísticas não são contadas duas vezes no encerramento do ciclo"
+    "Tela cheia automática solicitada ao tocar em Girar roleta",
+    "A arena abre já em tela cheia no PC e celular quando navegador permitir",
+    "Saída de tela cheia ao apresentar resultados e nova solicitação na próxima roleta",
+    "Visualização ampliada utilizada como alternativa quando o navegador bloqueia tela cheia",
+    "Controles personalizados, perguntas e ranking preservados"
   ]
 }
