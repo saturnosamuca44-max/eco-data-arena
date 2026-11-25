@@ -633,6 +633,47 @@ body.game-focus #view-game .answer-card{
 }
 @media(prefers-reduced-motion:reduce){.about-view *{animation:none!important}}
 
+
+/* EcoData 3.9 — hero com símbolos e palavras orbitais, animação apenas por CSS */
+.eco-hero-globe{display:grid;place-items:center;overflow:visible;isolation:isolate}
+.eco-hero-globe .eco-brand-image{width:74%;height:74%;max-height:200px;filter:drop-shadow(0 0 8px #61d7ad44);z-index:2;pointer-events:none}
+.eco-hero-globe .eco-terms{position:absolute;inset:0;z-index:3;pointer-events:none}
+.eco-terms span{position:absolute;left:50%;top:50%;font:900 clamp(7px,.75vw,10px) ui-monospace,monospace;white-space:nowrap;color:#b4ffe1;background:#123c3ad9;border:1px solid #479f87;border-radius:8px;padding:4px 7px;opacity:0;will-change:transform,opacity;animation:eco-electron 16s linear infinite;animation-delay:calc(var(--i) * -2s)}
+@keyframes eco-electron{
+  0%{opacity:0;transform:translate(-50%,-50%) rotate(0deg) translateX(112px) rotate(0deg) scale(.85)}
+  10%{opacity:1}
+  23%{opacity:1}
+  35%{opacity:0;transform:translate(-50%,-50%) rotate(115deg) translateX(112px) rotate(-115deg) scale(1)}
+  100%{opacity:0;transform:translate(-50%,-50%) rotate(115deg) translateX(112px) rotate(-115deg)}
+}
+@media(max-width:780px){.eco-terms span{font-size:8px}@keyframes eco-electron{0%{opacity:0;transform:translate(-50%,-50%) rotate(0deg) translateX(96px) rotate(0deg)}10%,23%{opacity:1}35%,100%{opacity:0;transform:translate(-50%,-50%) rotate(115deg) translateX(96px) rotate(-115deg)}}}
+@media(prefers-reduced-motion:reduce){.eco-terms span{animation:none;opacity:0}.eco-terms span:first-child{opacity:1;transform:translate(-50%,-50%) translateY(-104px)}}
+/* Tela cheia verdadeira no elemento do jogo: tudo permanece dentro da área, sem botões sobre o cenário. */
+#view-game:fullscreen{display:flex!important;flex-direction:column;box-sizing:border-box;width:100vw;height:100dvh;min-height:0;margin:0;padding:clamp(3px,1vw,10px);gap:clamp(3px,.7vh,9px);background:#071922;overflow:hidden}
+#view-game:fullscreen .game-topbar-actions,#view-game:fullscreen #gameFullscreen,#view-game:fullscreen #quitMatch{display:none!important}
+#view-game:fullscreen .game-topbar{min-height:20px;max-height:28px;padding:0 5px;flex:none}
+#view-game:fullscreen .game-hud{flex:none;min-height:38px;max-height:9dvh}
+#view-game:fullscreen .question-banner{flex:none;min-height:42px;max-height:14dvh;overflow:auto;margin:0;padding:4px 10px}
+#view-game:fullscreen .question-banner h2{font-size:clamp(13px,2.2vw,25px);line-height:1.35}
+#view-game:fullscreen .arena-container{flex:1 1 0;min-height:0;width:100%;overflow:hidden}
+#view-game:fullscreen .arena-container canvas{display:block;width:100%;height:100%;object-fit:contain;min-height:0;max-height:none}
+#view-game:fullscreen .answer-strip{flex:0 0 auto;max-height:15dvh;min-height:32px;overflow-y:auto;margin:0;gap:4px}
+#view-game:fullscreen .answer-card{min-height:29px;padding:5px;overflow-y:auto}
+#view-game:fullscreen .game-bottom{flex:none;max-height:11dvh;min-height:18px}
+#view-game:fullscreen .touch-controls{pointer-events:auto}
+.fullscreen-hint[hidden]{display:none!important}
+.fullscreen-hint{position:fixed;z-index:200;top:max(10px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);background:#092c2bea;color:#d5fff1;border:1px solid #73edbd;border-radius:9px;box-shadow:0 8px 25px #0005;padding:10px 15px;font:800 12px system-ui;max-width:90vw;text-align:center}
+@media(pointer:coarse) and (orientation:landscape) and (max-height:620px){
+ #view-game:fullscreen .game-topbar{display:none}
+ #view-game:fullscreen .game-hud{max-height:13dvh}
+ #view-game:fullscreen .question-banner{max-height:15dvh}
+ #view-game:fullscreen .question-banner h2{font-size:clamp(11px,2vw,17px)}
+ #view-game:fullscreen .arena-container{min-height:0;max-height:none}
+ #view-game:fullscreen .touch-controls{position:absolute;bottom:0;left:0;right:0;z-index:30;pointer-events:none}
+ #view-game:fullscreen .touch-joystick{pointer-events:auto}
+ #view-game:fullscreen .answer-strip{max-height:11dvh}
+}
+
 </style>
 </head>
 <body data-eco-version="3.8.0">
@@ -681,9 +722,30 @@ body.game-focus #view-game .answer-card{
           <div class="hero-art glass-panel" aria-hidden="true">
             <div class="art-label">SIMULAÇÃO // ARENA</div>
             <div class="art-orbit art-orbit-1"></div><div class="art-orbit art-orbit-2"></div>
-            <div class="art-globe"><div class="art-globe-core">{ db }</div><div class="art-leaf">✦</div></div>
+            <div class="art-globe eco-hero-globe">
+ <svg class="eco-brand-image" viewBox="0 0 220 220" aria-label="Reciclagem integrada ao banco de dados" role="img">
+ <g fill="none" stroke="#7cfcc4" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+  <path d="M55 67 L75 35 L99 65 M75 35 Q116 20 151 64"/>
+  <path d="M152 78 L184 100 L151 125 M184 100 Q194 142 153 174"/>
+  <path d="M130 178 L94 191 L92 158 M94 191 Q49 187 28 145 Q16 101 44 75"/>
+ </g>
+ <g stroke="#bfffea" stroke-width="4" fill="#206a73">
+  <ellipse cx="111" cy="91" rx="34" ry="12"/>
+  <path d="M77 91 V135 Q111 155 145 135 V91"/>
+  <ellipse cx="111" cy="135" rx="34" ry="12"/>
+  <path d="M77 111 Q111 130 145 111" fill="none"/>
+ </g>
+ <circle cx="111" cy="135" r="4" fill="#d8ffec"/>
+ </svg>
+ <div class="eco-terms" aria-hidden="true">
+  <span style="--i:0">RECICLAGEM</span><span style="--i:1">DADOS</span>
+  <span style="--i:2">PRESERVAÇÃO</span><span style="--i:3">TECNOLOGIA</span>
+  <span style="--i:4">ENERGIA LIMPA</span><span style="--i:5">SUSTENTABILIDADE</span>
+  <span style="--i:6">INOVAÇÃO</span><span style="--i:7">ECONOMIA CIRCULAR</span>
+ </div>
+ </div>
             <div class="art-info art-info-top"><span class="mini-led"></span> SYSTEM READY</div>
-            <div class="art-info art-info-bottom">SQL • CRUD • ECO // 2.0</div>
+            <div class="art-info art-info-bottom">SQL • CRUD • ECO // 3.9</div>
             <div class="art-chip art-chip-one">01 // dados</div><div class="art-chip art-chip-two">02 // recursos</div>
             <div class="pixel-decoration"></div>
           </div>
@@ -823,7 +885,7 @@ body.game-focus #view-game .answer-card{
         </div>
         <div class="game-hud"><div class="hud-player" id="hudP1"><span class="hud-hero-dot" id="hudDot1"></span><div><small>JOGADOR 01</small><strong id="hudName1">Jogador 1</strong></div><b id="hudScore1">0</b></div><div class="hud-center"><span class="round-label" id="hudRound">RODADA 01/10</span><div class="timer-value" id="hudTimer">01:00</div><div class="timer-bar"><span id="timerBarFill"></span></div></div><div class="hud-player second" id="hudP2"><b id="hudScore2">0</b><div><small>JOGADOR 02</small><strong id="hudName2">Jogador 2</strong></div><span class="hud-hero-dot" id="hudDot2"></span></div></div>
         <div class="question-banner"><span class="question-flag" id="gameCategory">DESAFIO</span><h2 id="gameQuestion">Aguardando pergunta...</h2><span class="reveal-tag" id="revealTag" hidden>RESPOSTA REVELADA</span></div>
-        <div class="arena-container" id="arenaContainer"><canvas id="gameCanvas" width="1000" height="460" aria-label="Arena 2D com plataformas, parkour e dois jogadores"></canvas><div class="stage-tag" id="stageTag">ECODATA / STAGE 01</div><div class="arena-hint" id="arenaHint">Vá até a plataforma da sua resposta!</div>
+        <div class="arena-container" id="arenaContainer"><div class="fullscreen-hint" id="fullscreenHint" role="status" aria-live="polite" hidden>⛶ Tela cheia ativada. Pressione ESC para sair.</div><canvas id="gameCanvas" width="1000" height="460" aria-label="Arena 2D com plataformas, parkour e dois jogadores"></canvas><div class="stage-tag" id="stageTag">ECODATA / STAGE 01</div><div class="arena-hint" id="arenaHint">Vá até a plataforma da sua resposta!</div>
           <div class="touch-controls" id="touchControls" aria-label="Dois controles analógicos independentes">
             <div class="touch-side left-touch" style="--joy-color:#5df4b4"><div class="touch-joystick" data-analog="0" aria-label="Analógico do jogador 1: para cima pula" role="group"><div class="joystick-nub"></div><span class="joy-label">P1</span></div></div>
             <div class="touch-side right-touch" style="--joy-color:#6cbcff"><div class="touch-joystick" data-analog="1" aria-label="Analógico do jogador 2: para cima pula" role="group"><div class="joystick-nub"></div><span class="joy-label">P2</span></div></div>
@@ -1507,7 +1569,7 @@ body.game-focus #view-game .answer-card{
  document.addEventListener('keydown',e=>{if(e.key!=='Escape')return;if(!$('#confirmModal').hidden)closeModal();else if(!$('#view-modes').hidden)closeModePicker();else if(guideActive)beginTrainingPractice()});
  // ECODATA 2.0 — device-aware tutorial, analog multi-touch input and fullscreen.
  function isTouchDevice(){return window.matchMedia?.('(pointer:coarse)').matches||false}
- function applyTouchSettings(){const size=Math.max(70,Math.min(140,Number($('#joySize').value)||100));const opacity=Math.max(35,Math.min(100,Number($('#joyOpacity').value)||82));document.documentElement.style.setProperty('--joy-size',Math.round(size*1.02)+'px');document.documentElement.style.setProperty('--joy-opacity',opacity/100);for(const side of $$('#touchControls .touch-side')){const i=side.classList.contains('left-touch')?0:1;side.style.setProperty('--joy-color',colors[i])}}
+ function applyTouchSettings(){const size=Math.max(70,Math.min(140,Number($('#joySize').value)||100));const opacity=Math.max(35,Math.min(100,Number($('#joyOpacity').value)||82));document.documentElement.style.setProperty('--joy-sensitivity',Math.max(.6,Math.min(1.4,Number($('#joySensitivity').value)/100||1)));document.documentElement.style.setProperty('--joy-size',Math.round(size*1.02)+'px');document.documentElement.style.setProperty('--joy-opacity',opacity/100);for(const side of $$('#touchControls .touch-side')){const i=side.classList.contains('left-touch')?0:1;side.style.setProperty('--joy-color',colors[i])}}
  function startTraining(){hideGuide();$('#practiceResults').hidden=true;trainingPractice=null;document.body.classList.remove('training-practice');game?.stop();cancelAnimationFrame(spinFrame);spinning=false;session=null;trainingMode=true;const names=[$('#nameP1').value.trim()||'Jogador 1',$('#nameP2').value.trim()||'Jogador 2'];const players=names.map((name,i)=>({name,color:colors[i]}));$('#hudName1').textContent=players[0].name;$('#hudName2').textContent=players[1].name;$('#hudDot1').style.setProperty('--player-color',players[0].color);$('#hudDot2').style.setProperty('--player-color',players[1].color);$('#hudScore1').textContent='—';$('#hudScore2').textContent='—';$('#hudTimer').textContent='LIVRE';$('#timerBarFill').style.width='100%';$('#hudRound').textContent='TREINAMENTO';$('#revealTag').hidden=true;$('#tutorialActions').hidden=false;$('#stageTag').textContent='LAB / TESTE SEM PONTOS';document.body.classList.remove('rush-racing');show('game');game.startTraining(players,0);applyTouchSettings();audio.play('save');beginGuide()}
  function setTrainingStep(stage){if(!trainingMode||!game||trainingPractice)return;game.setTrainingStage(stage);audio.play('select')}
  function updateTrainingUI(){if(!trainingMode||view!=='game')return;const step=game.trainingStage,touch=isTouchDevice();document.body.classList.toggle('training-platforms',step===1);document.body.classList.toggle('rush-racing',false);$('#gameCategory').textContent=['◎ TUTORIAL • MOVIMENTO','▤ TUTORIAL • PLATAFORMAS','⚡ TUTORIAL • PARKOUR'][step];$('#hudTimer').textContent='∞';$('#hudTimer').classList.remove('urgent');$('#gameQuestion').textContent=touch?[
@@ -1520,9 +1582,29 @@ body.game-focus #view-game .answer-card{
   'PC: atravesse o circuito com pulos e checkpoints. P1 usa WASD e P2 usa as setas. Não há cronômetro.'
  ][step];$('#arenaHint').textContent=touch?'Treino adaptado para celular • sem pontos.':'Treino adaptado para computador • sem pontos.';$('#gameControlHint').innerHTML=touch?'P1 + P2: ANALÓGICOS':'P1: WASD <span>·</span> P2: SETAS';$('#answerStrip').classList.remove('five-options');$('#answerStrip').innerHTML=step===1?letters.slice(0,4).map((v,i)=>`<div class="answer-card"><span class="letter">${v}</span><span class="text">Plataforma de treino ${v}</span></div>`).join(''):'';$$('[data-train-step]').forEach(b=>b.classList.toggle('active',Number(b.dataset.trainStep)===step))}
  function bindAnalogControls(){for(const pad of $$('.touch-joystick')){const id=Number(pad.dataset.analog),nub=pad.querySelector('.joystick-nub');let current=null;const move=e=>{if(current!==e.pointerId)return;e.preventDefault();const r=pad.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,rad=Math.max(10,r.width*.36),dx=e.clientX-cx,dy=e.clientY-cy,length=Math.hypot(dx,dy),scale=length>rad?rad/length:1;const px=dx*scale,py=dy*scale;nub.style.transform=`translate(calc(-50% + ${px}px),calc(-50% + ${py}px))`;const sens=Math.max(.6,Math.min(1.4,Number($('#joySensitivity').value)/100||1));game?.setAnalog(id,Math.abs(px/rad)<.12?0:Math.max(-1,Math.min(1,(px/rad)*sens)),Math.abs(py/rad)<.13?0:Math.max(-1,Math.min(1,(py/rad)*sens)))};
-  const release=e=>{if(current!==e.pointerId)return;e.preventDefault();current=null;nub.style.transform='translate(-50%,-50%)';game?.setAnalog(id,0,0)};pad.addEventListener('pointerdown',e=>{if(current!==null)return;e.preventDefault();current=e.pointerId;try{pad.setPointerCapture(e.pointerId)}catch{}move(e)});pad.addEventListener('pointermove',move);pad.addEventListener('pointerup',release);pad.addEventListener('pointercancel',release);pad.addEventListener('lostpointercapture',release);pad.addEventListener('contextmenu',e=>e.preventDefault());}
+  const release=e=>{if(current!==e.pointerId)return;e.preventDefault();current=null;nub.style.transform='translate(-50%,-50%)';game?.setAnalog(id,0,0)};pad.addEventListener('pointerdown',e=>{if(current!==null)return;e.preventDefault();current=e.pointerId;try{pad.setPointerCapture(e.pointerId)}catch{}move(e)});pad.addEventListener('pointermove',move);pad.addEventListener('pointerup',release);pad.addEventListener('pointercancel',release);pad.addEventListener('lostpointercapture',release);window.addEventListener('blur',()=>{if(current!==null)release({pointerId:current,preventDefault(){}})});pad.addEventListener('contextmenu',e=>e.preventDefault());}
  }
- async function tryFullscreen(){try{if(document.fullscreenElement){await document.exitFullscreen();return}if(!document.documentElement.requestFullscreen)throw Error('não disponível');await document.documentElement.requestFullscreen();try{if(isTouchDevice()&&screen.orientation?.lock)await screen.orientation.lock('landscape')}catch{} }catch{toast('Tela cheia não disponível neste navegador. Você pode girar o celular manualmente.','error')}}
+ async function tryFullscreen(){
+ try{
+  if(document.fullscreenElement){await document.exitFullscreen();return}
+  const target=$('#view-game');
+  if(!target?.requestFullscreen)throw Error('Fullscreen não suportado');
+  await target.requestFullscreen({navigationUI:'hide'});
+  try{if(isTouchDevice()&&screen.orientation?.lock)await screen.orientation.lock('landscape')}catch{}
+ }catch{toast('Tela cheia não disponível. Use o modo paisagem ou F11 no computador.','error')}
+}
+ let fullscreenMessageTimer=null;
+ function reflectFullscreen(){
+  const active=!!document.fullscreenElement,tip=$('#fullscreenHint');
+  if(!tip)return;
+  if(fullscreenMessageTimer)clearTimeout(fullscreenMessageTimer);
+  if(active){
+   tip.textContent=isTouchDevice()?'Tela cheia ativada • use o gesto Voltar para sair.':'Tela cheia ativada • pressione ESC para sair.';
+   tip.hidden=false;
+   fullscreenMessageTimer=setTimeout(()=>{tip.hidden=true},3200);
+  }else tip.hidden=true;
+ }
+ document.addEventListener('fullscreenchange',reflectFullscreen);
 
 
  // ECODATA 2.1 — seleção de modos em modal, balões contextuais e simulação isolada.
