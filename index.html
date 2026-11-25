@@ -592,7 +592,7 @@ body.game-focus #view-game .answer-card{
 }
 
 
-/* EcoData 3.12.0 — aba Sobre: somente texto e CSS, sem efeitos por quadro. */
+/* EcoData 3.13.0 — aba Sobre: somente texto e CSS, sem efeitos por quadro. */
 .about-view{padding-bottom:48px}
 .about-intro{padding:clamp(18px,3.6vw,35px);display:flex;align-items:center;gap:21px;margin-bottom:18px}
 .about-intro-icon{flex:none;width:74px;height:74px;display:grid;place-items:center;font-size:39px;color:#7ff6c4;border:1px solid #458d75;border-radius:19px;background:#173f3c}
@@ -675,7 +675,7 @@ body.game-focus #view-game .answer-card{
 }
 
 
-/* EcoData 3.12.0 — prioridade real para o quadro inteiro quando ativado em navegadores mobile. */
+/* EcoData 3.13.0 — prioridade real para o quadro inteiro quando ativado em navegadores mobile. */
 body.game-focus #view-game:fullscreen.active{
  display:flex!important;flex-direction:column!important;grid-template-rows:none!important;
  width:100vw!important;height:100dvh!important;min-height:0!important;max-height:100dvh!important;
@@ -708,7 +708,7 @@ body.game-focus #view-game:fullscreen .game-bottom{flex:none!important}
 }
 
 
-/* EcoData 3.12.0: oito órbitas simultâneas, profundidade real e movimento suave.
+/* EcoData 3.13.0: oito órbitas simultâneas, profundidade real e movimento suave.
    Layout vetorial leve; animação limitada a 30 quadros/s e pausada fora de vista. */
 .eco-art-clean{display:grid!important;place-items:center!important;position:relative;overflow:hidden;isolation:isolate;min-height:420px;background:radial-gradient(ellipse at 50% 50%,#12504d28,#061a2608 70%)}
 .eco-art-clean .eco-art-visual{width:min(370px,94%);aspect-ratio:1;position:relative;display:grid;place-items:center;animation:eco-symbol-float 6.5s ease-in-out infinite;transform:translate3d(0,0,0)}
@@ -725,17 +725,27 @@ body.game-focus #view-game:fullscreen .game-bottom{flex:none!important}
 @media(max-width:760px){.eco-art-clean{min-height:355px}.eco-art-clean .eco-art-visual{width:min(325px,95%)}.eco-art-clean .eco-orbit-words span{font-size:8px;max-width:70px;min-width:55px;padding:5px 6px}}
 @media(max-width:370px){.eco-art-clean{min-height:305px}.eco-art-clean .eco-art-visual{width:96%}.eco-art-clean .eco-orbit-words span{font-size:7px;max-width:68px;min-width:50px;padding:4px 5px}}
 @media(prefers-reduced-motion:reduce){.eco-art-clean .eco-art-visual{animation:none!important}.eco-art-clean .eco-orbit-words span{transition:none}}
+
+/* 3.13 — preparação rápida entre perguntas: sem efeitos de renderização */
+.avatar-break-grid{margin-top:17px}
+.avatar-break-grid .player-form{min-width:0}
+.avatar-break-grid .robot-preview{margin:12px auto 18px}
+.avatar-break-bottom{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 22px;margin-top:20px}
+.avatar-break-bottom p{color:#c1ddd4;line-height:1.5;font-size:13px;margin:0;flex:1}
+.avatar-break-bottom .btn{flex:none}
+@media(max-width:700px){.avatar-break-bottom{flex-direction:column;align-items:stretch}.avatar-break-bottom .btn{width:100%}.avatar-break-grid .versus-bubble{margin-inline:auto}}
+
 </style>
 <link rel="stylesheet" href="./fullscreen.css">
 </head>
-<body data-eco-version="3.12.0">
+<body data-eco-version="3.13.0">
   <div class="ambient ambient-a" aria-hidden="true"></div>
   <div class="ambient ambient-b" aria-hidden="true"></div>
   <div class="shell" id="shell">
     <header class="app-header">
       <button type="button" class="brand" data-nav="home" aria-label="Voltar ao início">
         <span class="brand-mark" aria-hidden="true"><span>◈</span></span>
-        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 3.12.0 PWA</small></span>
+        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 3.13.0 PWA</small></span>
       </button>
       <nav class="main-nav" aria-label="Navegação principal">
         <button class="nav-btn active" data-nav="home">Início</button>
@@ -760,14 +770,14 @@ body.game-focus #view-game:fullscreen .game-bottom{flex:none!important}
             <h1>Aprender é uma <em>aventura.</em><br>Vencer é uma <span class="h1-highlight">escolha.</span></h1>
             <p>Tecnologia que conecta pessoas e ideias para um planeta melhor. Treine seus reflexos, dispute questões, atravesse circuitos e mostre seus conhecimentos sobre dados e sustentabilidade.</p>
             <div class="hero-actions">
-              <span class="pwa-auto-badge" id="pwaVersionBadge" aria-label="Versão atual e atualizações automáticas">3.12.0 · AUTOATUALIZAÇÃO</span>
+              <span class="pwa-auto-badge" id="pwaVersionBadge" aria-label="Versão atual e atualizações automáticas">3.13.0 · AUTOATUALIZAÇÃO</span>
               <button class="btn btn-primary btn-large" id="homePlay"><span class="btn-icon">▶</span> ESCOLHER MODO <span class="arrow">↗</span></button>
               <button class="btn btn-quiet btn-large" data-nav="questions">＋ CRIAR QUESTÕES</button>
               <button class="btn btn-quiet btn-large pwa-install" id="pwaInstall" type="button" aria-label="Instalar EcoData Arena pelo navegador">↓ INSTALAR APP</button>
               <a class="btn btn-quiet btn-large" id="pwaOfficialSite" href="https://saturnosamuca44-max.github.io/eco-data-arena/" rel="noopener" target="_blank" title="Para instalar, abra o jogo pela internet no Chrome">🌐 ABRIR SITE OFICIAL PARA INSTALAR</a>
               <button class="btn btn-quiet btn-large" id="pwaCheckUpdates" type="button" aria-label="Verificar atualizações do EcoData Arena">↻ VERIFICAR ATUALIZAÇÕES</button>
             </div>
-            <div class="pwa-update-status" id="pwaCheckStatus" role="status" aria-live="polite">EcoData Arena 3.12.0 • Atualizações automáticas ao abrir e reconectar.</div>
+            <div class="pwa-update-status" id="pwaCheckStatus" role="status" aria-live="polite">EcoData Arena 3.13.0 • Atualizações automáticas ao abrir e reconectar.</div>
             <div class="hero-notice" id="homeNotice"><span class="pulse-mark">●</span> Treine livremente ou cadastre perguntas para competir.</div>
             <div class="theme-tags"><span>⌘ CIÊNCIA DOS DADOS</span><span>⚡ ENERGIA LIMPA</span><span>♻ ECONOMIA CIRCULAR</span></div>
           </div>
@@ -933,6 +943,28 @@ body.game-focus #view-game:fullscreen .game-bottom{flex:none!important}
 
       </section>
 
+      <!-- ENTRE PERGUNTAS — avatares editáveis sem zerar o campeonato -->
+      <section class="view" id="view-avatar-break" aria-label="Personalizar avatares antes da roleta">
+        <div class="section-head"><div><span class="eyebrow">PRÓXIMA PARTIDA / PERSONALIZAÇÃO</span><h2>Escolham seus avatares.</h2><p>Antes de girar a roleta, os dois jogadores podem mudar a cor de seus robôs. Os pontos e as questões restantes continuam normalmente.</p></div><span class="config-chip" id="avatarBreakRound">PRÓXIMA RODADA</span></div>
+        <div class="setup-grid avatar-break-grid">
+          <div class="glass-panel player-form player-one">
+            <div class="player-form-head"><span class="player-index">P1</span><div><span class="eyebrow">JOGADOR 01</span><h3 id="avatarBreakName1">Jogador 1</h3></div><span class="control-hint">W A S D</span></div>
+            <div class="robot-preview" id="avatarBreakPreview1"><span class="robot-ant"></span><span class="robot-head"><i></i><i></i></span><span class="robot-body"></span><span class="robot-legs"></span></div>
+            <span class="field-label">ESCOLHA A COR DO ROBÔ</span><div class="palette" id="avatarBreakPalette1" aria-label="Cores disponíveis para o avatar do jogador 1"></div>
+          </div>
+          <div class="versus-bubble"><strong>VS</strong><small id="avatarBreakScore">0 — 0</small></div>
+          <div class="glass-panel player-form player-two">
+            <div class="player-form-head"><span class="player-index">P2</span><div><span class="eyebrow">JOGADOR 02</span><h3 id="avatarBreakName2">Jogador 2</h3></div><span class="control-hint">← ↑ ↓ →</span></div>
+            <div class="robot-preview" id="avatarBreakPreview2"><span class="robot-ant"></span><span class="robot-head"><i></i><i></i></span><span class="robot-body"></span><span class="robot-legs"></span></div>
+            <span class="field-label">ESCOLHA A COR DO ROBÔ</span><div class="palette" id="avatarBreakPalette2" aria-label="Cores disponíveis para o avatar do jogador 2"></div>
+          </div>
+        </div>
+        <div class="glass-panel avatar-break-bottom">
+          <p id="avatarBreakNotice" role="status">Podem mudar as cores ou continuar com os mesmos avatares.</p>
+          <button type="button" class="btn btn-primary btn-large" id="avatarBreakContinue">CONFIRMAR AVATARES E IR À ROLETA →</button>
+        </div>
+      </section>
+
       <!-- ROUND RESULT -->
       <section class="view" id="view-round" aria-label="Resultado da rodada"><div class="result-panel glass-panel"><span class="eyebrow">DESAFIO ENCERRADO</span><h2 id="roundHeadline">Resultado da rodada</h2><p class="result-answer" id="roundCorrect">Alternativa correta: —</p><div class="round-results" id="roundResults"></div><div class="score-summary" id="roundScoreSummary"></div><button class="btn btn-primary btn-large" id="nextRound">PRÓXIMO DESAFIO →</button></div></section>
 
@@ -959,7 +991,7 @@ body.game-focus #view-game:fullscreen .game-bottom{flex:none!important}
         </div>
         <div class="about-facts" aria-label="Ficha técnica do jogo">
           <div class="about-fact glass-panel"><span>ANO DE PUBLICAÇÃO</span><strong>2026</strong><small>Primeira publicação do projeto</small></div>
-          <div class="about-fact glass-panel"><span>VERSÃO ATUAL</span><strong id="aboutVersion">3.12.0</strong><small>PWA com atualizações pelo site oficial</small></div>
+          <div class="about-fact glass-panel"><span>VERSÃO ATUAL</span><strong id="aboutVersion">3.13.0</strong><small>PWA com atualizações pelo site oficial</small></div>
           <div class="about-fact glass-panel"><span>JOGADORES</span><strong>2</strong><small>Disputa local e simultânea</small></div>
           <div class="about-fact glass-panel"><span>QUESTÕES DISPONÍVEIS</span><strong id="aboutQuestionsCount">—</strong><small>Salvas neste navegador</small></div>
         </div>
@@ -1011,7 +1043,7 @@ body.game-focus #view-game:fullscreen .game-bottom{flex:none!important}
 
     </main>
 
-    <footer class="app-footer"><span>© ECODATA ARENA 3.12.0 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
+    <footer class="app-footer"><span>© ECODATA ARENA 3.13.0 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
   </div>
   <div class="guide-layer" id="guideLayer" role="region" aria-label="Tutorial passo a passo" hidden>
     <div class="guide-shade" aria-hidden="true"></div>
@@ -1417,7 +1449,7 @@ A.stopMusic=function(){
  const COLORS=['#5df4b4','#6cbcff','#ffcb73','#ff82a9','#bb9bff','#ff9d70','#71ebdb','#e6f18b'];
  const letters=['A','B','C','D','E'];
  const defaultSettings={rounds:10,time:60,raceTime:75,answerTime:35,mixedRush:1,joySize:100,joyOpacity:82,joySensitivity:100,fx:true,music:true,volume:60,names:['Jogador 1','Jogador 2'],colors:[COLORS[0],COLORS[1]]};
- let questions=[],rankings=[],settings={...defaultSettings},colors=[COLORS[0],COLORS[1]],session=null,game=null,view='home',wheelItems=[],wheelRotation=0,spinFrame=0,spinning=false,finalizing=false,selectedMode='classic',trainingMode=false,trainingPractice=null,guideActive=false,guideSteps=[],guideIndex=0,guideLastFocus=null;
+ let questions=[],rankings=[],settings={...defaultSettings},colors=[COLORS[0],COLORS[1]],avatarDraft=[COLORS[0],COLORS[1]],session=null,game=null,view='home',wheelItems=[],wheelRotation=0,spinFrame=0,spinning=false,finalizing=false,selectedMode='classic',trainingMode=false,trainingPractice=null,guideActive=false,guideSteps=[],guideIndex=0,guideLastFocus=null;
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
  const int=(v,fallback)=>Number.isSafeInteger(Number(v))?Number(v):fallback;
  const fmtTime=n=>{const s=Math.max(0,Math.ceil(Number(n)||0));return s>=3600?`${String(Math.floor(s/3600)).padStart(2,'0')}:${String(Math.floor(s%3600/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`:`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`};
@@ -1493,7 +1525,7 @@ A.stopMusic=function(){
    document.addEventListener('pointerdown',()=>{audio.init();audio.syncMusic()},{once:true});
  }
  function savePrefs(){settings.names=[$('#nameP1').value,$('#nameP2').value];settings.colors=[...colors];settings.rounds=int($('#roundCount').value,settings.rounds);settings.time=int($('#timePerRound').value,settings.time);settings.raceTime=int($('#rushRaceTime').value,settings.raceTime);settings.answerTime=int($('#rushAnswerTime').value,settings.answerTime);settings.mixedRush=int($('#mixedRushCount').value,settings.mixedRush);settings.joySize=int($('#joySize').value,100);settings.joyOpacity=int($('#joyOpacity').value,82);settings.joySensitivity=int($('#joySensitivity').value,100);settings.fx=$('#fxEnabled').checked;settings.music=$('#musicEnabled').checked;settings.volume=int($('#volumeSetting').value,60);return storage.write('settings',{key:'preferences',value:settings}).catch(e=>toast(e.message,'error'))}
- function show(dest){if(!$('#view-'+dest))return;if(dest!=='game'&&$('#view-game')?.classList.contains('eco-fs-fallback'))endFallback();closeModePicker();view=dest;document.body.classList.toggle('game-focus',dest==='game');document.body.classList.toggle('training-mode',dest==='game'&&trainingMode);$$('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+dest));$$('[data-nav]').forEach(b=>b.classList.toggle('active',b.getAttribute('data-nav')===dest));window.scrollTo({top:0,behavior:'instant'});if(dest==='home')renderHome();if(dest==='about'){const version=$('#aboutVersion'),count=$('#aboutQuestionsCount');if(version)version.textContent=document.body.dataset.ecoVersion||'3.12.0';if(count)count.textContent=String(questions.length)}if(dest==='questions')renderQuestions();if(dest==='ranking')renderRanking();if(dest==='setup'){const total=eligibleQuestions().length;if(total>0&&int($('#roundCount').value,10)>total)$('#roundCount').value=Math.min(10,total);$('#matchMode').value=selectedMode;updateModeUI();validateSetup()}if(dest==='roulette')renderRoulette()}
+ function show(dest){if(!$('#view-'+dest))return;if(dest!=='game'&&$('#view-game')?.classList.contains('eco-fs-fallback'))endFallback();closeModePicker();view=dest;document.body.classList.toggle('game-focus',dest==='game');document.body.classList.toggle('training-mode',dest==='game'&&trainingMode);$$('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+dest));$$('[data-nav]').forEach(b=>b.classList.toggle('active',b.getAttribute('data-nav')===dest));window.scrollTo({top:0,behavior:'instant'});if(dest==='home')renderHome();if(dest==='about'){const version=$('#aboutVersion'),count=$('#aboutQuestionsCount');if(version)version.textContent=document.body.dataset.ecoVersion||'3.13.0';if(count)count.textContent=String(questions.length)}if(dest==='questions')renderQuestions();if(dest==='ranking')renderRanking();if(dest==='setup'){const total=eligibleQuestions().length;if(total>0&&int($('#roundCount').value,10)>total)$('#roundCount').value=Math.min(10,total);$('#matchMode').value=selectedMode;updateModeUI();validateSetup()}if(dest==='roulette')renderRoulette();if(dest==='avatar-break')renderAvatarBreak()}
  function navigate(dest){audio.play('click');if(dest==='setup'&&questions.length===0){show('questions');toast('Cadastre pelo menos uma questão antes de jogar.');return}
    const wantModes=dest==='modes',destination=wantModes?'home':dest;
    if(trainingMode&&view==='game'&&dest!=='game'){leaveTraining();show(destination);if(wantModes)openModePicker();return}
@@ -1542,7 +1574,7 @@ A.stopMusic=function(){
      renderMapPicker();audio.play('select');
    }));
    $('#spinButton').addEventListener('click',spinWheel);
-   $('#nextRound').addEventListener('click',nextRound);
+   $('#nextRound').addEventListener('click',nextRound);$('#avatarBreakContinue').addEventListener('click',confirmAvatarBreak);
    $('#replayMatch').addEventListener('click',()=>{show('setup');toast('Configure a revanche e inicie uma nova partida.')});
    $('#quitMatch').addEventListener('click',()=>navigate('modes'));$('#gameFullscreen').addEventListener('click',tryFullscreen);$$('[data-train-step]').forEach(b=>b.addEventListener('click',()=>setTrainingStep(Number(b.dataset.trainStep))));$('#restartTraining').addEventListener('click',()=>setTrainingStep(game.trainingStage));['joySize','joyOpacity','joySensitivity'].forEach(id=>{const slider=$('#'+id),onAdjust=()=>{applyTouchSettings();renderSettings();savePrefs()};slider.addEventListener('input',onAdjust);slider.addEventListener('change',onAdjust)});bindAnalogControls();
    window.addEventListener('pagehide',()=>game.stop());
@@ -1642,16 +1674,52 @@ A.stopMusic=function(){
  return '<div class="round-player"><span class="eyebrow">JOGADOR '+(i+1)+'</span><b style="color:'+p.color+'">'+esc(p.name)+'</b><span class="status">'+status+(answer==null?'':' • '+letters[answer])+(right&&ms!=null?' • '+(ms/1000).toFixed(2)+'s':'')+'</span><strong class="'+(h.awards[i]?'':'zero')+'">+'+h.awards[i]+' PONTO</strong></div>';
  }).join('');
  $('#roundScoreSummary').textContent='PLACAR: '+session.players[0].name+' '+session.scores[0]+' — '+session.scores[1]+' '+session.players[1].name;
- $('#nextRound').textContent=session.roundIndex+1>=session.rounds?'VER RESULTADO DO CICLO →':'VOLTAR À ROLETA →';
+ $('#nextRound').textContent=session.roundIndex+1>=session.rounds?'VER RESULTADO DO CICLO →':'PERSONALIZAR AVATARES →';
  if(document.fullscreenElement&&document.exitFullscreen)document.exitFullscreen().catch(()=>{});show('round');document.body.classList.remove('rush-racing');audio.play(win<0?'lose':'win');
  if(session.roundTimer)clearTimeout(session.roundTimer);const active=session;
  session.roundTimer=setTimeout(()=>{if(session===active&&view==='round')nextRound()},4700);
 }
+
+ function renderAvatarBreak(){
+  if(!session||session.completed){show('home');return}
+  avatarDraft=session.players.map(p=>p.color);
+  $('#avatarBreakRound').textContent='RODADA '+String(session.roundIndex+1).padStart(2,'0')+'/'+session.rounds;
+  $('#avatarBreakScore').textContent=session.scores.join(' — ');
+  session.players.forEach((p,i)=>{$('#avatarBreakName'+(i+1)).textContent=p.name});
+  updateAvatarBreakPalettes();
+ }
+ function updateAvatarBreakPalettes(){
+  for(let i=0;i<2;i++){
+   const color=avatarDraft[i],root=$('#avatarBreakPalette'+(i+1));
+   const preview=$('#avatarBreakPreview'+(i+1));preview.style.setProperty('--robot',color);
+   root.replaceChildren();
+   COLORS.forEach(option=>{
+    const btn=document.createElement('button');
+    btn.type='button';btn.className='color-option'+(option===color?' active':'');
+    btn.style.setProperty('--swatch',option);
+    btn.setAttribute('aria-label','Selecionar cor '+option+' para jogador '+(i+1));
+    btn.setAttribute('aria-pressed',String(option===color));
+    btn.addEventListener('click',()=>{avatarDraft[i]=option;audio.play('select');updateAvatarBreakPalettes()});
+    root.append(btn);
+   });
+  }
+  const distinct=avatarDraft[0]!==avatarDraft[1];
+  $('#avatarBreakContinue').disabled=!distinct;
+  $('#avatarBreakNotice').textContent=distinct?
+   'Avatares prontos! Confirmem para girar a roleta e continuar o placar.':
+   'Escolham cores diferentes para os dois jogadores.';
+ }
+ function confirmAvatarBreak(){
+  if(!session||session.completed||view!=='avatar-break'||avatarDraft[0]===avatarDraft[1])return;
+  session.players.forEach((p,i)=>{p.color=avatarDraft[i]});
+  colors=[...avatarDraft];renderPalette();updatePreview();
+  savePrefs();audio.play('save');show('roulette');
+ }
  function nextRound(){
  if(!session||session.changingRound)return;session.changingRound=true;
  if(session.roundTimer){clearTimeout(session.roundTimer);session.roundTimer=null}
  if(session.roundIndex+1>=session.rounds){finishMatch();return}
- session.roundIndex++;session.current=null;session.locked=false;session.changingRound=false;show('roulette');
+ session.roundIndex++;session.current=null;session.locked=false;session.changingRound=false;show('avatar-break');
 }
  async function finishMatch(){if(!session||finalizing||session.completed)return;finalizing=true;session.completed=true;game.stop();const s=session;const winner=s.scores[0]===s.scores[1]?-1:s.scores[0]>s.scores[1]?0:1;
   try{for(let i=0;i<2;i++){const p=s.players[i],key=norm(p.name),prev=rankings.find(r=>r.key===key),h=s.history,correct=h.reduce((acc,r)=>acc+r.awards[i],0),withoutAnswer=h.reduce((acc,r)=>acc+(r.selected[i]===null&&!(r.mode==='rush'&&(r.winner!==i||r.rushTimeout))?1:0),0),classicPoints=h.filter(r=>r.mode==='classic').reduce((a,r)=>a+r.awards[i],0),rushPoints=h.filter(r=>r.mode==='rush').reduce((a,r)=>a+r.awards[i],0);const record={key,name:p.name,color:p.color,points:(prev?.points||0)+s.scores[i],wins:(prev?.wins||0)+(winner===i?1:0),matches:(prev?.matches||0)+1,rounds:(prev?.rounds||0)+s.rounds,correct:(prev?.correct||0)+correct,noAnswer:(prev?.noAnswer||0)+withoutAnswer,classicPoints:(prev?.classicPoints||0)+classicPoints,rushPoints:(prev?.rushPoints||0)+rushPoints,updatedAt:Date.now()};await storage.write('rankings',record);if(prev)Object.assign(prev,record);else rankings.push(record)}}catch(e){toast('Não foi possível salvar o ranking: '+e.message,'error')}
@@ -1668,7 +1736,7 @@ A.stopMusic=function(){
    session={...finishedCycle,rounds:refreshed.length,pool:refreshed,roundIndex:0,
      scores:[0,0],history:[],current:null,locked:false,completed:false,rushWinner:null,
      changingRound:false,roundTimer:null};
-   finalizing=false;show('roulette');toast('Novo ciclo iniciado. Gire a roleta para continuar!');
+   finalizing=false;show('avatar-break');toast('Novo ciclo! Escolham os avatares antes da roleta.');
  },11000)}
  function makeConfetti(){const root=$('#confetti');for(let i=0;i<48;i++){const c=document.createElement('i');c.className='confetti-piece';c.style.setProperty('--left',Math.random()*100+'%');c.style.setProperty('--duration',(2.8+Math.random()*3.2)+'s');c.style.setProperty('--delay',(Math.random()*-5)+'s');c.style.setProperty('--color',COLORS[i%COLORS.length]);c.style.setProperty('--rotate',Math.random()*250+'deg');root.append(c)}}
  function toast(message,kind=''){const stack=$('#toastStack'),item=document.createElement('div');item.className='toast'+(kind?' '+kind:'');item.textContent=message;stack.append(item);setTimeout(()=>item.remove(),4400)}
@@ -2046,7 +2114,7 @@ window.addEventListener('popstate',()=>{if($('#view-game')?.classList.contains('
 <script id="ecoDataManualUpdater">
 (()=>{
  'use strict';
- const CURRENT='3.12.0',button=document.querySelector('#pwaCheckUpdates'),label=document.querySelector('#pwaCheckStatus');
+ const CURRENT='3.13.0',button=document.querySelector('#pwaCheckUpdates'),label=document.querySelector('#pwaCheckStatus');
  if(!button||!label)return;
  let applying=false,waiting=null,remote=CURRENT,refreshOnly=false,working=false;
  const say=message=>{label.textContent=message};

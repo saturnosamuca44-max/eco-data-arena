@@ -1,11 +1,11 @@
 {
-  "version": "3.12.0",
+  "version": "3.13.0",
   "name": "EcoData Arena",
   "updates": [
-    "Retiradas alternativas duplicadas que cobriam os robôs durante a partida",
-    "Alternativas continuam sobre as plataformas e na opção Ler alternativas completas",
-    "Caixas com textos das alternativas pré-renderizadas uma vez por pergunta",
-    "Sem desfoques pesados na interface fullscreen mobile",
-    "Mantidos todos os modos, PWA, ranking e perguntas"
+    "Nova tela Personalizar avatares entre cada pergunta e a roleta",
+    "Os dois jogadores podem mudar as cores dos robôs ou mantê-las",
+    "Pontuação, questões restantes, modo e mapa preservados",
+    "Também permite trocar avatares ao iniciar o ciclo seguinte",
+    "PWA e cache atualizados"
   ]
 }
