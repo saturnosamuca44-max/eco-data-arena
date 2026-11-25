@@ -1,11 +1,11 @@
 {
-  "version": "3.13.0",
+  "version": "3.14.0",
   "name": "EcoData Arena",
   "updates": [
-    "Nova tela Personalizar avatares entre cada pergunta e a roleta",
-    "Os dois jogadores podem mudar as cores dos robôs ou mantê-las",
-    "Pontuação, questões restantes, modo e mapa preservados",
-    "Também permite trocar avatares ao iniciar o ciclo seguinte",
-    "PWA e cache atualizados"
+    "Permite alterar nomes e cores dos dois avatares entre perguntas",
+    "Ranking atualizado e salvo ao terminar cada pergunta, mesmo quando o nome muda depois",
+    "Nomes iguais sem diferença entre maiúsculas e minúsculas acumulam vitórias e pontos",
+    "Letras extras, números e nomes distintos têm registros separados",
+    "As estatísticas não são contadas duas vezes no encerramento do ciclo"
   ]
 }
