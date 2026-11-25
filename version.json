@@ -1,10 +1,10 @@
 {
-  "version": "3.9.3",
+  "version": "3.9.4",
   "name": "EcoData Arena",
   "updates": [
-    "Oito palavras orbitam simultaneamente em profundidade, na frente e atrás dos símbolos",
-    "Símbolo de reciclagem e banco de dados flutuam suavemente",
-    "Efeito usa 30 FPS no máximo e pausa ao sair da tela",
-    "Perguntas, mapas, modos, ranking e configurações preservados"
+    "Todas as oito palavras orbitam simultaneamente com perspectiva na frente e atrás",
+    "Distribuição calibrada para que os rótulos não colidam em telas pequenas",
+    "Ícones centrais flutuam suavemente; animação pausa fora da tela",
+    "Mantidas questões, controles, modos e ranking"
   ]
 }
