@@ -1,10 +1,10 @@
 {
-  "version": "3.9.4",
+  "version": "3.9.5",
   "name": "EcoData Arena",
   "updates": [
-    "Todas as oito palavras orbitam simultaneamente com perspectiva na frente e atrás",
-    "Distribuição calibrada para que os rótulos não colidam em telas pequenas",
-    "Ícones centrais flutuam suavemente; animação pausa fora da tela",
-    "Mantidas questões, controles, modos e ranking"
+    "As oito palavras ficam inteiras dentro de seus rótulos, sem cortar palavras longas",
+    "Órbitas respeitam os limites do painel em celular e computador",
+    "Movimento em profundidade e flutuação preservados",
+    "Perguntas, ranking, ajustes e modos mantidos"
   ]
 }
