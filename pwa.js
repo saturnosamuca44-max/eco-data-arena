@@ -1,7 +1,7 @@
 /* EcoData Arena 3.7 — atualização automática mantendo dados locais. */
 (()=>{'use strict';
 const $=s=>document.querySelector(s);
-const CURRENT='3.9.0';
+const CURRENT='3.9.1';
 const installButton=$('#pwaInstall'),overlay=$('#pwaDialogOverlay'),help=$('#pwaHelp'),
  installNative=$('#pwaDialogInstall'),updateBanner=$('#pwaUpdateBanner');
 if(!installButton)return;

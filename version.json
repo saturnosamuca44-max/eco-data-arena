@@ -1,5 +1,5 @@
 {
-  "version": "3.9.0",
+  "version": "3.9.1",
   "name": "EcoData Arena",
   "updates": [
     "Resultado de cada pergunta: vencedor por resposta correta mais rápida, com empate verdadeiro possível",
@@ -8,6 +8,7 @@
     "Símbolo de reciclagem com banco de dados e palavras em órbita",
     "Tela cheia com aviso temporário, controles mobile reforçados",
     "Folhas no mapa de natureza, partículas tecnológicas, perguntas maiores",
-    "Trilha musical procedural animada e aplausos ao vencer o ciclo"
+    "Trilha musical procedural animada e aplausos ao vencer o ciclo",
+    "Ajuste adicional para tela cheia sem cortar a arena nos navegadores mobile"
   ]
 }
