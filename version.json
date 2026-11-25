@@ -1,10 +1,10 @@
 {
-  "version": "3.11.0",
+  "version": "3.11.1",
   "name": "EcoData Arena",
   "updates": [
-    "Arena fullscreen ocupa o viewport com HUD e pergunta flutuantes",
-    "Alternativas e analógicos integrados dentro da imagem de jogo",
-    "Fallback imersivo em navegadores sem Fullscreen API",
-    "Ajustes de tamanho, opacidade e sensibilidade atualizam percentuais imediatamente"
+    "Arena em tela cheia verdadeira e fallback imersivo com HUD sobreposta ao cenário",
+    "Controles mobile mantidos dentro da arena sem interromper o jogo",
+    "Percentuais de tamanho, opacidade e sensibilidade atualizados em tempo real",
+    "Escala do analógico responde a toda a faixa de tamanho inclusive em telas pequenas"
   ]
 }

@@ -1,4 +1,4 @@
-/* EcoData Arena v3.11.0 — visual imersivo para celulares, tablets e PCs */
+/* EcoData Arena v3.11.1 — visual imersivo para celulares, tablets e PCs */
 body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback).active{
  position:fixed!important;inset:0!important;z-index:9999!important;
  display:block!important;box-sizing:border-box!important;
@@ -88,12 +88,12 @@ body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .fullscreen-hint{
   flex:0 0 auto!important;pointer-events:none!important;
  }
  body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .touch-joystick{
-  width:min(var(--joy-size),23dvh,23vw)!important;height:min(var(--joy-size),23dvh,23vw)!important;
+  width:clamp(44px,calc(min(24dvh,20vw) * var(--joy-multiplier,1)),min(37dvh,30vw))!important;height:clamp(44px,calc(min(24dvh,20vw) * var(--joy-multiplier,1)),min(37dvh,30vw))!important;
   min-width:47px!important;min-height:47px!important;
   opacity:var(--joy-opacity,.82);pointer-events:auto!important;touch-action:none!important;
  }
  body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .answer-strip{
-  bottom:calc(max(7px,env(safe-area-inset-bottom)) + min(var(--joy-size),23dvh,23vw) + 8px)!important;
+  bottom:calc(max(7px,env(safe-area-inset-bottom)) + clamp(44px,calc(min(24dvh,20vw) * var(--joy-multiplier,1)),min(37dvh,30vw)) + 8px)!important;
   max-height:15dvh!important;
  }
 }
