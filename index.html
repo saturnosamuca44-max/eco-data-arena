@@ -571,6 +571,26 @@ body.game-focus #view-game .answer-card{
   transition:border-color .16s ease,box-shadow .16s ease;
 }
 
+
+/* EcoData Arena 3.4 — editor de 4/5 alternativas e cinco plataformas */
+.option-count-wrap{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin:12px 0}
+.option-count-wrap .field-label{margin:0;white-space:normal}
+.option-count-wrap .field{width:min(270px,100%);min-height:38px}
+#optionEditor .option-row[hidden]{display:none!important}
+#view-game .answer-strip.five-options{grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+#view-game .answer-strip.five-options .answer-card{min-width:0;padding:6px;gap:5px}
+#view-game .answer-strip.five-options .answer-card .text{font-size:clamp(9px,.78vw,12px);overflow-wrap:anywhere}
+@media(max-width:800px) and (orientation:portrait){
+ #view-game .answer-strip.five-options{grid-template-columns:repeat(3,minmax(0,1fr));gap:3px}
+ #view-game .answer-strip.five-options .answer-card{min-height:28px;padding:4px;max-height:clamp(39px,8dvh,65px);overflow-y:auto}
+ #view-game .answer-strip.five-options .answer-card .text{font-size:9px}
+}
+@media(pointer:coarse) and (orientation:landscape) and (max-height:620px){
+ #view-game .answer-strip.five-options{grid-template-columns:repeat(5,minmax(0,1fr));gap:2px}
+ #view-game .answer-strip.five-options .answer-card{max-height:44px;min-height:25px;padding:3px;overflow-y:auto}
+ #view-game .answer-strip.five-options .answer-card .letter{width:16px;height:16px;font-size:10px;flex:none}
+}
+
 </style>
 </head>
 <body>
@@ -580,7 +600,7 @@ body.game-focus #view-game .answer-card{
     <header class="app-header">
       <button type="button" class="brand" data-nav="home" aria-label="Voltar ao início">
         <span class="brand-mark" aria-hidden="true"><span>◈</span></span>
-        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 3.3 PWA</small></span>
+        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 3.4 PWA</small></span>
       </button>
       <nav class="main-nav" aria-label="Navegação principal">
         <button class="nav-btn active" data-nav="home">Início</button>
@@ -684,12 +704,15 @@ body.game-focus #view-game .answer-card{
               <input id="editingId" type="hidden">
               <label class="field-label" for="questionText">ENUNCIADO DA QUESTÃO *</label><textarea id="questionText" class="field" rows="3" maxlength="900" placeholder="Escreva aqui a pergunta que será exibida na arena..." required></textarea>
               <div class="two-fields"><div><label class="field-label" for="questionType">TIPO DE QUESTÃO *</label><select id="questionType" class="field"><option value="classic">Clássica</option><option value="rush">Rush (corrida)</option></select></div><div><label class="field-label" for="questionCategory">CATEGORIA (OPCIONAL)</label><input id="questionCategory" class="field" maxlength="44" placeholder="Ex.: Banco de dados"></div><div><label class="field-label" for="questionDifficulty">DIFICULDADE</label><select id="questionDifficulty" class="field"><option value="Livre">Livre</option><option value="Fácil">Fácil</option><option value="Médio">Médio</option><option value="Difícil">Difícil</option></select></div></div>
+
+              <div class="option-count-wrap"><label class="field-label" for="optionCount">NÚMERO DE ALTERNATIVAS</label><select id="optionCount" class="field" aria-label="Quantidade de alternativas"><option value="4">4 alternativas (A–D)</option><option value="5">5 alternativas (A–E)</option></select></div>
               <div class="answer-editor-head"><label class="field-label">ALTERNATIVAS * </label><small>Marque o círculo da resposta correta</small></div>
               <div class="option-editor" id="optionEditor">
                 <div class="option-row"><input type="radio" name="correctOption" value="0" aria-label="Alternativa A correta"><span class="option-letter">A</span><input class="field answer-input" maxlength="350" placeholder="Texto da alternativa A" aria-label="Alternativa A" required></div>
                 <div class="option-row"><input type="radio" name="correctOption" value="1" aria-label="Alternativa B correta"><span class="option-letter">B</span><input class="field answer-input" maxlength="350" placeholder="Texto da alternativa B" aria-label="Alternativa B" required></div>
                 <div class="option-row"><input type="radio" name="correctOption" value="2" aria-label="Alternativa C correta"><span class="option-letter">C</span><input class="field answer-input" maxlength="350" placeholder="Texto da alternativa C" aria-label="Alternativa C" required></div>
                 <div class="option-row"><input type="radio" name="correctOption" value="3" aria-label="Alternativa D correta"><span class="option-letter">D</span><input class="field answer-input" maxlength="350" placeholder="Texto da alternativa D" aria-label="Alternativa D" required></div>
+                <div class="option-row" hidden><input type="radio" name="correctOption" value="4" aria-label="Alternativa E correta" disabled><span class="option-letter">E</span><input class="field answer-input" maxlength="350" placeholder="Texto da alternativa E" aria-label="Alternativa E" disabled></div>
               </div>
               <div class="editor-actions"><button type="button" class="btn btn-outline" id="cancelEdit">Limpar</button><button type="submit" class="btn btn-primary" id="saveQuestion">＋ SALVAR QUESTÃO</button></div>
             </form>
@@ -771,7 +794,7 @@ body.game-focus #view-game .answer-card{
       <section class="view" id="view-final" aria-label="Resultado da partida"><div class="final-panel glass-panel"><div class="confetti-container" id="confetti"></div><span class="eyebrow" id="finalEyebrow">PARTIDA CONCLUÍDA</span><div class="winner-crown" id="winnerCrown">♛</div><h1 id="winnerTitle">VITÓRIA!</h1><p class="winner-subtitle" id="winnerSubtitle"></p><div class="final-duel" id="finalDuel"></div><div class="final-rank-info" id="finalRankInfo"></div><div class="final-actions"><button class="btn btn-primary" id="replayMatch">↻ JOGAR NOVAMENTE</button><button class="btn btn-outline" data-nav="ranking">♛ VER RANKING</button><button class="btn btn-outline" data-nav="home">⌂ INÍCIO</button></div></div></section>
     </main>
 
-    <footer class="app-footer"><span>© ECODATA ARENA 3.3 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
+    <footer class="app-footer"><span>© ECODATA ARENA 3.4 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
   </div>
   <div class="guide-layer" id="guideLayer" role="region" aria-label="Tutorial passo a passo" hidden>
     <div class="guide-shade" aria-hidden="true"></div>
@@ -818,6 +841,7 @@ body.game-focus #view-game .answer-card{
  const W=1000,H=460,LAVA=420,BASE=350;
  // Plataformas um pouco mais baixas: salto inteiro visível nos celulares horizontais.
  const CHOICES=[53,288,523,758].map((x,index)=>({x,y:320,w:190,h:23,index}));
+ const CHOICES_FIVE=[16,216,416,616,816].map((x,index)=>({x,y:320,w:168,h:23,index}));
  const SPAWN={x:0,y:350,w:185,h:20,index:-1};
  const RUSH_WIDTH=2050;
  // Plataformas temporárias: aviso, dissolução suave, 1 segundo ausente e retorno suave.
@@ -943,7 +967,8 @@ body.game-focus #view-game .answer-card{
     this.lastTime=Math.ceil(this.remaining)+1;
     this.callbacks.onRushBothLocked?.();
   }
-  getPlatforms(){if(this.phase==='training'&&this.trainingStage===0)return [{x:0,y:350,w:1000,h:22,index:-1}];if(this.mode==='classic'||this.mode==='rush-answer'||this.mode==='training'&&this.trainingStage===1)return [...CHOICES,SPAWN];return this.pads||RUSH_PADS}
+  choicePads(){return this.question?.options?.length===5?CHOICES_FIVE:CHOICES}
+  getPlatforms(){if(this.phase==='training'&&this.trainingStage===0)return [{x:0,y:350,w:1000,h:22,index:-1}];if(this.mode==='classic'||this.mode==='rush-answer'||this.mode==='training'&&this.trainingStage===1)return [...this.choicePads(),SPAWN];return this.pads||RUSH_PADS}
   recalcSelected(){const next=this.players.map(p=>this.confirmedChoices?.[p.id]!=null?this.confirmedChoices[p.id]:p.alive&&p.grounded&&p.groundIndex>=0?p.groundIndex:null);if(next[0]!==this.selected[0]||next[1]!==this.selected[1]){this.selected=next;this.callbacks.onSelect?.(next)}}
   updatePlayer(p,dt,now){if(!p.alive){if(now>=p.respawnAt){const platforms=this.getPlatforms(),spawnX=this.mode==='rush'||this.mode==='training'&&this.trainingStage===2?p.checkpoint:55;const landing=platforms.find(q=>q.x<=spawnX+15&&q.x+q.w>spawnX+15);p.x=spawnX;p.y=(landing?.y??BASE)-p.h;p.vy=0;p.alive=true;p.grounded=true;p.groundIndex=landing?.index??-1;p.ignoreUntil=0;p.jumpQueued=false;this.callbacks.onRespawn?.(p.id)}return}
    const wasGrounded=p.grounded;
@@ -997,7 +1022,7 @@ body.game-focus #view-game .answer-card{
    g.font='800 10px monospace';g.fillStyle='#87d9d0aa';g.fillText('SQL  •  CRUD  •  ENERGIA LIMPA',80,22);
   }
   drawFloor(g,t){this.drawPad(g,{x:0,y:350,w:1000,h:20},t);g.fillStyle='#9cecd0';g.font='800 18px monospace';g.textAlign='center';g.fillText('ESTAÇÃO DE TREINAMENTO • MOVIMENTE-SE E PULE',500,188)}
-  drawClassic(g,t){this.drawPad(g,SPAWN,t,false);CHOICES.forEach(p=>this.drawPad(g,p,t,true));g.fillStyle='#b2eae6';g.font='800 10px monospace';g.fillText('INÍCIO COMPARTILHADO',12,395)}
+  drawClassic(g,t){this.drawPad(g,SPAWN,t,false);this.choicePads().forEach(p=>this.drawPad(g,p,t,true));g.fillStyle='#b2eae6';g.font='800 10px monospace';g.fillText('INÍCIO COMPARTILHADO',12,395)}
   drawRace(g,t){this.pads.forEach((p,i)=>{this.drawPad(g,p,t,false);if(i===3||i===5){g.save();g.fillStyle='#84f0cd';g.font='800 11px monospace';g.fillText('CHECKPOINT',p.x+5,p.y-13);g.fillRect(p.x+2,p.y-29,2,27);g.fillStyle='#edc177';g.fillRect(p.x+4,p.y-29,27,12);g.restore()}});g.save();g.strokeStyle='#fff7d5';g.lineWidth=3;g.beginPath();g.moveTo(this.mode==='training'?1180:1950,205);g.lineTo(this.mode==='training'?1180:1950,340);g.stroke();for(let a=0;a<4;a++)for(let b=0;b<2;b++){g.fillStyle=(a+b)%2?'#263a51':'#f7f9f4';g.fillRect((this.mode==='training'?1180:1950)+2+b*13,210+a*13,13,13)}g.fillStyle='#83ffc6';g.font='900 26px system-ui';g.fillText('CHEGADA',(this.mode==='training'?1180:1950)-118,180);g.restore();}
   drawPad(g,p,t,isChoice){const revealed=['reveal','collapse'].includes(this.phase);let alpha=1;if(revealed&&isChoice&&p.index!==this.question.correctIndex)alpha=clamp(1-(t-this.phaseSince)/800,0,1);if(p.temporary)alpha*=this.temporaryAlpha(p,t);if(alpha<=0)return;g.save();g.globalAlpha=alpha;const x=p.x,y=p.y;
    let base='#2e6775',top='#72bcb8',stroke='#b1e7d9';if(isChoice){base='#536977';top='#9bafbf';stroke='#c7dde5';if(revealed){const good=p.index===this.question.correctIndex;base=good?'#177957':'#873544';top=good?'#60edb3':'#fa8295';stroke=good?'#b9ffe5':'#ffd0d6'}else{const occ=this.players.filter(q=>q.choice===p.index&&q.alive&&(this.allowed==null||q.id===this.allowed));if(occ.length===1){base=occ[0].color;top=occ[0].color;stroke='#ffffff'}else if(occ.length===2){base=occ[0].color;top=occ[1].color;stroke='#ffffff'}}}
@@ -1113,7 +1138,7 @@ body.game-focus #view-game .answer-card{
  const $=s=>document.querySelector(s),$$=s=>Array.from(document.querySelectorAll(s));
  const storage=window.EcoStorage,audio=window.EcoAudio;
  const COLORS=['#5df4b4','#6cbcff','#ffcb73','#ff82a9','#bb9bff','#ff9d70','#71ebdb','#e6f18b'];
- const letters=['A','B','C','D'];
+ const letters=['A','B','C','D','E'];
  const defaultSettings={rounds:10,time:60,raceTime:75,answerTime:35,mixedRush:1,joySize:100,joyOpacity:82,joySensitivity:100,fx:true,music:true,volume:60,names:['Jogador 1','Jogador 2'],colors:[COLORS[0],COLORS[1]]};
  let questions=[],rankings=[],settings={...defaultSettings},colors=[COLORS[0],COLORS[1]],session=null,game=null,view='home',wheelItems=[],wheelRotation=0,spinFrame=0,spinning=false,finalizing=false,selectedMode='classic',trainingMode=false,trainingPractice=null,guideActive=false,guideSteps=[],guideIndex=0,guideLastFocus=null;
  const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -1122,11 +1147,71 @@ body.game-focus #view-game .answer-card{
  const uid=()=>window.crypto?.randomUUID?.()||'q-'+Date.now()+'-'+Math.random().toString(36).slice(2);
  const norm=s=>String(s||'').trim().replace(/\s+/g,' ').toLocaleLowerCase('pt-BR');
  const shuffle=arr=>{const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+
+ // Pacote educativo de 25/11/2026. É instalado uma única vez POR NAVEGADOR,
+ // preservando todas as perguntas cadastradas, personalizações e ranking.
+ const PACK_TAG='ecoData:pack:bd-sustentabilidade:2026-11:v1';
+ const USER_QUESTION_PACK=[
+ {id:'eco2026-01',text:'O que é um banco de dados?',options:['Um programa para editar vídeos','Um sistema para guardar e organizar dados','Um tipo de cabo de internet','Uma placa de vídeo','Um antivírus'],correctIndex:1,category:'Banco de Dados'},
+ {id:'eco2026-02',text:'Qual comando SQL busca dados em uma tabela?',options:['DELETE','DROP','SELECT','CLOSE','PAUSE'],correctIndex:2,category:'Banco de Dados'},
+ {id:'eco2026-03',text:'O que identifica cada linha de forma única em uma tabela?',options:['Chave primária (Primary Key)','Senha do Wi-Fi','Nome do arquivo','Comentário','Fundo da tela'],correctIndex:0,category:'Banco de Dados'},
+ {id:'eco2026-04',text:'Para que serve o comando DELETE no SQL?',options:['Criar uma tabela nova','Apagar registros de uma tabela','Aumentar o tamanho da fonte','Desligar o servidor','Traduzir textos'],correctIndex:1,category:'Banco de Dados'},
+ {id:'eco2026-05',text:'O que é um backup?',options:['Uma cópia de segurança dos dados','Um vírus de computador','Uma tela quebrada','Um tipo de teclado','Uma senha esquecida'],correctIndex:0,category:'Banco de Dados'},
+ {id:'eco2026-06',text:'Qual destas é uma fonte de energia renovável?',options:['Carvão mineral','Petróleo','Gás natural','Energia solar','Óleo diesel'],correctIndex:3,category:'Sustentabilidade'},
+ {id:'eco2026-07',text:'O que significa reciclar?',options:['Jogar lixo nos rios','Queimar plástico no quintal','Transformar materiais usados em novos produtos','Comprar tudo descartável','Cortar todas as árvores'],correctIndex:2,category:'Sustentabilidade'},
+ {id:'eco2026-08',text:'Qual atitude ajuda a economizar água em casa?',options:['Deixar a torneira aberta ao escovar os dentes','Lavar a calçada com mangueira todo dia','Fechar o chuveiro ao se ensaboar','Tomar banhos de 1 hora','Ignorar vazamentos'],correctIndex:2,category:'Sustentabilidade'},
+ {id:'eco2026-09',text:'O que é o desmatamento?',options:['O plantio de novas florestas','A derrubada e destruição de florestas e matas','A limpeza de praias','A reciclagem de papel','O uso de energia eólica'],correctIndex:1,category:'Sustentabilidade'},
+ {id:'eco2026-10',text:'Qual destes materiais demora mais para se decompor na natureza?',options:['Casca de banana','Folha seca','Papel toalha','Resto de maçã','Garrafa plástica'],correctIndex:4,category:'Sustentabilidade'}
+ ].map(q=>({...q,type:'classic',difficulty:'Fácil',updatedAt:Date.now()}));
+ function normalizeQuestion(text){
+   return String(text||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+     .toLocaleLowerCase('pt-BR').replace(/[^a-z0-9 ]+/g,' ').replace(/\s+/g,' ').trim();
+ }
+ function questionTopic(text){
+   const v=normalizeQuestion(text);
+   if(/\b(banco|bancos) de dados\b/.test(v)&&/\b(o que|funcao|serve|significa|conceito|definicao|objetivo)\b/.test(v))return 'banco-definicao';
+   if(/\b(chave primaria|primary key)\b/.test(v)||(/\bidentific/.test(v)&&/\b(linha|registro|tupla)\b/.test(v)&&/\b(unica|unico|exclusiva)\b/.test(v)))return 'chave-primaria';
+   if(/\b(delete|apagar registros|excluir registros|remover registros)\b/.test(v)&&/\b(sql|comando|tabela|registros)\b/.test(v))return 'sql-delete';
+   if(/\b(sql|comando)\b/.test(v)&&/\b(busca|buscar|consulta|consultar|select|listar|recuperar|selecionar|obter)\b/.test(v)&&/\b(dado|dados|tabela|registros|informacoes)\b/.test(v))return 'sql-select';
+   if(/\b(backup|copia de seguranca|copias de seguranca)\b/.test(v))return 'backup';
+   if(/\b(fonte|energia)\b/.test(v)&&/\brenovavel\b/.test(v))return 'fonte-renovavel';
+   if(/\b(reciclar|reciclagem)\b/.test(v)&&/\b(o que|significa|conceito|definicao|consiste|transformar)\b/.test(v))return 'conceito-reciclar';
+   if(/\b(agua)\b/.test(v)&&/\b(economizar|economia|poupar|reducao|reduzir|consumo)\b/.test(v))return 'economia-agua';
+   if(/\bdesmatamento\b/.test(v)&&/\b(o que|significa|definicao|conceito|consiste)\b/.test(v))return 'definicao-desmatamento';
+   if(/\b(decompor|decomposicao|degradar|degradacao)\b/.test(v)&&/\b(material|materiais|plastico|natureza|lixo)\b/.test(v))return 'decomposicao-material';
+   return '';
+ }
+ function matchingQuestion(a,b){
+   const left=normalizeQuestion(a.text),right=normalizeQuestion(b.text);
+   if(left===right)return true;
+   const conceptA=questionTopic(left),conceptB=questionTopic(right);
+   if(conceptA&&conceptA===conceptB)return true;
+   const skip=new Set(['qual','quais','destes','destas','destas','para','que','uma','sao','com','nos','nas','por','dos','das','tipo','mais','destes','sobre','dado','dados']);
+   const aa=new Set(left.split(' ').filter(t=>t.length>=3&&!skip.has(t)));
+   const bb=new Set(right.split(' ').filter(t=>t.length>=3&&!skip.has(t)));
+   let intersection=0;for(const word of aa)if(bb.has(word))intersection++;
+   return aa.size>=3&&bb.size>=3&&intersection/Math.max(aa.size,bb.size)>=.82;
+ }
+ async function installQuestionPack(){
+   const marks=await storage.all('settings');
+   if(marks.some(x=>x.key===PACK_TAG))return {added:0,ignored:0,installed:true};
+   let added=0,ignored=0;
+   for(const item of USER_QUESTION_PACK){
+     if(questions.some(old=>matchingQuestion(item,old))){ignored++;continue;}
+     if(!validQuestion(item))throw new Error('Uma das questões novas possui formato inválido.');
+     await storage.write('questions',item);
+     questions.push(item);added++;
+   }
+   await storage.write('settings',{key:PACK_TAG,value:{added,ignored,at:Date.now()}});
+   return {added,ignored,installed:false};
+ }
+
  async function init(){try{await storage.open();questions=(await storage.all('questions')).filter(validQuestion);rankings=(await storage.all('rankings')).filter(v=>v&&typeof v.name==='string');const st=(await storage.all('settings')).find(v=>v.key==='preferences');if(st?.value&&typeof st.value==='object')settings={...defaultSettings,...st.value};}catch(e){toast('Não foi possível ler todos os dados locais: '+e.message,'error')}
+   try{await installQuestionPack()}catch(e){console.warn('Não foi possível instalar as perguntas novas:',e);toast('Algumas perguntas novas não puderam ser salvas: '+e.message,'error')}
    settings.names=Array.isArray(settings.names)?settings.names.slice(0,2):defaultSettings.names;settings.colors=Array.isArray(settings.colors)?settings.colors.slice(0,2):defaultSettings.colors;colors=settings.colors.map((c,i)=>COLORS.includes(c)?c:COLORS[i]);if(colors[0]===colors[1])colors[1]=COLORS.find(c=>c!==colors[0]);
    $('#nameP1').value=settings.names[0]||'Jogador 1';$('#nameP2').value=settings.names[1]||'Jogador 2';$('#roundCount').value=settings.rounds||10;$('#timePerRound').value=settings.time||60;$('#fxEnabled').checked=settings.fx!==false;$('#musicEnabled').checked=settings.music!==false;$('#volumeSetting').value=settings.volume??60;$('#rushRaceTime').value=settings.raceTime??75;$('#rushAnswerTime').value=settings.answerTime??35;$('#mixedRushCount').value=settings.mixedRush??1;$('#joySize').value=settings.joySize??100;$('#joyOpacity').value=settings.joyOpacity??82;$('#joySensitivity').value=settings.joySensitivity??100;applyTouchSettings();audio.fx=settings.fx!==false;audio.music=settings.music!==false;audio.setVolume((settings.volume??60)/100);
    game=new window.EcoGame($('#gameCanvas'),{onTick:updateTimer,onSelect:updateChoices,onJump:()=>audio.play('jump'),onFall:()=>audio.play('lose'),onCountdown:()=>audio.play('tick'),onLock:lockRound,onCollapse:()=>audio.play('lose'),onFinish:showRoundResults,onRespawn:()=>{},onStage:onGameStage,onRushWinner:onRushWinner,onRushTimeout:onRushTimeout,onTrainingComplete:i=>toast(`${game.players[i].name} completou o percurso de treinamento!`)});
-   bindEvents();renderPalette();updatePreview();renderHome();renderQuestions();renderRanking();renderSettings();validateSetup();show('home');
+   bindEvents();setOptionCount(4);renderPalette();updatePreview();renderHome();renderQuestions();renderRanking();renderSettings();validateSetup();show('home');
    // An optional musical ambience starts only after a real user interaction, to respect browser audio restrictions.
    document.addEventListener('pointerdown',()=>{audio.init();audio.syncMusic()},{once:true});
  }
@@ -1160,6 +1245,7 @@ body.game-focus #view-game .answer-card{
    ['roundCount','timePerRound','rushRaceTime','rushAnswerTime','mixedRushCount'].forEach(id=>$('#'+id).addEventListener('input',()=>{validateSetup();savePrefs()}));
    $('#startMatch').addEventListener('click',startMatch);
    $('#questionForm').addEventListener('submit',saveQuestion);
+   $('#optionCount').addEventListener('change',()=>setOptionCount(Number($('#optionCount').value)));
    $('#cancelEdit').addEventListener('click',clearEditor);
    $('#searchQuestions').addEventListener('input',renderQuestions);
    $('#importQuestions').addEventListener('click',()=>$('#fileImport').click());
@@ -1192,11 +1278,22 @@ body.game-focus #view-game .answer-card{
   $('#setupAlert').textContent=error||'Tudo pronto! Arena liberada para a disputa.';$('#setupAlert').className='inline-alert '+(error?'error':'ok');$('#startMatch').disabled=!!error;$('#availableQuestions').textContent=`${pool.length} questão(ões) neste modo`;return !error}
 
  function renderHome(){$('#homeQuestions').textContent=questions.length;$('#homeTime').textContent=fmtTime(int($('#timePerRound').value,60));$('#homeMatches').textContent=Math.floor(rankings.reduce((n,r)=>n+(r.matches||0),0)/2);$('#homeNotice').innerHTML=questions.length?`<span class="pulse-mark">●</span> ${questions.length} questão(ões) prontas. Sua arena está liberada!`:'<span class="pulse-mark">●</span> Comece pelo Modo Treino ou cadastre perguntas para competir.'}
- function validQuestion(q){return q&&typeof q.id==='string'&&typeof q.text==='string'&&q.text.trim().length>0&&q.text.length<=900&&Array.isArray(q.options)&&q.options.length===4&&q.options.every(v=>typeof v==='string'&&v.trim().length>0&&v.length<=350)&&Number.isInteger(q.correctIndex)&&q.correctIndex>=0&&q.correctIndex<4}
- async function saveQuestion(e){e.preventDefault();const text=$('#questionText').value.trim(),opts=$$('.answer-input').map(v=>v.value.trim()),checked=$('input[name="correctOption"]:checked');if(!text)return toast('Escreva o enunciado da questão.','error');if(opts.some(v=>!v))return toast('Preencha as quatro alternativas.','error');if(new Set(opts.map(norm)).size<4)return toast('As quatro alternativas precisam ser diferentes.','error');if(!checked)return toast('Marque qual alternativa é a correta.','error');
+ function validQuestion(q){return q&&typeof q.id==='string'&&typeof q.text==='string'&&q.text.trim().length>0&&q.text.length<=900&&Array.isArray(q.options)&&[4,5].includes(q.options.length)&&q.options.every(v=>typeof v==='string'&&v.trim().length>0&&v.length<=350)&&Number.isInteger(q.correctIndex)&&q.correctIndex>=0&&q.correctIndex<q.options.length}
+ function setOptionCount(count){
+   const n=count===5?5:4;
+   $('#optionCount').value=String(n);
+   $('#optionEditor .option-row').forEach((row,i)=>{
+     const hidden=i>=n;
+     row.hidden=hidden;
+     const radio=row.querySelector('input[type="radio"]'),field=row.querySelector('.answer-input');
+     radio.disabled=hidden;field.disabled=hidden;field.required=!hidden;
+     if(hidden)radio.checked=false;
+   });
+ }
+ async function saveQuestion(e){e.preventDefault();const text=$('#questionText').value.trim(),count=Number($('#optionCount').value)||4,opts=$('.answer-input').slice(0,count).map(v=>v.value.trim()),checked=$('input[name="correctOption"]:checked');if(!text)return toast('Escreva o enunciado da questão.','error');if(opts.some(v=>!v))return toast('Preencha todas as alternativas.','error');if(new Set(opts.map(norm)).size<count)return toast('As alternativas precisam ser diferentes.','error');if(!checked||Number(checked.value)>=count)return toast('Marque qual alternativa é a correta.','error');
    const id=$('#editingId').value||uid();const q={id,text,options:opts,correctIndex:Number(checked.value),category:$('#questionCategory').value.trim().slice(0,44),difficulty:$('#questionDifficulty').value,type:$('#questionType').value,updatedAt:Date.now()};try{await storage.write('questions',q);const index=questions.findIndex(v=>v.id===id);if(index>=0)questions[index]=q;else questions.push(q);audio.play('save');clearEditor();renderQuestions();renderHome();validateSetup();toast(index>=0?'Questão atualizada com sucesso!':'Questão cadastrada no banco!')}catch(ex){toast('Não foi possível salvar: '+ex.message,'error')}}
- function editQuestion(q){show('questions');$('#editingId').value=q.id;$('#editorMode').textContent='EDITAR QUESTÃO';$('#questionText').value=q.text;$('#questionCategory').value=q.category||'';$('#questionDifficulty').value=q.difficulty||'Livre';$('#questionType').value=q.type==='rush'?'rush':'classic';$$('.answer-input').forEach((field,i)=>field.value=q.options[i]);const radio=$(`input[name="correctOption"][value="${q.correctIndex}"]`);if(radio)radio.checked=true;$('#saveQuestion').textContent='✓ ATUALIZAR QUESTÃO';$('#questionForm').scrollIntoView({block:'start',behavior:'smooth'});$('#questionText').focus({preventScroll:true})}
- function clearEditor(){$('#questionForm').reset();$('#editingId').value='';$('#editorMode').textContent='NOVA QUESTÃO';$('#saveQuestion').textContent='＋ SALVAR QUESTÃO'}
+ function editQuestion(q){show('questions');$('#editingId').value=q.id;$('#editorMode').textContent='EDITAR QUESTÃO';$('#questionText').value=q.text;$('#questionCategory').value=q.category||'';$('#questionDifficulty').value=q.difficulty||'Livre';$('#questionType').value=q.type==='rush'?'rush':'classic';setOptionCount(q.options.length);$('.answer-input').forEach((field,i)=>field.value=q.options[i]||'');const radio=$(`input[name="correctOption"][value="${q.correctIndex}"]`);if(radio)radio.checked=true;$('#saveQuestion').textContent='✓ ATUALIZAR QUESTÃO';$('#questionForm').scrollIntoView({block:'start',behavior:'smooth'});$('#questionText').focus({preventScroll:true})}
+ function clearEditor(){$('#questionForm').reset();setOptionCount(4);$('#editingId').value='';$('#editorMode').textContent='NOVA QUESTÃO';$('#saveQuestion').textContent='＋ SALVAR QUESTÃO'}
  function renderQuestions(){const search=norm($('#searchQuestions').value);const filtered=questions.filter(q=>norm(q.text+' '+(q.category||'')).includes(search));$('#questionCountBadge').textContent=questions.length;const root=$('#questionList');if(!filtered.length){root.innerHTML=`<div class="empty-state"><span class="empty-icon">▤</span><h4>${questions.length?'Nenhuma questão encontrada':'Seu banco está vazio'}</h4><p>${questions.length?'Tente outra palavra para pesquisar.':'Adicione a primeira questão usando o formulário ao lado.'}</p></div>`;return}
    root.innerHTML=filtered.map((q,i)=>`<article class="question-card"><div class="question-card-head"><span class="question-number">#${String(questions.indexOf(q)+1).padStart(2,'0')}</span><span class="pill" title="${esc(q.category||'Sem categoria')}">${esc(q.category||'SEM CATEGORIA')}</span><span class="pill subdued">${esc(q.difficulty||'Livre')}</span><span class="pill type-pill ${q.type==='rush'?'is-rush':''}">${q.type==='rush'?'⚡ RUSH':'▤ CLÁSSICA'}</span></div><h4>${esc(q.text)}</h4><div class="question-actions"><button data-act="edit" data-id="${esc(q.id)}" type="button">✎ Editar</button><button data-act="delete" data-id="${esc(q.id)}" type="button" class="danger">✕ Excluir</button><span style="margin-left:auto;color:#67dba6;font:700 10px var(--mono);align-self:center">${q.options.length} alternativas</span></div></article>`).join('')}
  function exportQuestions(){if(!questions.length)return toast('Cadastre alguma questão antes de exportar.','error');const blob=new Blob([JSON.stringify({app:'EcoData Arena',version:2,exportedAt:new Date().toISOString(),questions},null,2)],{type:'application/json'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='ecodata-questoes-'+new Date().toISOString().slice(0,10)+'.json';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),5000);audio.play('save');toast(`${questions.length} questão(ões) exportadas para JSON.`)}
@@ -1227,7 +1324,7 @@ body.game-focus #view-game .answer-card{
  function enterArena(){if(!session||!session.current)return;game.map=session.map||'technology';if(window.EcoWorld)window.EcoWorld.map=game.map;trainingMode=false;session.locked=false;session.rushWinner=null;const q=session.current,isRush=q.type==='rush';
   $('#hudName1').textContent=session.players[0].name;$('#hudName2').textContent=session.players[1].name;$('#hudDot1').style.setProperty('--player-color',session.players[0].color);$('#hudDot2').style.setProperty('--player-color',session.players[1].color);$('#hudScore1').textContent=session.scores[0];$('#hudScore2').textContent=session.scores[1];$('#hudRound').textContent=`RODADA ${String(session.roundIndex+1).padStart(2,'0')}/${session.rounds}`;
   $('#gameCategory').textContent=isRush?'⚡ MODO RUSH':(q.category||'CLÁSSICO').toUpperCase();$('#gameQuestion').textContent=isRush?'CRUZE A LINHA DE CHEGADA PARA REVELAR A PERGUNTA!':q.text;$('#arenaHint').textContent=isRush?'Ambos começam juntos! Corra até a meta.':'Escolha uma plataforma antes do tempo acabar!';$('#revealTag').hidden=true;$('#stageTag').textContent=isRush?'ECODATA / CIRCUITO RUSH':'ECODATA / ARENA CLÁSSICA';$('#tutorialActions').hidden=true;
-  $('#answerStrip').innerHTML=q.options.map((opt,i)=>`<div class="answer-card" data-choice="${i}"><span class="letter">${letters[i]}</span><span class="text">${esc(opt)}</span></div>`).join('');document.body.classList.toggle('rush-racing',isRush);show('game');if(isRush)game.startRush(q,session.players,session.raceTime,session.answerTime,true);else game.startRound(q,session.players,session.time);}
+  $('#answerStrip').classList.toggle('five-options',q.options.length===5);$('#answerStrip').innerHTML=q.options.map((opt,i)=>`<div class="answer-card" data-choice="${i}"><span class="letter">${letters[i]}</span><span class="text">${esc(opt)}</span></div>`).join('');document.body.classList.toggle('rush-racing',isRush);show('game');if(isRush)game.startRush(q,session.players,session.raceTime,session.answerTime,true);else game.startRound(q,session.players,session.time);}
  function onGameStage(stage){if(view!=='game')return;if(trainingPractice){onPracticeStage(stage);return}document.body.classList.toggle('rush-racing',stage.startsWith('rush-')&&stage!=='rush-answer');if(stage==='rush-countdown'||stage==='rush-tie'){$('#gameCategory').textContent='⚡ CIRCUITO RUSH';$('#gameQuestion').textContent='3 • 2 • 1 — PREPARE-SE PARA CORRER!';$('#arenaHint').textContent=stage==='rush-tie'?'Chegada simultânea: nova largada justa!':'P1 e P2: mesmo ponto de início';}
  else if(stage==='rush-race'){$('#gameCategory').textContent='⚡ CORRIDA';$('#gameQuestion').textContent='Alcance primeiro a linha de chegada para responder à questão.';$('#arenaHint').textContent='Checkpoints dourados • cuidado com a lava!'}
  else if(stage==='rush-winner'){$('#gameQuestion').textContent=`${session.players[game.winner].name} ganhou o direito de responder!`;$('#arenaHint').textContent='Preparando área de alternativas...'}
@@ -1278,7 +1375,7 @@ body.game-focus #view-game .answer-card{
   'PC: P1 anda com A/D, pula com W e desce com S. P2 usa ←/→, ↑ para pular e ↓ para descer.',
   'PC: alcance as plataformas A–D usando WASD ou as setas. Observe como cada jogador marca sua alternativa.',
   'PC: atravesse o circuito com pulos e checkpoints. P1 usa WASD e P2 usa as setas. Não há cronômetro.'
- ][step];$('#arenaHint').textContent=touch?'Treino adaptado para celular • sem pontos.':'Treino adaptado para computador • sem pontos.';$('#gameControlHint').innerHTML=touch?'P1 + P2: ANALÓGICOS':'P1: WASD <span>·</span> P2: SETAS';$('#answerStrip').innerHTML=step===1?letters.map((v,i)=>`<div class="answer-card"><span class="letter">${v}</span><span class="text">Plataforma de treino ${v}</span></div>`).join(''):'';$$('[data-train-step]').forEach(b=>b.classList.toggle('active',Number(b.dataset.trainStep)===step))}
+ ][step];$('#arenaHint').textContent=touch?'Treino adaptado para celular • sem pontos.':'Treino adaptado para computador • sem pontos.';$('#gameControlHint').innerHTML=touch?'P1 + P2: ANALÓGICOS':'P1: WASD <span>·</span> P2: SETAS';$('#answerStrip').classList.remove('five-options');$('#answerStrip').innerHTML=step===1?letters.slice(0,4).map((v,i)=>`<div class="answer-card"><span class="letter">${v}</span><span class="text">Plataforma de treino ${v}</span></div>`).join(''):'';$$('[data-train-step]').forEach(b=>b.classList.toggle('active',Number(b.dataset.trainStep)===step))}
  function bindAnalogControls(){for(const pad of $$('.touch-joystick')){const id=Number(pad.dataset.analog),nub=pad.querySelector('.joystick-nub');let current=null;const move=e=>{if(current!==e.pointerId)return;e.preventDefault();const r=pad.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,rad=Math.max(10,r.width*.36),dx=e.clientX-cx,dy=e.clientY-cy,length=Math.hypot(dx,dy),scale=length>rad?rad/length:1;const px=dx*scale,py=dy*scale;nub.style.transform=`translate(calc(-50% + ${px}px),calc(-50% + ${py}px))`;const sens=Math.max(.6,Math.min(1.4,Number($('#joySensitivity').value)/100||1));game?.setAnalog(id,Math.abs(px/rad)<.12?0:Math.max(-1,Math.min(1,(px/rad)*sens)),Math.abs(py/rad)<.13?0:Math.max(-1,Math.min(1,(py/rad)*sens)))};
   const release=e=>{if(current!==e.pointerId)return;e.preventDefault();current=null;nub.style.transform='translate(-50%,-50%)';game?.setAnalog(id,0,0)};pad.addEventListener('pointerdown',e=>{if(current!==null)return;e.preventDefault();current=e.pointerId;try{pad.setPointerCapture(e.pointerId)}catch{}move(e)});pad.addEventListener('pointermove',move);pad.addEventListener('pointerup',release);pad.addEventListener('pointercancel',release);pad.addEventListener('lostpointercapture',release);pad.addEventListener('contextmenu',e=>e.preventDefault());}
  }
@@ -1497,7 +1594,7 @@ body.game-focus #view-game .answer-card{
      const root=$('#allOptionsList');root.replaceChildren();
      game.question.options.forEach((value,i)=>{
        const item=document.createElement('div');item.className='all-option';
-       const strong=document.createElement('strong');strong.textContent='ABCD'[i]+'.';
+       const strong=document.createElement('strong');strong.textContent='ABCDE'[i]+'.';
        const span=document.createElement('span');span.textContent=String(value);
        item.append(strong,span);root.append(item);
      });
