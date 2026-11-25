@@ -1002,15 +1002,50 @@ body.game-focus #view-game .answer-card{
 </script>
   <script>
 (function(){'use strict';
- let context=null,master=null,ambientNodes=[],musicOn=false;const A=window.EcoAudio={volume:.6,fx:true,music:true};
+ let context=null,master=null,ambientNodes=[],musicOn=false,musicTimer=null,musicStep=0,clapBuffer=null;const A=window.EcoAudio={volume:.6,fx:true,music:true};
  function ensure(){try{if(!context){const C=window.AudioContext||window.webkitAudioContext;if(!C)return false;context=new C();master=context.createGain();master.gain.value=A.volume*.28;master.connect(context.destination)}if(context.state==='suspended')context.resume().catch(()=>{});return true}catch{return false}}
  function note(freq,duration=.12,type='sine',gain=.24,delay=0,detune=0){if(!context)return;const t=context.currentTime+delay,osc=context.createOscillator(),amp=context.createGain();osc.type=type;osc.frequency.setValueAtTime(freq,t);osc.detune.value=detune;amp.gain.setValueAtTime(.001,t);amp.gain.exponentialRampToValueAtTime(Math.max(.002,gain),t+.018);amp.gain.exponentialRampToValueAtTime(.001,t+duration);osc.connect(amp);amp.connect(master);osc.start(t);osc.stop(t+duration+.035)}
  A.init=ensure;
- A.play=function(type){if(!A.fx||!ensure())return;switch(type){case 'click':note(630,.085,'sine',.14);note(870,.08,'sine',.08,.06);break;case 'save':note(480,.11,'sine',.14);note(690,.13,'sine',.14,.1);note(960,.18,'sine',.14,.2);break;case 'spin':note(250,.2,'triangle',.14);note(370,.25,'triangle',.13,.15);break;case 'tick':note(870,.055,'square',.06);break;case 'jump':note(255,.14,'triangle',.2);note(380,.10,'triangle',.1,.06);break;case 'select':note(515,.09,'sine',.12);break;case 'reveal':note(410,.23,'triangle',.18);note(540,.23,'sine',.12,.16);break;case 'lose':note(300,.3,'sawtooth',.13);note(220,.4,'triangle',.12,.15);break;case 'win':[440,554,659,880].forEach((f,i)=>note(f,.32,'sine',.17,i*.13));break;default:note(470,.1,'sine',.12)}};
+ A.play=function(type){if(!A.fx||!ensure())return;
+ if(type==='applause'){
+   if(!clapBuffer){const length=Math.floor(context.sampleRate*.095);clapBuffer=context.createBuffer(1,length,context.sampleRate);const a=clapBuffer.getChannelData(0);for(let j=0;j<length;j++)a[j]=(Math.random()*2-1)*Math.pow(1-j/length,2)}
+   for(let k=0;k<17;k++){
+     const src=context.createBufferSource(),gain=context.createGain();
+     const filter=context.createBiquadFilter();filter.type='bandpass';filter.frequency.value=1100+Math.random()*800;filter.Q.value=.7;
+     src.buffer=clapBuffer;const t=context.currentTime+k*.09+Math.random()*.06;
+     gain.gain.setValueAtTime(.0001,t);gain.gain.exponentialRampToValueAtTime(.12+Math.random()*.09,t+.012);
+     gain.gain.exponentialRampToValueAtTime(.001,t+.095);src.connect(filter);filter.connect(gain);gain.connect(master);src.start(t);src.stop(t+.10);
+   }
+   return;
+ }
+ switch(type){case 'click':note(630,.085,'sine',.14);note(870,.08,'sine',.08,.06);break;case 'save':note(480,.11,'sine',.14);note(690,.13,'sine',.14,.1);note(960,.18,'sine',.14,.2);break;case 'spin':note(250,.2,'triangle',.14);note(370,.25,'triangle',.13,.15);break;case 'tick':note(870,.055,'square',.06);break;case 'jump':note(255,.14,'triangle',.2);note(380,.10,'triangle',.1,.06);break;case 'select':note(515,.09,'sine',.12);break;case 'reveal':note(410,.23,'triangle',.18);note(540,.23,'sine',.12,.16);break;case 'lose':note(300,.3,'sawtooth',.13);note(220,.4,'triangle',.12,.15);break;case 'win':[440,554,659,880].forEach((f,i)=>note(f,.32,'sine',.17,i*.13));break;default:note(470,.1,'sine',.12)}};
  A.setVolume=function(v){A.volume=Math.max(0,Math.min(1,Number(v)||0));if(master&&context)master.gain.setTargetAtTime(A.volume*.28,context.currentTime,.06)};
- A.startMusic=function(){if(!A.music||musicOn||!ensure())return;musicOn=true;const freqs=[110,164.81,220];freqs.forEach((freq,i)=>{const osc=context.createOscillator(),gain=context.createGain();osc.type='sine';osc.frequency.value=freq;gain.gain.value=i===0?.038:.012;osc.connect(gain);gain.connect(master);osc.start();ambientNodes.push({osc,gain})})};
- A.stopMusic=function(){musicOn=false;ambientNodes.forEach(({osc,gain})=>{try{gain.gain.setTargetAtTime(.0001,context.currentTime,.17);osc.stop(context.currentTime+.5)}catch{}});ambientNodes=[]};
- A.syncMusic=function(){if(A.music)A.startMusic();else A.stopMusic()};
+ A.startMusic=function(){
+ if(!A.music||musicOn||!ensure())return;
+ musicOn=true;musicStep=0;
+ // Trilha procedural original: variação de acordes, timbres e pausas curtas.
+ const scale=[0,2,4,7,9,11,12,14],roots=[110,130.81,146.83,98];
+ const beat=()=>{
+  if(!musicOn||!A.music||document.hidden)return;
+  const t=musicStep++,bar=Math.floor(t/16),slot=t%16,root=roots[bar%roots.length];
+  const pattern=[0,2,4,2,7,5,4,2,0,4,7,9,7,4,2,0];
+  const idx=(pattern[slot]+(bar%3===2?1:0))%scale.length;
+  const pitch=root*Math.pow(2,scale[idx]/12);
+  const quiet=slot===3||slot===11;
+  if(!quiet)note(pitch*2,.17+(slot%4===0?.1:0),slot%5===0?'triangle':'sine',.07+slot%3*.015);
+  if(slot%4===0)note(root,.34,'triangle',.11,0);
+  if(slot%8===6)note(root*1.5,.13,'sine',.055,0);
+ };
+ beat();musicTimer=setInterval(beat,215);
+};
+A.stopMusic=function(){
+ musicOn=false;
+ if(musicTimer!==null){clearInterval(musicTimer);musicTimer=null}
+ ambientNodes.forEach(({osc,gain})=>{try{gain.gain.setTargetAtTime(.0001,context.currentTime,.17);osc.stop(context.currentTime+.5)}catch{}});
+ ambientNodes=[];
+};
+
+  A.syncMusic=function(){if(A.music)A.startMusic();else A.stopMusic()};
  A.stopAll=A.stopMusic;
 })();
 
@@ -1208,6 +1243,10 @@ body.game-focus #view-game .answer-card{
    let base='#2e6775',top='#72bcb8',stroke='#b1e7d9';if(isChoice){base='#536977';top='#9bafbf';stroke='#c7dde5';if(revealed){const good=p.index===this.question.correctIndex;base=good?'#177957':'#873544';top=good?'#60edb3':'#fa8295';stroke=good?'#b9ffe5':'#ffd0d6'}else{const occ=this.players.filter(q=>q.choice===p.index&&q.alive&&(this.allowed==null||q.id===this.allowed));if(occ.length===1){base=occ[0].color;top=occ[0].color;stroke='#ffffff'}else if(occ.length===2){base=occ[0].color;top=occ[1].color;stroke='#ffffff'}}}
    if(p.temporary){base='#51496b';top='#ab95ed';stroke='#d6cbff'}if(p.moving){base='#285c78';top='#69bde0'}
    g.shadowColor=top;g.shadowBlur=this.lowPower?2:8;rect(g,x,y,p.w,p.h,7);g.fillStyle=base;g.fill();g.shadowBlur=0;g.strokeStyle=stroke;g.lineWidth=2;g.stroke();rect(g,x,y,p.w,6,4);g.fillStyle=top;g.fill();
+   // Detalhes industriais leves das plataformas: segmentos e pequenos indicadores.
+   g.strokeStyle='#ffffff44';g.lineWidth=1;
+   for(let j=16;j<p.w-10;j+=34){g.beginPath();g.moveTo(x+j,y+p.h-6);g.lineTo(x+j+11,y+p.h-6);g.stroke()}
+   g.fillStyle='#ddfff599';g.fillRect(x+7,y+3,4,2);g.fillRect(x+p.w-12,y+3,4,2);
    if(isChoice){const users=this.players.filter(q=>q.choice===p.index&&(this.allowed==null||q.id===this.allowed));if(users.length===2&&!revealed){g.fillStyle=users[0].color;g.fillRect(x+4,y+8,p.w/2-4,13);g.fillStyle=users[1].color;g.fillRect(x+p.w/2,y+8,p.w/2-4,13)}g.fillStyle=revealed?'#112f2a':'#f8fffa';g.textAlign='center';g.font='900 17px system-ui';g.fillText(String.fromCharCode(65+p.index),x+p.w/2,y+18);this.drawChoiceLabel(g,p)}else if(p.index===-1){g.fillStyle='#acffe4';g.font='800 11px monospace';g.textAlign='center';g.fillText('SPAWN P1 + P2',x+p.w/2,y+16)}g.restore()}
 
 
@@ -1240,7 +1279,7 @@ body.game-focus #view-game .answer-card{
        }
        return rows.length?rows:[''];
      }
-     let font=13,lines=wrap(font),lineHeight=font*1.26;
+     let font=14.5,lines=wrap(font),lineHeight=font*1.26;
      while(font>6.5&&lines.length*lineHeight+18>maxHeight){
        font-=.5;lines=wrap(font);lineHeight=font*1.26;
      }

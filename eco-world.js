@@ -245,8 +245,8 @@ World.drawBackground=function(g,t,map,camera){
    const time=t*.001;
    if(key==='forest'){
     for(let i=0;i<fxCount;i++){
-     const x=(i*117+time*(7+i%3*2))%1060-20;
-     const y=18+i*37%189+Math.sin(time*.7+i)*7;
+     const x=(i*117+Math.sin(time*.62+i)*18+1000)%1060-20;
+     const y=16+(i*37+time*(14+i%4*3))%203;
      g.save();g.globalAlpha=.18+.11*(1+Math.sin(time*.7+i))*.5;
      g.fillStyle=i%2?'#eaffaf':'#b5e576';
      g.translate(x,y);g.rotate(Math.sin(time*.75+i)*.18);
