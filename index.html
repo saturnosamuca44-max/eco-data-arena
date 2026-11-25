@@ -2150,13 +2150,13 @@ A.stopMusic=function(){
    for(let i=0;i<n;i++){
      const angle=rotation+i*tau/n-Math.PI/2;
      const depth=Math.sin(angle);
+     const scale=.79+.20*(depth+1)/2;
      const x=Math.cos(angle)*rx,y=Math.sin(angle)*ry;
      // Rótulos longos e fontes ampliadas nunca extrapolam o painel.
      const halfW=(nodes[i].offsetWidth||84)*scale/2;
      const halfH=(nodes[i].offsetHeight||40)*scale/2;
      const boundedX=Math.max(-width/2+halfW+padding,Math.min(width/2-halfW-padding,x));
      const boundedY=Math.max(-height/2+halfH+padding+8,Math.min(height/2-halfH-padding-8,y));
-     const scale=.79+.20*(depth+1)/2;
      const node=nodes[i];
      node.style.transform='translate(-50%,-50%) translate3d(' +boundedX.toFixed(1)+'px,'+boundedY.toFixed(1)+'px,0) scale('+scale.toFixed(3)+')';
      node.style.zIndex=depth<0?'1':'6';
