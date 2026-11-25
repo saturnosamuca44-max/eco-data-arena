@@ -1,11 +1,11 @@
 {
-  "version": "3.14.2",
+  "version": "3.14.3",
   "name": "EcoData Arena",
   "updates": [
-    "A tela cheia ativa automaticamente ao girar a roleta, usando o clique do jogador exigido pelos navegadores",
-    "A tela cheia permanece ativa entre resultado, personalização de avatares, roleta e partida seguinte",
-    "Não é mais necessário usar o botão de tela cheia a cada pergunta",
-    "ESC/Voltar continuam permitindo saída manual, sujeita às regras do navegador",
-    "Sem modificar ranking, partidas, perguntas ou controles"
+    "Removidos os painéis retangulares borrados em torno dos analógicos e da confirmação",
+    "Preservados um analógico e um botão Confirmar por jogador, sem duplicações",
+    "Tela cheia do cabeçalho agora entra e persiste entre telas do aplicativo",
+    "Voltar no Android pode encerrar a tela cheia quando o navegador encaminha o evento",
+    "Mantidos ranking, avatares, pontuação e questões"
   ]
 }

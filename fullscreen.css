@@ -122,3 +122,41 @@ body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback,.eco-root-fullscreen)
   backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
  }
 }
+
+
+/* 3.14.3 — Controles mobile transparentes: um analógico por jogador, confirmação isolada */
+@media(pointer:coarse){
+  body.game-focus #view-game.active #touchControls,
+  body.game-focus #view-game.active #touchControls .touch-side{
+    background:transparent!important;
+    background-image:none!important;
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+    border:0!important;
+    box-shadow:none!important;
+    outline:0!important;
+    border-radius:0!important;
+  }
+  body.game-focus #view-game.active #touchControls .touch-side{
+    width:auto!important;min-width:0!important;max-width:48vw!important;
+    padding:0!important;margin:0!important;
+    display:flex!important;align-items:center!important;
+    justify-content:flex-start!important;
+    gap:clamp(5px,1vw,12px)!important;
+    pointer-events:none!important;
+  }
+  body.game-focus #view-game.active #touchControls .touch-joystick{
+    pointer-events:auto!important;
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+    flex-shrink:0!important;
+  }
+  body.game-focus #view-game.active #touchControls .touch-confirm{
+    pointer-events:auto!important;
+    backdrop-filter:none!important;
+    -webkit-backdrop-filter:none!important;
+    flex-shrink:0!important;
+    box-shadow:0 3px 9px #0006!important;
+  }
+  body.game-focus #view-game.active #touchControls .touch-confirm[hidden]{display:none!important}
+}
