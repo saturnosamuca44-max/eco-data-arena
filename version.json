@@ -1,14 +1,10 @@
 {
-  "version": "3.9.1",
+  "version": "3.9.2",
   "name": "EcoData Arena",
   "updates": [
-    "Resultado de cada pergunta: vencedor por resposta correta mais rápida, com empate verdadeiro possível",
-    "No Rush, chegada simultânea libera alternativas para os dois jogadores",
-    "Roleta entre partidas; novo ciclo automático após conclusão",
-    "Símbolo de reciclagem com banco de dados e palavras em órbita",
-    "Tela cheia com aviso temporário, controles mobile reforçados",
-    "Folhas no mapa de natureza, partículas tecnológicas, perguntas maiores",
-    "Trilha musical procedural animada e aplausos ao vencer o ciclo",
-    "Ajuste adicional para tela cheia sem cortar a arena nos navegadores mobile"
+    "Símbolos em dois arquivos de imagem independentes, derivados das referências enviadas",
+    "Sem textos fixos SYSTEM READY / 01 dados / 02 recursos / SQL CRUD",
+    "Palavras escolhidas orbitam suavemente",
+    "Todos os modos, perguntas, ranking e PWA mantidos"
   ]
 }
