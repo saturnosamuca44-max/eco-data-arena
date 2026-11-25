@@ -1,10 +1,11 @@
 {
-  "version": "3.11.1",
+  "version": "3.11.2",
   "name": "EcoData Arena",
   "updates": [
     "Arena em tela cheia verdadeira e fallback imersivo com HUD sobreposta ao cenário",
     "Controles mobile mantidos dentro da arena sem interromper o jogo",
     "Percentuais de tamanho, opacidade e sensibilidade atualizados em tempo real",
-    "Escala do analógico responde a toda a faixa de tamanho inclusive em telas pequenas"
+    "Escala do analógico responde a toda a faixa de tamanho inclusive em telas pequenas",
+    "Saída segura do modo imersivo ao terminar rodada ou abrir outra seção"
   ]
 }
