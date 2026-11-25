@@ -1,11 +1,10 @@
 {
-  "version": "3.10.0",
+  "version": "3.11.0",
   "name": "EcoData Arena",
   "updates": [
-    "Correção das mensagens do Rush e empate na chegada",
-    "Vencedor por primeira chegada à plataforma correta",
-    "Botão Jogar todas as questões disponíveis com seleção de Rush no modo Misto",
-    "Tela cheia do cabeçalho padronizada com a da partida",
-    "Revisão sem apagar questões, cores, mapas ou ranking"
+    "Arena fullscreen ocupa o viewport com HUD e pergunta flutuantes",
+    "Alternativas e analógicos integrados dentro da imagem de jogo",
+    "Fallback imersivo em navegadores sem Fullscreen API",
+    "Ajustes de tamanho, opacidade e sensibilidade atualizam percentuais imediatamente"
   ]
 }

@@ -1,0 +1,110 @@
+/* EcoData Arena v3.11.0 — visual imersivo para celulares, tablets e PCs */
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback).active{
+ position:fixed!important;inset:0!important;z-index:9999!important;
+ display:block!important;box-sizing:border-box!important;
+ width:100vw!important;height:100dvh!important;min-height:0!important;max-height:none!important;
+ padding:0!important;margin:0!important;gap:0!important;overflow:hidden!important;isolation:isolate;background:#071923!important;
+}
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .arena-container{
+ position:absolute!important;inset:0!important;display:block!important;z-index:0!important;
+ width:100%!important;height:100%!important;min-width:0!important;min-height:0!important;
+ max-width:none!important;max-height:none!important;overflow:hidden!important;
+ border:0!important;border-radius:0!important;margin:0!important;padding:0!important;
+}
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .arena-container canvas{
+ position:absolute!important;inset:0!important;
+ width:100%!important;height:100%!important;min-width:100%!important;min-height:100%!important;
+ max-width:none!important;max-height:none!important;aspect-ratio:auto!important;
+ object-fit:fill!important;transform:none!important;display:block!important;
+}
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) :is(.game-topbar,.game-bottom){display:none!important}
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .game-hud{
+ position:absolute!important;z-index:35!important;top:max(5px,env(safe-area-inset-top))!important;
+ left:max(6px,env(safe-area-inset-left))!important;right:max(6px,env(safe-area-inset-right))!important;
+ display:flex!important;height:clamp(38px,9dvh,67px)!important;min-height:0!important;max-height:none!important;
+ padding:0!important;margin:0!important;gap:clamp(3px,.7vw,12px)!important;
+ background:#09242bde;border:1px solid #62d6a87c;border-radius:11px;backdrop-filter:blur(2px);
+}
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .hud-player{
+ flex:1;min-width:0!important;min-height:0!important;padding:3px clamp(3px,.8vw,9px)!important;
+}
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .hud-player strong{
+ font-size:clamp(10px,1.4vw,17px)!important;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .hud-player b{font-size:clamp(14px,2vw,25px)!important}
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .timer-value{font-size:clamp(15px,2.3vw,25px)!important}
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .question-banner{
+ position:absolute!important;z-index:36!important;
+ top:calc(max(5px,env(safe-area-inset-top)) + clamp(38px,9dvh,67px) + 5px)!important;
+ left:50%!important;transform:translateX(-50%)!important;width:min(96vw,1000px)!important;
+ box-sizing:border-box!important;min-height:0!important;max-height:min(17dvh,94px)!important;
+ padding:5px 12px!important;margin:0!important;overflow-y:auto!important;
+ background:#09252ee8;border:1px solid #5fb69a9c;border-radius:9px;
+}
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .question-banner h2{
+ font-size:clamp(12px,2vw,23px)!important;line-height:1.24!important;overflow-wrap:anywhere;
+}
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .answer-strip{
+ position:absolute!important;z-index:37!important;
+ bottom:max(7px,env(safe-area-inset-bottom))!important;
+ left:50%!important;transform:translateX(-50%)!important;
+ width:min(96vw,1150px)!important;max-height:20dvh!important;min-height:0!important;
+ display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;
+ box-sizing:border-box!important;margin:0!important;padding:4px!important;gap:4px!important;
+ overflow-y:auto!important;background:#071e27d9;border:1px solid #4dbd9a86;border-radius:9px;
+}
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .answer-strip:not(.five-options){grid-template-columns:repeat(4,minmax(0,1fr))!important}
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .answer-card{
+ min-height:27px!important;max-height:17dvh!important;min-width:0!important;
+ padding:4px 6px!important;overflow-y:auto!important;overflow-wrap:anywhere;
+}
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .answer-card .text{
+ font-size:clamp(9px,1.1vw,14px)!important;line-height:1.2!important;
+}
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .stage-tag{display:none!important}
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .arena-hint{
+ position:absolute!important;z-index:20!important;
+ top:calc(max(5px,env(safe-area-inset-top)) + clamp(38px,9dvh,67px) + min(17dvh,94px) + 15px)!important;
+ left:50%!important;transform:translateX(-50%)!important;
+ max-width:80%!important;text-align:center;font-size:clamp(9px,1vw,12px)!important;
+ background:#09232edb;border-radius:7px;padding:3px 7px;
+}
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .fullscreen-hint{
+ z-index:100!important;top:50%!important;left:50%!important;
+ transform:translate(-50%,-50%)!important;
+}
+@media(pointer:coarse){
+ body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .touch-controls{
+  display:flex!important;position:absolute!important;z-index:45!important;
+  width:100%!important;height:auto!important;max-width:none!important;
+  left:0!important;right:0!important;bottom:max(5px,env(safe-area-inset-bottom))!important;
+  padding:0 max(7px,env(safe-area-inset-left))!important;
+  margin:0!important;align-items:flex-end!important;justify-content:space-between!important;
+  background:none!important;border:0!important;pointer-events:none!important;
+ }
+ body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .touch-side{
+  width:auto!important;min-width:0!important;max-width:none!important;
+  border:0!important;background:none!important;padding:0!important;
+  flex:0 0 auto!important;pointer-events:none!important;
+ }
+ body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .touch-joystick{
+  width:min(var(--joy-size),23dvh,23vw)!important;height:min(var(--joy-size),23dvh,23vw)!important;
+  min-width:47px!important;min-height:47px!important;
+  opacity:var(--joy-opacity,.82);pointer-events:auto!important;touch-action:none!important;
+ }
+ body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .answer-strip{
+  bottom:calc(max(7px,env(safe-area-inset-bottom)) + min(var(--joy-size),23dvh,23vw) + 8px)!important;
+  max-height:15dvh!important;
+ }
+}
+@media(pointer:coarse) and (orientation:portrait){
+ body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .answer-strip{grid-template-columns:repeat(2,minmax(0,1fr))!important;max-height:20dvh!important}
+ body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .answer-strip.five-options{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+}
+@media(pointer:coarse) and (orientation:landscape) and (max-height:440px){
+ body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .game-hud{height:34px!important}
+ body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .question-banner{top:42px!important;max-height:53px!important}
+ body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .question-banner h2{font-size:clamp(11px,1.5vw,15px)!important}
+ body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .arena-hint{display:none!important}
+ body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .answer-strip{max-height:52px!important}
+}
