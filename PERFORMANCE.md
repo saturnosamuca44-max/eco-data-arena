@@ -39,4 +39,10 @@
 - Testar a ausência de piscadas tanto nos desenhos dentro da arena quanto nos cartões de alternativas do DOM, especialmente no modo Clássico, Rush e no celular em paisagem.
 - Validar que plataformas temporárias do Rush desapareçam **somente** pelo efeito planejado e reapareçam suavemente; as demais plataformas devem permanecer sempre visíveis.
 
+## Regressão obrigatória: questões de 4 ou 5 alternativas (3.4)
+- Preservar os dados locais existentes e inserir pacotes uma única vez com checagem de perguntas semelhantes.
+- Conferir letras A–D e A–E no editor, importação, roleta, alternativas, colisões, pontuação e resultado.
+- Simular a plataforma E no Clássico e no Rush, mantendo quatro plataformas no Treino.
+- Não calcular duplicatas durante os quadros de animação.
+
 Este arquivo também serve como referência para futuras contribuições e melhorias do EcoData Arena.
