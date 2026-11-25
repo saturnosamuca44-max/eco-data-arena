@@ -1,10 +1,10 @@
 {
-  "version": "3.9.2",
+  "version": "3.9.3",
   "name": "EcoData Arena",
   "updates": [
-    "Símbolos em dois arquivos de imagem independentes, derivados das referências enviadas",
-    "Sem textos fixos SYSTEM READY / 01 dados / 02 recursos / SQL CRUD",
-    "Palavras escolhidas orbitam suavemente",
-    "Todos os modos, perguntas, ranking e PWA mantidos"
+    "Oito palavras orbitam simultaneamente em profundidade, na frente e atrás dos símbolos",
+    "Símbolo de reciclagem e banco de dados flutuam suavemente",
+    "Efeito usa 30 FPS no máximo e pausa ao sair da tela",
+    "Perguntas, mapas, modos, ranking e configurações preservados"
   ]
 }
