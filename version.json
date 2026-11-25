@@ -1,9 +1,9 @@
 {
-  "version": "3.7.0",
+  "version": "3.7.1",
   "name": "EcoData Arena",
   "updates": [
-    "Atualização automática em novas aberturas, retomadas e reconexões",
-    "Cache com rede prioritária para scripts e interface",
-    "Dados, perguntas e ranking mantidos no navegador"
+    "O botão Instalar identifica cópias locais e direciona ao endereço HTTPS",
+    "Instruções de instalação pelo Chrome sem APK",
+    "Atualizações automáticas do PWA oficial permanecem ativas"
   ]
 }

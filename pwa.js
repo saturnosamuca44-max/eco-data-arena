@@ -1,12 +1,14 @@
 /* EcoData Arena 3.7 — atualização automática mantendo dados locais. */
 (()=>{'use strict';
 const $=s=>document.querySelector(s);
-const CURRENT='3.7.0';
+const CURRENT='3.7.1';
 const installButton=$('#pwaInstall'),overlay=$('#pwaDialogOverlay'),help=$('#pwaHelp'),
  installNative=$('#pwaDialogInstall'),updateBanner=$('#pwaUpdateBanner');
 if(!installButton)return;
 let deferredInstall=null,reg=null,refreshing=false,checking=false,pendingReload=false,lastCheck=0;
 const installed=()=>window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+const isLocalFile=()=>!['https:','http:'].includes(location.protocol);
+const officialUrl='https://saturnosamuca44-max.github.io/eco-data-arena/';
 const updateInstallUI=()=>{installButton.hidden=installed()};
 const openModal=()=>{overlay.hidden=false;$('#pwaClose')?.focus()};
 const closeModal=()=>{overlay.hidden=true;installButton.focus({preventScroll:true})};
@@ -21,6 +23,12 @@ async function requestInstall(){
  closeModal();updateInstallUI();
 }
 function openInstall(){
+ if(isLocalFile()){
+   help.textContent='Você abriu uma cópia baixada (content:// ou file://). Essa cópia não instala PWA nem recebe atualizações. Toque em “ABRIR SITE OFICIAL PARA INSTALAR” e use o menu ⋮ do Chrome → “Instalar aplicativo” ou “Adicionar à tela inicial”.';
+   installNative.hidden=true;
+   openModal();
+   return;
+ }
  if(installed()){help.textContent='O EcoData Arena já está instalado neste dispositivo e verifica atualizações automaticamente.';installNative.hidden=true;openModal();return}
  if(deferredInstall){
   help.textContent='Instale o EcoData Arena para acessar o jogo e receber atualizações pela mesma URL.';
@@ -29,8 +37,8 @@ function openInstall(){
  installNative.hidden=true;
  const ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1;
  if(ios)help.textContent='No iPhone ou iPad, toque em Compartilhar e selecione “Adicionar à Tela de Início”.';
- else if(location.protocol==='file:')help.textContent='Abra o jogo pelo endereço HTTPS publicado: um arquivo ZIP aberto localmente não se atualiza sozinho.';
- else help.textContent='No Chrome, use o menu do navegador e escolha “Instalar aplicativo” ou “Adicionar à tela inicial”.';
+ else if(isLocalFile())help.textContent='Abra o site https://saturnosamuca44-max.github.io/eco-data-arena/ no Chrome. Um arquivo local não pode ser instalado como PWA.';
+ else help.textContent='A instalação do PWA não baixa um APK. Toque no menu ⋮ do Chrome e escolha “Instalar aplicativo” ou “Adicionar à tela inicial”. Se a instalação direta estiver disponível, o Chrome exibirá uma confirmação.';
  openModal();
 }
 installButton.addEventListener('click',openInstall);
