@@ -600,7 +600,7 @@ body.game-focus #view-game .answer-card{
     <header class="app-header">
       <button type="button" class="brand" data-nav="home" aria-label="Voltar ao início">
         <span class="brand-mark" aria-hidden="true"><span>◈</span></span>
-        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 3.4 PWA</small></span>
+        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 3.5 PWA</small></span>
       </button>
       <nav class="main-nav" aria-label="Navegação principal">
         <button class="nav-btn active" data-nav="home">Início</button>
@@ -794,7 +794,7 @@ body.game-focus #view-game .answer-card{
       <section class="view" id="view-final" aria-label="Resultado da partida"><div class="final-panel glass-panel"><div class="confetti-container" id="confetti"></div><span class="eyebrow" id="finalEyebrow">PARTIDA CONCLUÍDA</span><div class="winner-crown" id="winnerCrown">♛</div><h1 id="winnerTitle">VITÓRIA!</h1><p class="winner-subtitle" id="winnerSubtitle"></p><div class="final-duel" id="finalDuel"></div><div class="final-rank-info" id="finalRankInfo"></div><div class="final-actions"><button class="btn btn-primary" id="replayMatch">↻ JOGAR NOVAMENTE</button><button class="btn btn-outline" data-nav="ranking">♛ VER RANKING</button><button class="btn btn-outline" data-nav="home">⌂ INÍCIO</button></div></div></section>
     </main>
 
-    <footer class="app-footer"><span>© ECODATA ARENA 3.4 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
+    <footer class="app-footer"><span>© ECODATA ARENA 3.5 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
   </div>
   <div class="guide-layer" id="guideLayer" role="region" aria-label="Tutorial passo a passo" hidden>
     <div class="guide-shade" aria-hidden="true"></div>
@@ -1282,7 +1282,7 @@ body.game-focus #view-game .answer-card{
  function setOptionCount(count){
    const n=count===5?5:4;
    $('#optionCount').value=String(n);
-   $('#optionEditor .option-row').forEach((row,i)=>{
+   $$('#optionEditor .option-row').forEach((row,i)=>{
      const hidden=i>=n;
      row.hidden=hidden;
      const radio=row.querySelector('input[type="radio"]'),field=row.querySelector('.answer-input');
@@ -1290,9 +1290,9 @@ body.game-focus #view-game .answer-card{
      if(hidden)radio.checked=false;
    });
  }
- async function saveQuestion(e){e.preventDefault();const text=$('#questionText').value.trim(),count=Number($('#optionCount').value)||4,opts=$('.answer-input').slice(0,count).map(v=>v.value.trim()),checked=$('input[name="correctOption"]:checked');if(!text)return toast('Escreva o enunciado da questão.','error');if(opts.some(v=>!v))return toast('Preencha todas as alternativas.','error');if(new Set(opts.map(norm)).size<count)return toast('As alternativas precisam ser diferentes.','error');if(!checked||Number(checked.value)>=count)return toast('Marque qual alternativa é a correta.','error');
+ async function saveQuestion(e){e.preventDefault();const text=$('#questionText').value.trim(),count=Number($('#optionCount').value)||4,opts=$$('.answer-input').slice(0,count).map(v=>v.value.trim()),checked=$('input[name="correctOption"]:checked');if(!text)return toast('Escreva o enunciado da questão.','error');if(opts.some(v=>!v))return toast('Preencha todas as alternativas.','error');if(new Set(opts.map(norm)).size<count)return toast('As alternativas precisam ser diferentes.','error');if(!checked||Number(checked.value)>=count)return toast('Marque qual alternativa é a correta.','error');
    const id=$('#editingId').value||uid();const q={id,text,options:opts,correctIndex:Number(checked.value),category:$('#questionCategory').value.trim().slice(0,44),difficulty:$('#questionDifficulty').value,type:$('#questionType').value,updatedAt:Date.now()};try{await storage.write('questions',q);const index=questions.findIndex(v=>v.id===id);if(index>=0)questions[index]=q;else questions.push(q);audio.play('save');clearEditor();renderQuestions();renderHome();validateSetup();toast(index>=0?'Questão atualizada com sucesso!':'Questão cadastrada no banco!')}catch(ex){toast('Não foi possível salvar: '+ex.message,'error')}}
- function editQuestion(q){show('questions');$('#editingId').value=q.id;$('#editorMode').textContent='EDITAR QUESTÃO';$('#questionText').value=q.text;$('#questionCategory').value=q.category||'';$('#questionDifficulty').value=q.difficulty||'Livre';$('#questionType').value=q.type==='rush'?'rush':'classic';setOptionCount(q.options.length);$('.answer-input').forEach((field,i)=>field.value=q.options[i]||'');const radio=$(`input[name="correctOption"][value="${q.correctIndex}"]`);if(radio)radio.checked=true;$('#saveQuestion').textContent='✓ ATUALIZAR QUESTÃO';$('#questionForm').scrollIntoView({block:'start',behavior:'smooth'});$('#questionText').focus({preventScroll:true})}
+ function editQuestion(q){show('questions');$('#editingId').value=q.id;$('#editorMode').textContent='EDITAR QUESTÃO';$('#questionText').value=q.text;$('#questionCategory').value=q.category||'';$('#questionDifficulty').value=q.difficulty||'Livre';$('#questionType').value=q.type==='rush'?'rush':'classic';setOptionCount(q.options.length);$$('.answer-input').forEach((field,i)=>field.value=q.options[i]||'');const radio=$(`input[name="correctOption"][value="${q.correctIndex}"]`);if(radio)radio.checked=true;$('#saveQuestion').textContent='✓ ATUALIZAR QUESTÃO';$('#questionForm').scrollIntoView({block:'start',behavior:'smooth'});$('#questionText').focus({preventScroll:true})}
  function clearEditor(){$('#questionForm').reset();setOptionCount(4);$('#editingId').value='';$('#editorMode').textContent='NOVA QUESTÃO';$('#saveQuestion').textContent='＋ SALVAR QUESTÃO'}
  function renderQuestions(){const search=norm($('#searchQuestions').value);const filtered=questions.filter(q=>norm(q.text+' '+(q.category||'')).includes(search));$('#questionCountBadge').textContent=questions.length;const root=$('#questionList');if(!filtered.length){root.innerHTML=`<div class="empty-state"><span class="empty-icon">▤</span><h4>${questions.length?'Nenhuma questão encontrada':'Seu banco está vazio'}</h4><p>${questions.length?'Tente outra palavra para pesquisar.':'Adicione a primeira questão usando o formulário ao lado.'}</p></div>`;return}
    root.innerHTML=filtered.map((q,i)=>`<article class="question-card"><div class="question-card-head"><span class="question-number">#${String(questions.indexOf(q)+1).padStart(2,'0')}</span><span class="pill" title="${esc(q.category||'Sem categoria')}">${esc(q.category||'SEM CATEGORIA')}</span><span class="pill subdued">${esc(q.difficulty||'Livre')}</span><span class="pill type-pill ${q.type==='rush'?'is-rush':''}">${q.type==='rush'?'⚡ RUSH':'▤ CLÁSSICA'}</span></div><h4>${esc(q.text)}</h4><div class="question-actions"><button data-act="edit" data-id="${esc(q.id)}" type="button">✎ Editar</button><button data-act="delete" data-id="${esc(q.id)}" type="button" class="danger">✕ Excluir</button><span style="margin-left:auto;color:#67dba6;font:700 10px var(--mono);align-self:center">${q.options.length} alternativas</span></div></article>`).join('')}
