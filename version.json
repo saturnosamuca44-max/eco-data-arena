@@ -1,11 +1,11 @@
 {
-  "version": "3.11.2",
+  "version": "3.12.0",
   "name": "EcoData Arena",
   "updates": [
-    "Arena em tela cheia verdadeira e fallback imersivo com HUD sobreposta ao cenário",
-    "Controles mobile mantidos dentro da arena sem interromper o jogo",
-    "Percentuais de tamanho, opacidade e sensibilidade atualizados em tempo real",
-    "Escala do analógico responde a toda a faixa de tamanho inclusive em telas pequenas",
-    "Saída segura do modo imersivo ao terminar rodada ou abrir outra seção"
+    "Retiradas alternativas duplicadas que cobriam os robôs durante a partida",
+    "Alternativas continuam sobre as plataformas e na opção Ler alternativas completas",
+    "Caixas com textos das alternativas pré-renderizadas uma vez por pergunta",
+    "Sem desfoques pesados na interface fullscreen mobile",
+    "Mantidos todos os modos, PWA, ranking e perguntas"
   ]
 }

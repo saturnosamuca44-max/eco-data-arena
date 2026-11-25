@@ -1,6 +1,6 @@
 /* EcoData Arena 3.7 — versão única e atualização automática. */
 'use strict';
-const CACHE_NAME='ecodata-arena-shell-v3.11.2';
+const CACHE_NAME='ecodata-arena-shell-v3.12.0';
 const SHELL=[
  './','./index.html','./manifest.webmanifest','./version.json',
  './eco-world.js','./pwa.css','./pwa.js','./fullscreen.css',

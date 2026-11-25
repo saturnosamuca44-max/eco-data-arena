@@ -1,4 +1,4 @@
-/* EcoData Arena v3.11.1 — visual imersivo para celulares, tablets e PCs */
+/* EcoData Arena v3.12.0 — visual imersivo para celulares, tablets e PCs */
 body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback).active{
  position:fixed!important;inset:0!important;z-index:9999!important;
  display:block!important;box-sizing:border-box!important;
@@ -107,4 +107,18 @@ body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .fullscreen-hint{
  body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .question-banner h2{font-size:clamp(11px,1.5vw,15px)!important}
  body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .arena-hint{display:none!important}
  body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .answer-strip{max-height:52px!important}
+}
+
+/* 3.12: respostas são mostradas exclusivamente sobre as plataformas.
+   O DOM continua intacto para a janela "Ler alternativas completas" e a lógica da rodada. */
+body.game-focus #view-game.active .answer-strip,
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback).active .answer-strip{
+ display:none!important;visibility:hidden!important;pointer-events:none!important;
+}
+/* Evita desfoque de uma camada grande sobre canvas animado em dispositivos móveis. */
+@media(pointer:coarse){
+ body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .game-hud,
+ body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback) .question-banner{
+  backdrop-filter:none!important;-webkit-backdrop-filter:none!important;
+ }
 }

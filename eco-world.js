@@ -204,7 +204,7 @@ const lowMemory=typeof navigator!=='undefined' && (
   (Number(navigator.deviceMemory)||8)<=4 || (Number(navigator.hardwareConcurrency)||8)<=4
 );
 const reduceMotion=typeof matchMedia==='function'&&matchMedia('(prefers-reduced-motion: reduce)').matches;
-const fxCount=reduceMotion?0:(lowMemory?10:17);
+const fxCount=reduceMotion?0:(lowMemory?6:13);
 if(typeof Image!=='undefined')for(const key of Object.keys(FILES)){
  const image=new Image();
  image.decoding='async';image.src=FILES[key];PICS[key]=image;
@@ -252,13 +252,13 @@ World.drawBackground=function(g,t,map,camera){
      g.translate(x,y);g.rotate(Math.sin(time*.75+i)*.18);
      g.beginPath();g.ellipse(0,0,4,2,.4,0,TAU);g.fill();g.restore();
     }
-    for(let i=0;i<(lowMemory?3:6);i++){
+    for(let i=0;i<(lowMemory?2:4);i++){
      g.save();g.globalAlpha=.12+.09*Math.sin(time*1.3+i);
      line(g,370+i*43,300+i%3*17,383+i*43,300+i%3*17,'#d3feec',1);
      g.restore();
     }
    }else{
-    const count=lowMemory?12:23;
+    const count=lowMemory?8:16;
     for(let i=0;i<count;i++){
      const x=31+i*137%944,y=45+i*67%280;
      g.save();g.globalAlpha=.20+.3*(1+Math.sin(time*(.65+i%4*.18)+i))*.5;
