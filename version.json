@@ -1,9 +1,13 @@
 {
-  "version": "3.8.0",
+  "version": "3.9.0",
   "name": "EcoData Arena",
   "updates": [
-    "Nova aba Sobre com ficha técnica, ano de publicação e versão",
-    "Descrição dos modos, tecnologias e sustentabilidade",
-    "Aba adaptada para celulares; manutenção da atualização automática"
+    "Resultado de cada pergunta: vencedor por resposta correta mais rápida, com empate verdadeiro possível",
+    "No Rush, chegada simultânea libera alternativas para os dois jogadores",
+    "Roleta entre partidas; novo ciclo automático após conclusão",
+    "Símbolo de reciclagem com banco de dados e palavras em órbita",
+    "Tela cheia com aviso temporário, controles mobile reforçados",
+    "Folhas no mapa de natureza, partículas tecnológicas, perguntas maiores",
+    "Trilha musical procedural animada e aplausos ao vencer o ciclo"
   ]
 }

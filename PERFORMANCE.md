@@ -46,3 +46,16 @@
 - Não calcular duplicatas durante os quadros de animação.
 
 Este arquivo também serve como referência para futuras contribuições e melhorias do EcoData Arena.
+
+## Regressão 3.9 — resultados por pergunta, Rush e gráficos responsivos
+- O empate na linha de chegada no MESMO passo de física não reinicia a corrida. Os dois podem acessar as alternativas.
+- O vencedor de cada pergunta é o único jogador correto; com dois acertos, vence quem chegou à alternativa correta em menos tempo; tempo rigorosamente igual permanece empate sem pontos.
+- Com duas respostas erradas ou ninguém respondendo, a roleta continua normalmente.
+- Ao terminar uma pergunta, mostrar vencedor/empate e voltar automaticamente à roleta. No fim do conjunto, mostrar vencedor do ciclo, aplausos e reiniciar a roleta.
+- Não permitir atravessar lacunas de plataformas apenas correndo sem saltar; checar colisões com centro do personagem e teste de queda.
+- Confirmar que o botão de tela cheia esconde suas opções, mostra aviso temporário e ESC retorna à visualização normal.
+- Testar analógicos simultâneos, pulo diagonal, sensibilidade, tamanho, opacidade, liberação de ponteiros e saída de foco.
+- Folhas e partículas devem permanecer leves: sem filtros de GPU por quadro e com a limitação adaptativa de FPS ativa.
+- Trilha procedural e som de vitória devem respeitar mute, volume e restrições de autoplay.
+- Continuar protegendo perguntas locais, ranking e configurações em IndexedDB/localStorage.
+
