@@ -1,62 +1,146 @@
+/* EcoData Arena 3.7 — atualização automática mantendo dados locais. */
 (()=>{'use strict';
-  const $=s=>document.querySelector(s);
-  const installButton=$('#pwaInstall'),overlay=$('#pwaDialogOverlay'),help=$('#pwaHelp'),
-        installNative=$('#pwaDialogInstall'),updateBanner=$('#pwaUpdateBanner');
-  if(!installButton)return;
-  let deferredInstall=null,reg=null,refreshing=false;
-  const installed=()=>window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
-  const updateInstallUI=()=>{installButton.hidden=installed()};
-  const openModal=()=>{overlay.hidden=false;$('#pwaClose').focus()};
-  const closeModal=()=>{overlay.hidden=true;installButton.focus({preventScroll:true})};
-  $('#pwaClose').addEventListener('click',closeModal);
-  $('#pwaDialogDone').addEventListener('click',closeModal);
-  overlay.addEventListener('click',e=>{if(e.target===overlay)closeModal()});
-  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!overlay.hidden)closeModal()});
-  async function requestInstall(){
-    if(!deferredInstall)return;
-    const event=deferredInstall;deferredInstall=null;
-    try{await event.prompt();await event.userChoice;}catch(err){console.info('Instalação indisponível:',err)}
-    closeModal();updateInstallUI();
-  }
-  function openInstall(){
-    if(installed()){help.textContent='O EcoData Arena já está aberto como aplicativo neste dispositivo.';installNative.hidden=true;openModal();return}
-    if(deferredInstall){
-      help.textContent='Instale o EcoData Arena para abrir pela tela inicial e jogar offline após o primeiro carregamento.';
-      installNative.hidden=false;openModal();return;
+const $=s=>document.querySelector(s);
+const CURRENT='3.7.0';
+const installButton=$('#pwaInstall'),overlay=$('#pwaDialogOverlay'),help=$('#pwaHelp'),
+ installNative=$('#pwaDialogInstall'),updateBanner=$('#pwaUpdateBanner');
+if(!installButton)return;
+let deferredInstall=null,reg=null,refreshing=false,checking=false,pendingReload=false,lastCheck=0;
+const installed=()=>window.matchMedia('(display-mode: standalone)').matches||navigator.standalone===true;
+const updateInstallUI=()=>{installButton.hidden=installed()};
+const openModal=()=>{overlay.hidden=false;$('#pwaClose')?.focus()};
+const closeModal=()=>{overlay.hidden=true;installButton.focus({preventScroll:true})};
+$('#pwaClose')?.addEventListener('click',closeModal);
+$('#pwaDialogDone')?.addEventListener('click',closeModal);
+overlay?.addEventListener('click',e=>{if(e.target===overlay)closeModal()});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!overlay.hidden)closeModal()});
+async function requestInstall(){
+ if(!deferredInstall)return;
+ const event=deferredInstall;deferredInstall=null;
+ try{await event.prompt();await event.userChoice}catch(err){console.info('Instalação indisponível:',err)}
+ closeModal();updateInstallUI();
+}
+function openInstall(){
+ if(installed()){help.textContent='O EcoData Arena já está instalado neste dispositivo e verifica atualizações automaticamente.';installNative.hidden=true;openModal();return}
+ if(deferredInstall){
+  help.textContent='Instale o EcoData Arena para acessar o jogo e receber atualizações pela mesma URL.';
+  installNative.hidden=false;openModal();return;
+ }
+ installNative.hidden=true;
+ const ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1;
+ if(ios)help.textContent='No iPhone ou iPad, toque em Compartilhar e selecione “Adicionar à Tela de Início”.';
+ else if(location.protocol==='file:')help.textContent='Abra o jogo pelo endereço HTTPS publicado: um arquivo ZIP aberto localmente não se atualiza sozinho.';
+ else help.textContent='No Chrome, use o menu do navegador e escolha “Instalar aplicativo” ou “Adicionar à tela inicial”.';
+ openModal();
+}
+installButton.addEventListener('click',openInstall);
+installNative?.addEventListener('click',requestInstall);
+window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();deferredInstall=event;updateInstallUI()});
+window.addEventListener('appinstalled',()=>{deferredInstall=null;overlay.hidden=true;updateInstallUI()});
+updateInstallUI();
+
+const status=$('#pwaCheckStatus'),bannerText=updateBanner?.querySelector('p'),badge=$('#pwaVersionBadge');
+const announce=msg=>{if(status)status.textContent=msg};
+const safeToRefresh=()=>{
+ if(document.body.classList.contains('game-focus'))return false;
+ const editor=$('#questionText');
+ return !(editor?.value?.trim()&&$('#view-questions')?.classList.contains('active'));
+};
+const reloadOnce=()=>{
+ if(refreshing||!safeToRefresh()){pendingReload=true;return}
+ try{
+  const last=Number(sessionStorage.getItem('ecodata-pwa-reload-at')||0);
+  if(Date.now()-last<8000)return;
+  sessionStorage.setItem('ecodata-pwa-reload-at',String(Date.now()));
+ }catch{}
+ refreshing=true;
+ announce('Atualização pronta. Reabrindo o jogo sem apagar suas perguntas...');
+ const url=new URL(window.location.href);
+ url.searchParams.set('ecoVersion',String(Date.now()));
+ window.location.replace(url.href);
+};
+function available(){
+ if(!reg)return;
+ if(reg.waiting){
+   if(safeToRefresh()){
+     announce('Atualização recebida. Aplicando automaticamente...');
+     reg.waiting.postMessage({type:'SKIP_WAITING'});
+     // Quando não há controlador anterior, o evento controllerchange pode não ocorrer.
+     if(!navigator.serviceWorker.controller)setTimeout(reloadOnce,1500);
+   }else{
+     pendingReload=true;
+     if(bannerText)bannerText.textContent='Atualização disponível. Ela será aplicada ao sair da partida.';
+     if(updateBanner)updateBanner.hidden=false;
+   }
+ }
+}
+navigator.serviceWorker?.addEventListener('controllerchange',()=>{
+ if(safeToRefresh())reloadOnce();
+ else {pendingReload=true;announce('Atualização disponível. Ela será aplicada ao sair da partida.')}
+});
+const checkVersion=async(force=false)=>{
+ if(checking||!navigator.onLine||document.hidden)return;
+ const now=Date.now();
+ if(!force&&now-lastCheck<30000)return;
+ lastCheck=now;checking=true;
+ try{
+   reg=await navigator.serviceWorker.getRegistration('./')||
+     await navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'});
+   if(reg?.waiting)available();
+   reg?.addEventListener('updatefound',()=>{
+     const worker=reg.installing;
+     worker?.addEventListener('statechange',()=>{
+       if(worker.state==='installed')available();
+     });
+   },{once:true});
+   await reg?.update();
+   if(reg?.waiting)available();
+   const vURL=new URL('./version.json',window.location.href);
+   vURL.searchParams.set('fresh',String(now));
+   const response=await fetch(vURL.href,{cache:'no-store'});
+   if(response.ok){
+     const info=await response.json();
+     const version=String(info.version||'');
+     if(/^\d+\.\d+\.\d+$/.test(version)&&version!==CURRENT){
+       // Verifica se a versão publicada é realmente mais nova.
+       const cmp=(a,b)=>{const aa=a.split('.').map(Number),bb=b.split('.').map(Number);for(let j=0;j<3;j++){if(aa[j]!==bb[j])return aa[j]-bb[j]}return 0};
+       if(cmp(version,CURRENT)>0){
+         announce('Versão '+version+' encontrada. Atualizando...');
+         if(reg?.waiting)available();
+         else if(safeToRefresh())reloadOnce();
+         else pendingReload=true;
+       }
+     }else if(force)announce('EcoData Arena '+CURRENT+' • Atualizado.');
+   }
+ }catch(err){
+   console.warn('Verificação automática indisponível:',err);
+ }finally{checking=false}
+};
+if('serviceWorker' in navigator&&['https:','http:'].includes(location.protocol)){
+ window.addEventListener('load',()=>{checkVersion(true)},{once:true});
+ window.addEventListener('focus',()=>{if(pendingReload&&safeToRefresh())reloadOnce();checkVersion()});
+ window.addEventListener('online',()=>checkVersion(true));
+ document.addEventListener('visibilitychange',()=>{
+   if(document.hidden)return;
+   if(pendingReload&&safeToRefresh())reloadOnce();
+   checkVersion();
+ });
+ // Verificação ocasional sem trabalho contínuo durante partidas.
+ setInterval(()=>{if(!document.hidden&&!document.body.classList.contains('game-focus'))checkVersion()},10*60*1000);
+ if(typeof MutationObserver!=='undefined'){
+  new MutationObserver(()=>{
+    if(pendingReload&&safeToRefresh()){
+      if(reg?.waiting)available();else reloadOnce();
     }
-    installNative.hidden=true;
-    const ios=/iPad|iPhone|iPod/.test(navigator.userAgent)||navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1;
-    if(ios)help.textContent='No iPhone ou iPad, toque em Compartilhar e selecione “Adicionar à Tela de Início”. Depois, abra o ícone EcoData Arena.';
-    else if(location.protocol==='file:')help.textContent='Abra o EcoData Arena pelo endereço HTTPS do GitHub Pages para instalar o PWA e usar o modo offline.';
-    else help.textContent='No Chrome ou Edge, use o menu do navegador e selecione “Instalar aplicativo” ou “Adicionar à tela inicial”. Se não aparecer, atualize a página e confira a publicação dos arquivos.';
-    openModal();
-  }
-  installButton.addEventListener('click',openInstall);
-  installNative.addEventListener('click',requestInstall);
-  window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();deferredInstall=event;updateInstallUI()});
-  window.addEventListener('appinstalled',()=>{deferredInstall=null;overlay.hidden=true;updateInstallUI()});
-  updateInstallUI();
-  const showUpdate=()=>{if(reg?.waiting)updateBanner.hidden=false};
-  $('#pwaUpdateLater').addEventListener('click',()=>updateBanner.hidden=true);
-  $('#pwaUpdateNow').addEventListener('click',()=>{
-    if(document.body.classList.contains('game-focus'))return;
-    if(reg?.waiting){refreshing=true;reg.waiting.postMessage({type:'SKIP_WAITING'});updateBanner.hidden=true}
-  });
-  // O verificador manual na página também funciona quando este arquivo está em cache de uma versão antiga.
-  if('serviceWorker' in navigator&&(location.protocol==='https:'||location.hostname==='localhost'||location.hostname==='127.0.0.1')){
-    navigator.serviceWorker.addEventListener('controllerchange',()=>{if(refreshing)window.location.reload()});
-    window.addEventListener('load',async()=>{
-      try{
-        reg=await navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'});
-        showUpdate();
-        reg.addEventListener('updatefound',()=>{
-          const sw=reg.installing;sw?.addEventListener('statechange',()=>{if(sw.state==='installed')showUpdate()});
-        });
-        if(navigator.onLine)reg.update().catch(()=>{});
-      }catch(err){console.warn('Modo offline indisponível:',err)}
-    });
-    document.addEventListener('visibilitychange',()=>{
-      if(!document.hidden&&reg&&navigator.onLine){reg.update().catch(()=>{});showUpdate()}
-    });
-  }
+  }).observe(document.body,{attributes:true,attributeFilter:['class']});
+ }
+}
+$('#pwaUpdateLater')?.addEventListener('click',()=>{
+ if(updateBanner)updateBanner.hidden=true;
+});
+$('#pwaUpdateNow')?.addEventListener('click',()=>{
+ if(!safeToRefresh()){pendingReload=true;return}
+ if(reg?.waiting)available();else checkVersion(true);
+});
+if(badge)badge.title='O jogo procura atualizações ao abrir, reconectar ou retomar o aplicativo';
 })();

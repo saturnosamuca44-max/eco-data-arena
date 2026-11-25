@@ -1,9 +1,9 @@
 {
-  "version": "3.6.0",
+  "version": "3.7.0",
   "name": "EcoData Arena",
   "updates": [
-    "Atualizador manual no PWA",
-    "Preservação de perguntas e ranking",
-    "Suporte a questões A–E"
+    "Atualização automática em novas aberturas, retomadas e reconexões",
+    "Cache com rede prioritária para scripts e interface",
+    "Dados, perguntas e ranking mantidos no navegador"
   ]
 }

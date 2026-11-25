@@ -19,3 +19,7 @@ body.game-focus .pwa-update-banner{display:none!important}
 .pwa-update-status{margin:12px 0;padding:8px 11px;max-width:640px;background:#11383180;color:#baf2dd;border-left:3px solid #5df4b4;border-radius:6px;font-size:12px;line-height:1.5}
 #pwaCheckUpdates{min-height:40px;white-space:normal}
 #pwaCheckUpdates:disabled{opacity:.68;cursor:progress}
+
+/* 3.7: status de atualização claro, sem animações extras */
+.pwa-auto-badge{display:inline-flex;align-items:center;justify-content:center;padding:9px 12px;background:#123e34c9;border:1px solid #4c9980;border-radius:10px;color:#b1fbd3;font:800 10px ui-monospace,monospace;letter-spacing:.045em;white-space:nowrap}
+@media(max-width:620px){.pwa-auto-badge{width:100%;font-size:10px}}
