@@ -59,3 +59,10 @@ Este arquivo também serve como referência para futuras contribuições e melho
 - Trilha procedural e som de vitória devem respeitar mute, volume e restrições de autoplay.
 - Continuar protegendo perguntas locais, ranking e configurações em IndexedDB/localStorage.
 
+
+## Auditoria da versão 3.10.0
+- Verificar se a implantação do GitHub Pages foi concluída após cada commit, não apenas se o GitHub recebeu arquivos.
+- Testar primeiro contato com plataforma correta como referência para desempate, sem substituí-lo por uma chegada posterior.
+- Mensagens do Rush devem explicar que ambos podem responder independentemente de quem chega primeiro.
+- Testar botão Jogar todas as questões e contagem de Rush no modo Misto.
+- Validar controles, tela cheia e dados locais. Não alegar teste real em smartphone sem executá-lo.

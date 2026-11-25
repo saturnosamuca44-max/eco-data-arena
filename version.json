@@ -1,10 +1,11 @@
 {
-  "version": "3.9.5",
+  "version": "3.10.0",
   "name": "EcoData Arena",
   "updates": [
-    "As oito palavras ficam inteiras dentro de seus rótulos, sem cortar palavras longas",
-    "Órbitas respeitam os limites do painel em celular e computador",
-    "Movimento em profundidade e flutuação preservados",
-    "Perguntas, ranking, ajustes e modos mantidos"
+    "Correção das mensagens do Rush e empate na chegada",
+    "Vencedor por primeira chegada à plataforma correta",
+    "Botão Jogar todas as questões disponíveis com seleção de Rush no modo Misto",
+    "Tela cheia do cabeçalho padronizada com a da partida",
+    "Revisão sem apagar questões, cores, mapas ou ranking"
   ]
 }
