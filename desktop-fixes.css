@@ -1,0 +1,136 @@
+/* EcoData Arena 3.18 — tela inteira da arena, sem corte, e animação desktop. */
+@media (min-width:800px) and (pointer:fine){
+  body.game-focus #view-game.active #arenaContainer{
+    display:flex!important;align-items:center!important;justify-content:center!important;
+    overflow:hidden!important;min-width:0!important;min-height:0!important;
+    background-position:center!important;background-size:cover!important;
+    isolation:isolate;
+  }
+  /* O canvas tem 1000x460 pixels internos: CSS anterior esticava o conteúdo.
+     O controlador calcula o maior tamanho possível mantendo exatamente a proporção. */
+  body.game-focus #view-game.active #arenaContainer canvas.eco-desktop-fitted{
+    position:absolute!important;
+    inset:auto!important;top:50%!important;left:50%!important;
+    right:auto!important;bottom:auto!important;
+    width:var(--eco-fit-width)!important;height:var(--eco-fit-height)!important;
+    min-width:0!important;min-height:0!important;
+    max-width:none!important;max-height:none!important;
+    aspect-ratio:1000/460!important;object-fit:fill!important;
+    transform:translate3d(-50%,-50%,0)!important;
+    margin:0!important;padding:0!important;border:0!important;
+    display:block!important;pointer-events:none;
+  }
+  /* O fundo dos mapas preenche apenas o espaço livre sem mascarar as bordas da arena. */
+  body.game-focus #view-game.active #arenaContainer::before{
+    content:"";position:absolute;inset:0;z-index:-1;
+    background:radial-gradient(ellipse at center,transparent 55%,#06242cc9 100%);
+    pointer-events:none;
+  }
+  body.game-focus #view-game.active #arenaContainer .stage-tag,
+  body.game-focus #view-game.active #arenaContainer .arena-hint{z-index:7}
+  /* A HUD não deve interferir com o tamanho do jogo. */
+  body.game-focus #view-game.active .game-hud{min-width:0!important}
+  body.game-focus #view-game.active .question-banner{min-width:0!important}
+  body.game-focus #view-game.active .question-banner h2{min-width:0!important;overflow-wrap:anywhere}
+  body.game-focus #view-game.active #confirmControls:not([hidden]){pointer-events:auto;z-index:55!important}
+}
+@media (min-width:900px) and (pointer:fine){
+  /* A experiência inicial possui animações independentes em vez de uma tela estática. */
+  #view-home .eco-launch{box-shadow:inset 0 0 90px #0a556868,0 0 25px #19c0a426}
+  #view-home .eco-launch-brand{animation:eco-pc-title-float 5.8s ease-in-out infinite;will-change:transform}
+  #view-home .eco-launch-emblem{animation:eco-pc-emblem-float 6.3s ease-in-out infinite;will-change:transform}
+  #view-home .eco-launch-bot{animation:eco-pc-bot-float 5.1s ease-in-out infinite;will-change:transform}
+  #view-home .eco-launch-aura{
+    animation:eco-pc-aura-pulse 5.2s ease-in-out infinite;will-change:transform,opacity
+  }
+  #view-home .eco-launch-ring-a{
+    animation:eco-pc-ring-a 18s linear infinite;will-change:transform
+  }
+  #view-home .eco-launch-ring-b{
+    animation:eco-pc-ring-b 22s linear infinite;will-change:transform
+  }
+  #view-home .eco-launch-side-icons span:nth-child(1){animation:eco-pc-icon-1 4.2s ease-in-out infinite}
+  #view-home .eco-launch-side-icons span:nth-child(2){animation:eco-pc-icon-2 5.1s ease-in-out infinite}
+  #view-home .eco-launch-side-icons span:nth-child(3){animation:eco-pc-icon-1 5.7s ease-in-out infinite -2.3s}
+  #view-home .eco-launch-side-icons span:nth-child(4){animation:eco-pc-icon-2 4.9s ease-in-out infinite -1.5s}
+  #view-home .eco-launch-mini span:nth-child(1){animation:eco-pc-icon-2 5.2s ease-in-out infinite -1.4s}
+  #view-home .eco-launch-mini span:nth-child(2){animation:eco-pc-icon-1 4.6s ease-in-out infinite -.7s}
+  #view-home .eco-launch-mini span:nth-child(3){animation:eco-pc-icon-2 5.6s ease-in-out infinite -3.1s}
+  #view-home .eco-sky-spark{animation:eco-pc-spark 5.6s ease-in-out infinite}
+  #view-home .eco-sky-spark:nth-child(2){animation-delay:-2s}
+  #view-home .eco-sky-spark:nth-child(3){animation-delay:-3.4s}
+  #view-home .eco-sky-spark:nth-child(4){animation-delay:-1.5s}
+  #view-home .eco-launch-actions .eco-launch-btn{transition:transform .2s ease,filter .2s ease,box-shadow .2s ease}
+  #view-home .eco-launch-actions .eco-launch-btn:hover,
+  #view-home .eco-launch-actions .eco-launch-btn:focus-visible{
+    transform:translateY(-5px) scale(1.035);filter:brightness(1.09) saturate(1.15);
+  }
+  #view-home .eco-launch-actions .eco-launch-btn:hover>span{animation:eco-pc-icon-hover .55s ease both}
+  #view-home .eco-launch-forest::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(110deg,transparent 30%,#c9ffd91c 50%,transparent 65%);
+    opacity:.35;transform:translate3d(-70%,0,0);
+    animation:eco-pc-shimmer 15s ease-in-out infinite;
+  }
+  #view-home .eco-launch-tech::after{
+    content:"";position:absolute;inset:0;pointer-events:none;
+    background:linear-gradient(90deg,transparent 28%,#4efed41e 50%,transparent 72%);
+    opacity:.35;transform:translate3d(70%,0,0);
+    animation:eco-pc-shimmer 18s ease-in-out infinite reverse;
+  }
+}
+@keyframes eco-pc-title-float{
+  0%,100%{transform:translate3d(0,3px,0)}
+  50%{transform:translate3d(0,-8px,0)}
+}
+@keyframes eco-pc-emblem-float{
+  0%,100%{transform:translate3d(0,6px,0) rotate(-1deg)}
+  50%{transform:translate3d(0,-9px,0) rotate(1.4deg)}
+}
+@keyframes eco-pc-bot-float{
+  0%,100%{transform:translate3d(0,5px,0) rotate(-1deg)}
+  50%{transform:translate3d(0,-10px,0) rotate(2deg)}
+}
+@keyframes eco-pc-aura-pulse{
+  0%,100%{transform:scale(.95);opacity:.62}
+  50%{transform:scale(1.1);opacity:.95}
+}
+@keyframes eco-pc-ring-a{
+  from{transform:rotate(0deg) scaleY(.5)}
+  to{transform:rotate(360deg) scaleY(.5)}
+}
+@keyframes eco-pc-ring-b{
+  from{transform:rotate(60deg) scaleY(.55)}
+  to{transform:rotate(-300deg) scaleY(.55)}
+}
+@keyframes eco-pc-icon-1{
+  0%,100%{transform:translate3d(0,3px,0) rotate(-3deg)}
+  50%{transform:translate3d(1px,-8px,0) rotate(4deg)}
+}
+@keyframes eco-pc-icon-2{
+  0%,100%{transform:translate3d(0,-3px,0) rotate(3deg)}
+  50%{transform:translate3d(-2px,7px,0) rotate(-3deg)}
+}
+@keyframes eco-pc-spark{
+  0%,100%{opacity:.3;transform:translate3d(0,3px,0) scale(.85)}
+  50%{opacity:.95;transform:translate3d(0,-8px,0) scale(1.16)}
+}
+@keyframes eco-pc-shimmer{
+  0%,15%{transform:translate3d(-70%,0,0);opacity:0}
+  40%,60%{opacity:.35}
+  85%,100%{transform:translate3d(70%,0,0);opacity:0}
+}
+@keyframes eco-pc-icon-hover{
+  0%,100%{transform:translateY(0) rotate(0)}
+  50%{transform:translateY(-5px) rotate(-7deg)}
+}
+@media(prefers-reduced-motion:reduce){
+  #view-home .eco-launch *,
+  #view-home .eco-launch *::before,
+  #view-home .eco-launch *::after{
+    animation:none!important;transition:none!important;will-change:auto!important
+  }
+}
+html.eco-tab-hidden #view-home .eco-launch *,
+html.eco-tab-hidden #view-home .eco-launch *::before,
+html.eco-tab-hidden #view-home .eco-launch *::after{animation-play-state:paused!important}

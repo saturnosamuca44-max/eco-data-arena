@@ -1,13 +1,12 @@
 {
-  "version": "3.17.0",
+  "version": "3.18.0",
   "name": "EcoData Arena",
   "updates": [
-    "Tela inicial ocupa a área visível inteira e mantém somente cinco ações principais, incluindo Sobre",
-    "Informações de Seu jogo, suas regras movidas para Organizar questões no editor",
-    "Tela cheia do computador ao interagir com a tela inicial, conforme as permissões do navegador, saindo com ESC",
-    "Arena e alternativas reajustadas para não cortar jogadores, lava nem plataformas quando a confirmação aparece",
-    "Plataformas erradas desaparecem uma única vez usando a contagem original do efeito",
-    "Placar superior mostra teclas de confirmação configuradas para P1 e P2",
-    "Modos, ranking, perguntas e PWA preservados; cópia 3.16.0 salva separadamente"
+    "Corrigido o corte/deslocamento do cenário da partida em PCs: canvas completo centralizado e dimensionado proporcionalmente",
+    "Preservadas todas as plataformas, alternativas, personagens, cronômetro e lava ao entrar em tela cheia",
+    "Reajuste automático da arena quando a janela, a orientação ou o estado de tela cheia muda",
+    "Tela inicial do computador com novo movimento suave do emblema, anéis, robô, símbolos, luzes e botões",
+    "Animações otimizadas e pausadas em abas inativas; opção de reduzir movimento respeitada",
+    "Modos, questões, ranking, configurações e PWA preservados; backup 3.17.0 mantido"
   ]
 }
