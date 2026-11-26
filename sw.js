@@ -1,9 +1,9 @@
 /* EcoData Arena 3.7 — versão única e atualização automática. */
 'use strict';
-const CACHE_NAME='ecodata-arena-shell-v3.15.0';
+const CACHE_NAME='ecodata-arena-shell-v3.16.0';
 const SHELL=[
  './','./index.html','./manifest.webmanifest','./version.json',
- './eco-world.js','./pwa.css','./pwa.js','./fullscreen.css','./desktop.css',
+ './eco-world.js','./pwa.css','./pwa.js','./fullscreen.css','./desktop.css','./eco-launch.css',
  './icons/icon.svg','./icons/icon-192.png','./icons/icon-512.png',
  './icons/icon-maskable-512.png','./icons/apple-touch-icon.png',
  './assets/map-forest.webp','./assets/map-factory.webp','./assets/robot-atlas.webp','./assets/recycle-symbol.svg','./assets/database-symbol.svg'

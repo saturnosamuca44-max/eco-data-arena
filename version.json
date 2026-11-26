@@ -1,11 +1,12 @@
 {
-  "version": "3.15.0",
+  "version": "3.16.0",
   "name": "EcoData Arena",
   "updates": [
-    "Melhorias para computador: painéis mais espaçados, cartões com foco e melhor leitura em telas largas",
-    "Animação inicial com órbitas simultâneas e medição otimizada por ResizeObserver",
-    "Guia rápido WASD/setas na tela inicial em computadores",
-    "Animações decorativas pausam quando o elemento sai da tela",
-    "Preservados PWA, modos, avatares, sons, perguntas e ranking"
+    "Tela inicial inspirada na primeira opção: título central, arte ecológica/tecnológica e quatro botões inferiores",
+    "Logo, símbolos, robô e elementos laterais com animações suaves e independentes",
+    "Efeitos de hover/foco nos botões para mouse e teclado; feedback de toque em celular",
+    "Layouts próprios para computador, tablet, paisagem e retrato",
+    "Treino permanece somente dentro do seletor de modos após tocar em Jogar",
+    "Questões, ranking, controles, mapas e PWA mantidos; backup pré-alteração preservado"
   ]
 }
