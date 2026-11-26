@@ -1,12 +1,13 @@
 {
-  "version": "3.16.0",
+  "version": "3.17.0",
   "name": "EcoData Arena",
   "updates": [
-    "Tela inicial inspirada na primeira opção: título central, arte ecológica/tecnológica e quatro botões inferiores",
-    "Logo, símbolos, robô e elementos laterais com animações suaves e independentes",
-    "Efeitos de hover/foco nos botões para mouse e teclado; feedback de toque em celular",
-    "Layouts próprios para computador, tablet, paisagem e retrato",
-    "Treino permanece somente dentro do seletor de modos após tocar em Jogar",
-    "Questões, ranking, controles, mapas e PWA mantidos; backup pré-alteração preservado"
+    "Tela inicial ocupa a área visível inteira e mantém somente cinco ações principais, incluindo Sobre",
+    "Informações de Seu jogo, suas regras movidas para Organizar questões no editor",
+    "Tela cheia do computador ao interagir com a tela inicial, conforme as permissões do navegador, saindo com ESC",
+    "Arena e alternativas reajustadas para não cortar jogadores, lava nem plataformas quando a confirmação aparece",
+    "Plataformas erradas desaparecem uma única vez usando a contagem original do efeito",
+    "Placar superior mostra teclas de confirmação configuradas para P1 e P2",
+    "Modos, ranking, perguntas e PWA preservados; cópia 3.16.0 salva separadamente"
   ]
 }
