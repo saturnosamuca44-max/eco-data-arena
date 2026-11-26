@@ -592,7 +592,7 @@ body.game-focus #view-game .answer-card{
 }
 
 
-/* EcoData 3.22.0 — aba Sobre: somente texto e CSS, sem efeitos por quadro. */
+/* EcoData 3.23.0 — aba Sobre: somente texto e CSS, sem efeitos por quadro. */
 .about-view{padding-bottom:48px}
 .about-intro{padding:clamp(18px,3.6vw,35px);display:flex;align-items:center;gap:21px;margin-bottom:18px}
 .about-intro-icon{flex:none;width:74px;height:74px;display:grid;place-items:center;font-size:39px;color:#7ff6c4;border:1px solid #458d75;border-radius:19px;background:#173f3c}
@@ -675,7 +675,7 @@ body.game-focus #view-game .answer-card{
 }
 
 
-/* EcoData 3.22.0 — prioridade real para o quadro inteiro quando ativado em navegadores mobile. */
+/* EcoData 3.23.0 — prioridade real para o quadro inteiro quando ativado em navegadores mobile. */
 body.game-focus #view-game:fullscreen.active{
  display:flex!important;flex-direction:column!important;grid-template-rows:none!important;
  width:100vw!important;height:100dvh!important;min-height:0!important;max-height:100dvh!important;
@@ -708,7 +708,7 @@ body.game-focus #view-game:fullscreen .game-bottom{flex:none!important}
 }
 
 
-/* EcoData 3.22.0: oito órbitas simultâneas, profundidade real e movimento suave.
+/* EcoData 3.23.0: oito órbitas simultâneas, profundidade real e movimento suave.
    Layout vetorial leve; animação limitada a 30 quadros/s e pausada fora de vista. */
 .eco-art-clean{display:grid!important;place-items:center!important;position:relative;overflow:hidden;isolation:isolate;min-height:420px;background:radial-gradient(ellipse at 50% 50%,#12504d28,#061a2608 70%)}
 .eco-art-clean .eco-art-visual{width:min(370px,94%);aspect-ratio:1;position:relative;display:grid;place-items:center;animation:eco-symbol-float 6.5s ease-in-out infinite;transform:translate3d(0,0,0)}
@@ -743,14 +743,14 @@ body.game-focus #view-game:fullscreen .game-bottom{flex:none!important}
 <link rel="stylesheet" href="./desktop-fixes.css">
 <link rel="stylesheet" href="./arena-layout.css">
 </head>
-<body data-eco-version="3.22.0">
+<body data-eco-version="3.23.0">
   <div class="ambient ambient-a" aria-hidden="true"></div>
   <div class="ambient ambient-b" aria-hidden="true"></div>
   <div class="shell" id="shell">
     <header class="app-header">
       <button type="button" class="brand" data-nav="home" aria-label="Voltar ao início">
         <span class="brand-mark" aria-hidden="true"><span>◈</span></span>
-        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 3.22.0 PWA</small></span>
+        <span class="brand-text">ECO<span>DATA</span><small>ARENA <b>//</b> 3.23.0 PWA</small></span>
       </button>
       <div class="header-actions">
         <span class="offline-label"><span class="signal-dot"></span> BANCO LOCAL</span>
@@ -853,14 +853,14 @@ body.game-focus #view-game:fullscreen .game-bottom{flex:none!important}
             <h1>Aprender é uma <em>aventura.</em><br>Vencer é uma <span class="h1-highlight">escolha.</span></h1>
             <p>Tecnologia que conecta pessoas e ideias para um planeta melhor. Treine seus reflexos, dispute questões, atravesse circuitos e mostre seus conhecimentos sobre dados e sustentabilidade.</p>
             <div class="hero-actions">
-              <span class="pwa-auto-badge" id="pwaVersionBadge" aria-label="Versão atual e atualizações automáticas">3.22.0 · AUTOATUALIZAÇÃO</span>
+              <span class="pwa-auto-badge" id="pwaVersionBadge" aria-label="Versão atual e atualizações automáticas">3.23.0 · AUTOATUALIZAÇÃO</span>
               <button class="btn btn-primary btn-large" id="homePlay"><span class="btn-icon">▶</span> ESCOLHER MODO <span class="arrow">↗</span></button>
               <button class="btn btn-quiet btn-large" data-nav="questions">＋ CRIAR QUESTÕES</button>
               <button class="btn btn-quiet btn-large pwa-install" id="pwaInstall" type="button" aria-label="Instalar EcoData Arena pelo navegador">↓ INSTALAR APP</button>
               <a class="btn btn-quiet btn-large" id="pwaOfficialSite" href="https://saturnosamuca44-max.github.io/eco-data-arena/" rel="noopener" target="_blank" title="Para instalar, abra o jogo pela internet no Chrome">🌐 ABRIR SITE OFICIAL PARA INSTALAR</a>
               <button class="btn btn-quiet btn-large" id="pwaCheckUpdates" type="button" aria-label="Verificar atualizações do EcoData Arena">↻ VERIFICAR ATUALIZAÇÕES</button>
             </div>
-            <div class="pwa-update-status" id="pwaCheckStatus" role="status" aria-live="polite">EcoData Arena 3.22.0 • Atualizações automáticas ao abrir e reconectar.</div>
+            <div class="pwa-update-status" id="pwaCheckStatus" role="status" aria-live="polite">EcoData Arena 3.23.0 • Atualizações automáticas ao abrir e reconectar.</div>
             <div class="desktop-quick-guide" aria-label="Comandos do computador">
  <span class="desktop-quick-guide-title">CONTROLES NO COMPUTADOR</span>
  <span><strong>P1</strong><kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd></span>
@@ -1085,7 +1085,7 @@ body.game-focus #view-game:fullscreen .game-bottom{flex:none!important}
         </div>
         <div class="about-facts" aria-label="Ficha técnica do jogo">
           <div class="about-fact glass-panel"><span>ANO DE PUBLICAÇÃO</span><strong>2026</strong><small>Primeira publicação do projeto</small></div>
-          <div class="about-fact glass-panel"><span>VERSÃO ATUAL</span><strong id="aboutVersion">3.22.0</strong><small>PWA com atualizações pelo site oficial</small></div>
+          <div class="about-fact glass-panel"><span>VERSÃO ATUAL</span><strong id="aboutVersion">3.23.0</strong><small>PWA com atualizações pelo site oficial</small></div>
           <div class="about-fact glass-panel"><span>JOGADORES</span><strong>2</strong><small>Disputa local e simultânea</small></div>
           <div class="about-fact glass-panel"><span>QUESTÕES DISPONÍVEIS</span><strong id="aboutQuestionsCount">—</strong><small>Salvas neste navegador</small></div>
         </div>
@@ -1137,7 +1137,7 @@ body.game-focus #view-game:fullscreen .game-bottom{flex:none!important}
 
     </main>
 
-    <footer class="app-footer"><span>© ECODATA ARENA 3.22.0 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
+    <footer class="app-footer"><span>© ECODATA ARENA 3.23.0 PWA <span class="footer-separator">/</span> TECNOLOGIA + PLANETA</span><span>100% LOCAL <span class="signal-dot"></span></span></footer>
   </div>
   <div class="guide-layer" id="guideLayer" role="region" aria-label="Tutorial passo a passo" hidden>
     <div class="guide-shade" aria-hidden="true"></div>
@@ -1620,7 +1620,7 @@ A.stopMusic=function(){
    document.addEventListener('pointerdown',()=>{audio.init();audio.syncMusic()},{once:true});
  }
  function savePrefs(){settings.names=[$('#nameP1').value,$('#nameP2').value];settings.colors=[...colors];settings.rounds=int($('#roundCount').value,settings.rounds);settings.time=int($('#timePerRound').value,settings.time);settings.raceTime=int($('#rushRaceTime').value,settings.raceTime);settings.answerTime=int($('#rushAnswerTime').value,settings.answerTime);settings.mixedRush=int($('#mixedRushCount').value,settings.mixedRush);settings.joySize=int($('#joySize').value,100);settings.joyOpacity=int($('#joyOpacity').value,82);settings.joySensitivity=int($('#joySensitivity').value,100);settings.fx=$('#fxEnabled').checked;settings.music=$('#musicEnabled').checked;settings.volume=int($('#volumeSetting').value,60);return storage.write('settings',{key:'preferences',value:settings}).catch(e=>toast(e.message,'error'))}
- function show(dest){if(!$('#view-'+dest))return;if(dest!=='game'&&$('#view-game')?.classList.contains('eco-fs-fallback'))endFallback();closeModePicker();view=dest;document.body.classList.toggle('game-focus',dest==='game');document.body.classList.toggle('training-mode',dest==='game'&&trainingMode);const arenaView=$('#view-game');arenaView?.classList.toggle('eco-root-fullscreen',dest==='game'&&document.fullscreenElement===document.documentElement);/* Preservar fullscreen ao exibir resultados, avatares e roleta. */$$('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+dest));$$('[data-nav]').forEach(b=>b.classList.toggle('active',b.getAttribute('data-nav')===dest));window.scrollTo({top:0,behavior:'instant'});if(dest==='home')renderHome();if(dest==='about'){const version=$('#aboutVersion'),count=$('#aboutQuestionsCount');if(version)version.textContent=document.body.dataset.ecoVersion||'3.22.0';if(count)count.textContent=String(questions.length)}if(dest==='questions')renderQuestions();if(dest==='ranking')renderRanking();if(dest==='setup'){const total=eligibleQuestions().length;if(total>0&&int($('#roundCount').value,10)>total)$('#roundCount').value=Math.min(10,total);$('#matchMode').value=selectedMode;updateModeUI();validateSetup()}if(dest==='roulette')renderRoulette();if(dest==='avatar-break')renderAvatarBreak()}
+ function show(dest){if(!$('#view-'+dest))return;if(dest!=='game'&&$('#view-game')?.classList.contains('eco-fs-fallback'))endFallback();closeModePicker();view=dest;document.body.classList.toggle('game-focus',dest==='game');document.body.classList.toggle('training-mode',dest==='game'&&trainingMode);const arenaView=$('#view-game');arenaView?.classList.toggle('eco-root-fullscreen',dest==='game'&&document.fullscreenElement===document.documentElement);/* Preservar fullscreen ao exibir resultados, avatares e roleta. */$$('.view').forEach(v=>v.classList.toggle('active',v.id==='view-'+dest));$$('[data-nav]').forEach(b=>b.classList.toggle('active',b.getAttribute('data-nav')===dest));window.scrollTo({top:0,behavior:'instant'});if(dest==='home')renderHome();if(dest==='about'){const version=$('#aboutVersion'),count=$('#aboutQuestionsCount');if(version)version.textContent=document.body.dataset.ecoVersion||'3.23.0';if(count)count.textContent=String(questions.length)}if(dest==='questions')renderQuestions();if(dest==='ranking')renderRanking();if(dest==='setup'){const total=eligibleQuestions().length;if(total>0&&int($('#roundCount').value,10)>total)$('#roundCount').value=Math.min(10,total);$('#matchMode').value=selectedMode;updateModeUI();validateSetup()}if(dest==='roulette')renderRoulette();if(dest==='avatar-break')renderAvatarBreak()}
  function navigate(dest){audio.play('click');if(dest==='setup'&&questions.length===0){show('questions');toast('Cadastre pelo menos uma questão antes de jogar.');return}
    const wantModes=dest==='modes',destination=wantModes?'home':dest;
    if(trainingMode&&view==='game'&&dest!=='game'){leaveTraining();show(destination);if(wantModes)openModePicker();return}
@@ -1731,6 +1731,15 @@ A.stopMusic=function(){
   $('#hudName1').textContent=session.players[0].name;$('#hudName2').textContent=session.players[1].name;$('#hudDot1').style.setProperty('--player-color',session.players[0].color);$('#hudDot2').style.setProperty('--player-color',session.players[1].color);$('#hudScore1').textContent=session.scores[0];$('#hudScore2').textContent=session.scores[1];$('#hudRound').textContent=`RODADA ${String(session.roundIndex+1).padStart(2,'0')}/${session.rounds}`;
   $('#gameCategory').textContent=isRush?'⚡ MODO RUSH':(q.category||'CLÁSSICO').toUpperCase();$('#gameQuestion').textContent=isRush?'CRUZE A LINHA DE CHEGADA PARA REVELAR A PERGUNTA!':q.text;$('#arenaHint').textContent=isRush?'Ambos começam juntos! Corra até a meta.':'Escolha uma plataforma antes do tempo acabar!';$('#revealTag').hidden=true;$('#stageTag').textContent=isRush?'ECODATA / CIRCUITO RUSH':'ECODATA / ARENA CLÁSSICA';$('#tutorialActions').hidden=true;
   $('#answerStrip').classList.toggle('five-options',q.options.length===5);$('#answerStrip').innerHTML=q.options.map((opt,i)=>`<div class="answer-card" data-choice="${i}"><span class="letter">${letters[i]}</span><span class="text">${esc(opt)}</span></div>`).join('');document.body.classList.toggle('rush-racing',isRush);show('game');if(autoFullscreenPending&&!document.fullscreenElement){$('#view-game').classList.add('eco-fs-fallback');document.body.classList.add('eco-fs-active');reflectFullscreen()}autoFullscreenPending=false;if(isRush)game.startRush(q,session.players,session.raceTime,session.answerTime,true);else game.startRound(q,session.players,session.time);
+  if(session.stallRecoveryTimer)clearTimeout(session.stallRecoveryTimer);
+  const runSession=session,runQuestion=q.id;
+  const maximumTime=isRush?session.raceTime+session.answerTime+16:session.time+10;
+  session.stallRecoveryTimer=setTimeout(()=>{
+   if(session!==runSession||view!=='game'||session.current?.id!==runQuestion)return;
+   if(!session.locked&&game.phase==='choose')game.lock(performance.now());
+   if(!session.locked&&q.type==='rush'&&game.phase!=='choose')onRushTimeout();
+   if(session.locked){game.stop();showRoundResults()}
+  },Math.max(15000,maximumTime*1000));
   if(session.roundWatchdog)clearTimeout(session.roundWatchdog);
   // Independente do requestAnimationFrame: mesmo um loop travado não deve prender uma partida inativa.
   if(!isRush){const activeSession=session,questionId=q.id;
@@ -1766,6 +1775,12 @@ A.stopMusic=function(){
  $$('#answerStrip .answer-card').forEach((card,i)=>{card.classList.remove('choice-one','choice-two','choice-both');card.classList.add(i===q.correctIndex?'correct':'wrong')});
  $('#arenaHint').textContent=win<0?'Sem vencedor! Próxima pergunta.':session.players[win].name+' venceu em '+(ms[win]/1000).toFixed(2)+'s!';
  $('#revealTag').hidden=false;audio.play('reveal');
+ if(session.resultFallbackTimer)clearTimeout(session.resultFallbackTimer);
+ const activeSession=session,activeQuestion=q.id;
+ session.resultFallbackTimer=setTimeout(()=>{
+  if(session!==activeSession||view!=='game'||session.current?.id!==activeQuestion)return;
+  game.stop();showRoundResults();
+ },4300);
 }
 
  // Cada pergunta é uma partida. O resultado entra no ranking imediatamente,
@@ -1813,6 +1828,8 @@ A.stopMusic=function(){
   game.stop();
   if(session.roundTimer){clearTimeout(session.roundTimer);session.roundTimer=null}
   if(session.roundWatchdog){clearTimeout(session.roundWatchdog);session.roundWatchdog=null}
+  if(session.resultFallbackTimer){clearTimeout(session.resultFallbackTimer);session.resultFallbackTimer=null}
+  if(session.stallRecoveryTimer){clearTimeout(session.stallRecoveryTimer);session.stallRecoveryTimer=null}
   if(session.history.length&&session.history[session.history.length-1].questionId===q.id){
     const erased=session.history.pop();
     for(let i=0;i<2;i++)session.scores[i]-=Number(erased.awards?.[i]||0);
@@ -1832,11 +1849,17 @@ A.stopMusic=function(){
  }
  function showRoundResults(){
  if(session?.roundWatchdog){clearTimeout(session.roundWatchdog);session.roundWatchdog=null}
+ if(session?.resultFallbackTimer){clearTimeout(session.resultFallbackTimer);session.resultFallbackTimer=null}
+ if(session?.stallRecoveryTimer){clearTimeout(session.stallRecoveryTimer);session.stallRecoveryTimer=null}
  if(trainingPractice){showPracticeResult();return}if(trainingMode||!session)return;
- const h=session.history[session.history.length-1],q=session.current;if(!h)return;
+ const h=session.history[session.history.length-1],q=session.current;
+ if(!h||!q||h.questionId!==q.id)return;
+ if(session.lastShownResultId===q.id&&view==='round')return;
+ if(game?.active)game.stop();
  recordQuestionRanking(h);
  const win=h.winnerRound??-1;
- $('#roundHeadline').textContent=h.rushTimeout?'Tempo esgotado! Ninguém venceu.':win<0?'EMPATE! Sem pontos.':'🏆 '+(h.players||session.players)[win].name+' VENCEU!';
+ const bothCorrect=!h.rushTimeout&&h.selected?.length===2&&h.selected.every(choice=>choice===h.correctIndex);
+ $('#roundHeadline').textContent=h.rushTimeout?'Tempo esgotado! Ninguém venceu.':win<0?(bothCorrect?'EMPATE TÉCNICO! Ambos acertaram.':'EMPATE! Sem pontos.'):'🏆 '+(h.players||session.players)[win].name+' VENCEU!';
  $('#roundCorrect').textContent=h.rushTimeout?'A roleta continuará normalmente.':'Resposta correta: '+letters[q.correctIndex]+' — '+q.options[q.correctIndex];
  $('#roundResults').innerHTML=(h.players||session.players).map((p,i)=>{
  const answer=h.selected[i],right=answer===q.correctIndex&&!h.rushTimeout,ms=h.selectionTimes?.[i];
@@ -1845,7 +1868,8 @@ A.stopMusic=function(){
  }).join('');
  $('#roundScoreSummary').textContent='PLACAR: '+session.players[0].name+' '+session.scores[0]+' — '+session.scores[1]+' '+session.players[1].name;
  $('#nextRound').textContent=session.roundIndex+1>=session.rounds?'VER RESULTADO DO CICLO →':'PERSONALIZAR AVATARES →';
- show('round');document.body.classList.remove('rush-racing');audio.play(win<0?'lose':'win');
+ session.lastShownResultId=q.id;
+ show('round');document.body.classList.remove('rush-racing');audio.play(win<0?(bothCorrect?'select':'lose'):'win');
  if(session.roundTimer)clearTimeout(session.roundTimer);const active=session;
  session.roundTimer=setTimeout(()=>{if(session===active&&view==='round')nextRound()},4700);
 }
@@ -1894,13 +1918,21 @@ A.stopMusic=function(){
  }
  function nextRound(){
  if(!session||session.changingRound)return;session.changingRound=true;
+ if(session.resultFallbackTimer){clearTimeout(session.resultFallbackTimer);session.resultFallbackTimer=null}
+ if(session.stallRecoveryTimer){clearTimeout(session.stallRecoveryTimer);session.stallRecoveryTimer=null}
  if(session.roundTimer){clearTimeout(session.roundTimer);session.roundTimer=null}
  if(session.roundIndex+1>=session.rounds){finishMatch();return}
  session.roundIndex++;session.current=null;session.locked=false;session.changingRound=false;show('avatar-break');
 }
- async function finishMatch(){if(!session||finalizing||session.completed)return;finalizing=true;session.completed=true;game.stop();const s=session;const winner=s.scores[0]===s.scores[1]?-1:s.scores[0]>s.scores[1]?0:1;
-  try{await rankWriteQueue}catch(e){console.warn('Falha pendente na gravação do ranking:',e)}
-  renderRanking();renderHome();const ranks=sortedRanking();$('#confetti').replaceChildren();if(winner<0){$('#finalEyebrow').textContent='RESULTADO EQUILIBRADO';$('#winnerCrown').textContent='⚖';$('#winnerTitle').textContent='EMPATE!';$('#winnerSubtitle').textContent='Os dois jogadores terminaram com a mesma pontuação.'}else{$('#finalEyebrow').textContent='CAMPEÃO DA PARTIDA';$('#winnerCrown').textContent='♛';$('#winnerTitle').textContent=`${s.players[winner].name} VENCEU!`;$('#winnerSubtitle').textContent=`Vitória conquistada! +1 no total de partidas vencidas.`;makeConfetti();audio.play('win')}
+ function finishMatch(){if(!session||finalizing||session.completed)return;finalizing=true;session.completed=true;
+  if(session.resultFallbackTimer)clearTimeout(session.resultFallbackTimer);
+  if(session.stallRecoveryTimer)clearTimeout(session.stallRecoveryTimer);
+  game.stop();const s=session;const winner=s.scores[0]===s.scores[1]?-1:s.scores[0]>s.scores[1]?0:1;
+  // Ranking já computado em memória: a gravação assíncrona não pode bloquear a vitória.
+  Promise.resolve(rankWriteQueue).catch(e=>console.warn('Falha pendente no ranking:',e));
+  try{renderRanking()}catch(e){console.warn('Erro visual no ranking:',e)}
+  try{renderHome()}catch(e){console.warn('Erro visual na página inicial:',e)}
+  const ranks=sortedRanking();$('#confetti').replaceChildren();if(winner<0){$('#finalEyebrow').textContent='RESULTADO EQUILIBRADO';$('#winnerCrown').textContent='⚖';$('#winnerTitle').textContent='EMPATE!';$('#winnerSubtitle').textContent='Os dois jogadores terminaram com a mesma pontuação.'}else{$('#finalEyebrow').textContent='CAMPEÃO DA PARTIDA';$('#winnerCrown').textContent='♛';$('#winnerTitle').textContent=`${s.players[winner].name} VENCEU!`;$('#winnerSubtitle').textContent=`Vitória conquistada! +1 no total de partidas vencidas.`;makeConfetti();audio.play('win')}
   if(winner>=0)audio.play('applause');$('#finalDuel').innerHTML=s.players.map((p,i)=>`<div class="duel-cell" style="border-color:${p.color}55"><small>JOGADOR ${i+1}</small><strong style="color:${p.color}">${esc(p.name)}</strong><span>${s.scores[i]} PONTOS • ${s.history.filter(h=>h.awards[i]).length} ACERTOS</span></div>`).join('');$('#finalRankInfo').innerHTML=s.players.map(p=>{const pos=ranks.findIndex(v=>v.key===norm(p.name))+1,entry=ranks[pos-1];return `<span>♛ ${esc(p.name)}: <b>#${pos}</b> no ranking • ${entry?.points||0} pontos acumulados</span>`}).join('');show('final');finalizing=false;const finishedCycle=s;setTimeout(()=>{
    if(session!==finishedCycle||view!=='final'||!finishedCycle.completed)return;
    let refreshed;
@@ -1915,7 +1947,7 @@ A.stopMusic=function(){
      changingRound:false,roundTimer:null};
    finalizing=false;show('avatar-break');toast('Novo ciclo! Escolham os avatares antes da roleta.');
  },11000)}
- function makeConfetti(){const root=$('#confetti');for(let i=0;i<48;i++){const c=document.createElement('i');c.className='confetti-piece';c.style.setProperty('--left',Math.random()*100+'%');c.style.setProperty('--duration',(2.8+Math.random()*3.2)+'s');c.style.setProperty('--delay',(Math.random()*-5)+'s');c.style.setProperty('--color',COLORS[i%COLORS.length]);c.style.setProperty('--rotate',Math.random()*250+'deg');root.append(c)}}
+ function makeConfetti(){const root=$('#confetti');const pieces=window.matchMedia('(pointer:coarse), (prefers-reduced-motion: reduce)').matches?18:28;for(let i=0;i<pieces;i++){const c=document.createElement('i');c.className='confetti-piece';c.style.setProperty('--left',Math.random()*100+'%');c.style.setProperty('--duration',(2.8+Math.random()*3.2)+'s');c.style.setProperty('--delay',(Math.random()*-5)+'s');c.style.setProperty('--color',COLORS[i%COLORS.length]);c.style.setProperty('--rotate',Math.random()*250+'deg');root.append(c)}}
  function toast(message,kind=''){const stack=$('#toastStack'),item=document.createElement('div');item.className='toast'+(kind?' '+kind:'');item.textContent=message;stack.append(item);setTimeout(()=>item.remove(),4400)}
  let modalResolve=null;
  function confirmDialog(title,description,action){$('#modalTitle').textContent=title;$('#modalText').textContent=description;$('#confirmModal').hidden=false;modalResolve=action;$('#modalCancel').focus()}

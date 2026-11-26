@@ -1,12 +1,12 @@
 {
-  "version": "3.22.0",
+  "version": "3.23.0",
   "name": "EcoData Arena",
   "updates": [
-    "Lava do mapa preenche até a borda inferior da arena, inclusive no modo tela cheia do notebook",
-    "Queda sem alternativa respondida por jogador inativo anula a rodada e devolve a pergunta à roleta",
-    "Quantidade de questões, número da rodada, placar e ranking permanecem inalterados na rodada anulada",
-    "Recuperação adicional caso uma partida inativa fique presa após o fim do cronômetro",
-    "Não anula automaticamente uma rodada caso algum jogador tenha escolhido ou confirmado uma resposta",
-    "Backup completo da versão 3.21.0 preservado antes da atualização"
+    "Tela de vitória não espera gravação do ranking para aparecer",
+    "Empate técnico com dois acertos exibe resultado normalmente",
+    "Transição de resultados tem temporizador reserva e proteção contra travamento",
+    "Removidas faixas embaçadas verticais da arena em computadores",
+    "Confetes reduzidos para desempenho e preservados mapas, questões e ranking",
+    "Backup da versão 3.22.0 preservado antes da atualização"
   ]
 }
