@@ -1,0 +1,229 @@
+/* EcoData Arena 3.21 — modo de partida realmente imersivo e sem barras escuras.
+   Aplicado apenas a computadores: controles e dimensões mobile mantidos. */
+@media (min-width:800px) and (pointer:fine){
+ body.game-focus #view-game.active.eco-desktop-stage{
+  --eco-stage-top:140px;
+  position:fixed!important;
+  inset:0!important;
+  z-index:9999!important;
+  isolation:isolate!important;
+  width:100vw!important;height:100vh!important;height:100dvh!important;
+  min-height:0!important;max-height:none!important;max-width:none!important;
+  margin:0!important;padding:0!important;
+  overflow:hidden!important;
+  display:block!important;
+  background-color:#0d323c!important;
+  background-size:cover!important;
+  background-position:center!important;
+  box-sizing:border-box!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage[data-arena-map="forest"]{
+  background-image:linear-gradient(180deg,#062c33c9 0%,#073b3b90 24%,#09303c77 60%,#05222caa 100%),url('./assets/map-forest.webp')!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage[data-arena-map="technology"]{
+  background-image:linear-gradient(180deg,#061c2bd9 0%,#07313b9c 25%,#062e4380 65%,#071c2ca8 100%),url('./assets/map-factory.webp')!important;
+ }
+ /* Stage below the HUD. 100% width, no letterboxing, no clipping. */
+ body.game-focus #view-game.active.eco-desktop-stage #arenaContainer{
+  position:absolute!important;
+  top:var(--eco-stage-top)!important;right:0!important;bottom:0!important;left:0!important;
+  width:100vw!important;
+  height:calc(100dvh - var(--eco-stage-top))!important;
+  min-width:0!important;min-height:0!important;
+  max-width:none!important;max-height:none!important;
+  border:0!important;border-radius:0!important;
+  margin:0!important;padding:0!important;
+  overflow:hidden!important;
+  display:block!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  z-index:1!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage #arenaContainer::before{
+  display:none!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage #arenaContainer > #gameCanvas,
+ body.game-focus #view-game.active.eco-desktop-stage #arenaContainer > #gameCanvas.eco-desktop-fitted{
+  position:absolute!important;
+  top:0!important;right:0!important;bottom:0!important;left:0!important;
+  inset:0!important;
+  transform:none!important;
+  width:100%!important;height:100%!important;
+  min-width:0!important;min-height:0!important;
+  max-width:none!important;max-height:none!important;
+  aspect-ratio:auto!important;
+  object-fit:fill!important;
+  box-sizing:border-box!important;
+  margin:0!important;padding:0!important;
+  display:block!important;
+  image-rendering:auto!important;
+  pointer-events:none!important;
+ }
+ /* On very narrow PC windows, preserve character proportions and extend scenery behind the edges. */
+ body.game-focus #view-game.active.eco-desktop-stage.eco-narrow-screen #arenaContainer > #gameCanvas{
+  object-fit:contain!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage.eco-narrow-screen #arenaContainer{
+  background-image:linear-gradient(#0b303854,#0b303854),var(--eco-narrow-backdrop,none)!important;
+  background-position:center!important;
+  background-size:cover!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage.eco-narrow-screen[data-arena-map="forest"]{
+  --eco-narrow-backdrop:url('./assets/map-forest.webp');
+ }
+ body.game-focus #view-game.active.eco-desktop-stage.eco-narrow-screen[data-arena-map="technology"]{
+  --eco-narrow-backdrop:url('./assets/map-factory.webp');
+ }
+ /* Compact scoreboard and clock in the top strip. */
+ body.game-focus #view-game.active.eco-desktop-stage .game-hud{
+  position:absolute!important;
+  z-index:32!important;
+  top:6px!important;left:clamp(8px,1vw,18px)!important;right:clamp(8px,1vw,18px)!important;
+  width:auto!important;
+  height:clamp(47px,6.8dvh,66px)!important;
+  min-height:0!important;max-height:none!important;
+  margin:0!important;padding:0!important;
+  display:flex!important;
+  gap:clamp(6px,1vw,16px)!important;
+  border-radius:12px!important;
+  border:1px solid #9ef4db85!important;
+  background:#092a36e6!important;
+  box-shadow:0 5px 16px #021b2770!important;
+  backdrop-filter:none!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage .hud-player{
+  display:flex!important;align-items:center!important;
+  flex:1 1 0!important;min-width:0!important;
+  min-height:0!important;
+  padding:3px clamp(7px,1.2vw,16px)!important;
+  gap:clamp(5px,.7vw,12px)!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage .hud-player strong{
+  font-size:clamp(12px,1.35vw,18px)!important;
+  white-space:nowrap!important;overflow:hidden!important;text-overflow:ellipsis!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage .hud-player b{
+  font-size:clamp(19px,2.2vw,30px)!important;flex-shrink:0!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage .hud-player small{
+  line-height:1.1!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage .hud-player .game-key-hint{
+  display:block!important;
+  font-size:clamp(9px,.8vw,12px)!important;
+  color:#b8f4d5!important;
+  margin-top:1px!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage .hud-center{
+  flex:0 1 clamp(120px,17vw,210px)!important;min-width:120px!important;align-self:center!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage .timer-value{
+  font-size:clamp(20px,2.4vw,32px)!important;
+  line-height:1!important;
+ }
+ /* Question sits above the playable area, never on top of characters/platforms. */
+ body.game-focus #view-game.active.eco-desktop-stage .question-banner{
+  position:absolute!important;
+  z-index:33!important;
+  top:calc(var(--eco-stage-top) - clamp(53px,7dvh,72px))!important;
+  left:clamp(10px,1.5vw,24px)!important;
+  right:clamp(10px,1.5vw,24px)!important;
+  width:auto!important;
+  transform:none!important;
+  height:auto!important;
+  min-height:40px!important;
+  max-height:clamp(48px,7dvh,68px)!important;
+  display:flex!important;align-items:center!important;
+  gap:clamp(5px,1.1vw,18px)!important;
+  margin:0!important;
+  padding:7px clamp(8px,1.2vw,18px)!important;
+  border-radius:10px!important;
+  border:1px solid #86d9c99b!important;
+  background:#062632ef!important;
+  box-sizing:border-box!important;
+  overflow-y:auto!important;
+  backdrop-filter:none!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage .question-banner h2{
+  font-size:clamp(13px,1.6vw,23px)!important;
+  line-height:1.25!important;
+  overflow-wrap:anywhere!important;min-width:0!important;
+  flex:1!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage .question-flag{
+  flex-shrink:0!important;
+  font-size:clamp(9px,.85vw,12px)!important;
+ }
+ /* Show the two useful exit actions without an obstructive full-width toolbar. */
+ body.game-focus #view-game.active.eco-desktop-stage .game-topbar{
+  position:absolute!important;
+  display:flex!important;
+  z-index:45!important;
+  top:calc(var(--eco-stage-top) + 6px)!important;
+  right:clamp(8px,.9vw,16px)!important;left:auto!important;
+  width:auto!important;height:auto!important;min-height:0!important;
+  padding:0!important;margin:0!important;
+  border:0!important;background:transparent!important;
+  pointer-events:none!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage .game-topbar-brand,
+ body.game-focus #view-game.active.eco-desktop-stage .topbar-help{display:none!important}
+ body.game-focus #view-game.active.eco-desktop-stage .game-topbar-actions{
+  display:flex!important;gap:6px!important;pointer-events:auto!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage .game-exit{
+  pointer-events:auto!important;
+  font-size:clamp(10px,.85vw,12px)!important;
+  background:#092c39cc!important;
+  border:1px solid #a2d4cc99!important;
+  color:#ddfff1!important;
+  padding:5px 8px!important;
+  border-radius:7px!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage .game-exit:hover{
+  background:#124d54ec!important;border-color:#bdffe0!important;
+ }
+ /* Keep "Confirmar" in the top of the scene when a player is on an option. */
+ body.game-focus #view-game.active.eco-desktop-stage #confirmControls:not([hidden]){
+  position:absolute!important;
+  z-index:40!important;
+  top:calc(var(--eco-stage-top) + 9px)!important;
+  left:50%!important;right:auto!important;
+  transform:translateX(-50%)!important;
+  width:min(60vw,580px)!important;
+  min-height:30px!important;max-height:46px!important;
+  margin:0!important;
+  display:grid!important;
+  pointer-events:none!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage #confirmControls button:not([hidden]){
+  pointer-events:auto!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage .answer-strip,
+ body.game-focus #view-game.active.eco-desktop-stage .game-bottom{
+  display:none!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage .arena-hint{
+  position:absolute!important;
+  top:clamp(12px,4dvh,32px)!important;
+  left:50%!important;right:auto!important;
+  transform:translateX(-50%)!important;
+  max-width:62vw!important;
+  z-index:12!important;
+  pointer-events:none!important;
+  border-radius:7px!important;
+  background:#06343aaf!important;
+  padding:3px 7px!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage .stage-tag{display:none!important}
+}
+@media (min-width:800px) and (pointer:fine) and (max-height:550px){
+ body.game-focus #view-game.active.eco-desktop-stage .game-hud{
+  height:42px!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage .hud-player{padding:2px 7px!important}
+ body.game-focus #view-game.active.eco-desktop-stage .question-banner{
+  max-height:47px!important;min-height:34px!important;
+ }
+ body.game-focus #view-game.active.eco-desktop-stage .hud-player small{font-size:9px!important}
+}

@@ -1,12 +1,13 @@
 {
-  "version": "3.20.0",
+  "version": "3.21.0",
   "name": "EcoData Arena",
   "updates": [
-    "Os mapas floresta e tecnologia agora são desenhados integralmente, sem o recorte central da imagem original",
-    "O cenário mantém proporção 1000×460 sem perder plataformas, robôs ou lava",
-    "Enquadramento do canvas ajustado em desktop, tablets e celulares, inclusive em tela cheia",
-    "O espaço extra recebe fundo suave quando a proporção do dispositivo é diferente",
-    "Otimizadas as imagens em cache, mantendo a animação, a pontuação, as questões e o ranking",
-    "Backup integral da versão 3.19.0 guardado antes da atualização"
+    "Modo partida no computador passa a ocupar toda a tela, sem a moldura escura ou cenário pequeno",
+    "Canvas ocupa toda a largura e altura da arena; em telas comuns a proporção é preservada pela altura calculada",
+    "Placar com tempo e dicas das teclas de confirmar no topo; pergunta organizada sem cobrir robôs e plataformas",
+    "Lava e cinco plataformas permanecem na área jogável; mapas floresta e tecnologia acompanham a tela inteira",
+    "Botões pequenos de tela cheia e saída ficam disponíveis sem ocupar uma barra extensa",
+    "Design mobile e controles analógicos permanecem inalterados",
+    "Backup da versão 3.20.0 realizado antes da atualização"
   ]
 }

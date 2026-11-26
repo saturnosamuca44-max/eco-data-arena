@@ -1,44 +1,77 @@
-/* EcoData Arena 3.20 — encaixe universal sem cortes ou deformação. */
+/* EcoData Arena 3.21 — lógica única de layout, sem redimensionamentos em conflito. */
 (()=>{
  'use strict';
- const canvas=document.querySelector('#gameCanvas');
- const container=document.querySelector('#arenaContainer');
  const view=document.querySelector('#view-game');
- if(!canvas||!container||!view)return;
- let pending=false,last='',observing=true;
- function clear(){
-  if(canvas.classList.contains('eco-desktop-fitted'))canvas.classList.remove('eco-desktop-fitted');
+ const canvas=document.querySelector('#gameCanvas');
+ const arena=document.querySelector('#arenaContainer');
+ if(!view||!canvas||!arena)return;
+ const fine=window.matchMedia('(min-width:800px) and (pointer:fine)');
+ const RATIO=1000/460;
+ let scheduled=false,lastLayout='';
+ function resetOldFit(){
+  canvas.classList.remove('eco-desktop-fitted');
   canvas.style.removeProperty('--eco-fit-width');
   canvas.style.removeProperty('--eco-fit-height');
-  last='';
  }
- function fit(){
-  pending=false;
+ function applyLayout(){
+  scheduled=false;
   const active=view.classList.contains('active')&&document.body.classList.contains('game-focus');
-  if(!active){clear();return}
-  const box=container.getBoundingClientRect();
-  const maxW=Math.floor(box.width-2),maxH=Math.floor(box.height-2);
-  if(maxW<25||maxH<25)return;
-  const nativeW=canvas.width||1000,nativeH=canvas.height||460;
-  const ratio=nativeW/nativeH;
-  const width=Math.max(1,Math.floor(Math.min(maxW,maxH*ratio)));
-  const height=Math.max(1,Math.floor(width/ratio));
-  const next=width+'x'+height;
-  if(next===last&&canvas.classList.contains('eco-desktop-fitted'))return;
-  last=next;
-  canvas.style.setProperty('--eco-fit-width',width+'px');
-  canvas.style.setProperty('--eco-fit-height',height+'px');
+  if(!active){
+   lastLayout='';
+   view.classList.remove('eco-desktop-stage');
+   resetOldFit();
+   return;
+  }
+  const map=arena.dataset.map==='forest'?'forest':'technology';
+  if(view.dataset.arenaMap!==map)view.dataset.arenaMap=map;
+  const isDesktop=fine.matches;
+  view.classList.toggle('eco-desktop-stage',isDesktop);
+  if(isDesktop){
+   resetOldFit();
+   // Em telas de notebook 16:9, a arena mantém quase exatamente a proporção 1000×460.
+   // HUD e pergunta usam a faixa superior, mas não diminuem nem cortam o cenário.
+   const viewportW=Math.max(1,document.documentElement.clientWidth||window.innerWidth);
+   const viewportH=Math.max(1,window.innerHeight||document.documentElement.clientHeight);
+   const idealTop=viewportH-viewportW/RATIO;
+   const minTop=Math.max(105,Math.min(160,viewportH*.14));
+   const maxTop=Math.max(minTop,Math.min(238,viewportH*.27));
+   const top=Math.max(minTop,Math.min(maxTop,idealTop));
+   const narrow=viewportW/viewportH<1.63;
+   const sig=Math.round(top)+'|'+narrow+'|'+map;
+   if(sig!==lastLayout){
+    lastLayout=sig;
+    view.style.setProperty('--eco-stage-top',Math.round(top)+'px');
+    view.classList.toggle('eco-narrow-screen',narrow);
+   }
+   return;
+  }
+  // As telas touch mantêm a escala proporcional já configurada para os controles.
+  view.classList.remove('eco-narrow-screen');
+  view.style.removeProperty('--eco-stage-top');
+  lastLayout='';
+  const box=arena.getBoundingClientRect();
+  if(box.width<25||box.height<25)return;
+  const fitW=Math.floor(Math.min(box.width-2,(box.height-2)*RATIO));
+  const fitH=Math.floor(fitW/RATIO);
+  if(fitW<=0||fitH<=0)return;
+  canvas.style.setProperty('--eco-fit-width',fitW+'px');
+  canvas.style.setProperty('--eco-fit-height',fitH+'px');
   canvas.classList.add('eco-desktop-fitted');
  }
  function schedule(){
-  if(pending)return;
-  pending=true;
-  requestAnimationFrame(fit);
+  if(scheduled)return;
+  scheduled=true;
+  requestAnimationFrame(applyLayout);
  }
- if('ResizeObserver' in window)new ResizeObserver(schedule).observe(container);
- if('MutationObserver' in window)new MutationObserver(schedule).observe(view,{attributes:true,attributeFilter:['class']});
+ if('ResizeObserver' in window)new ResizeObserver(schedule).observe(arena);
+ if('MutationObserver' in window){
+  new MutationObserver(schedule).observe(view,{attributes:true,attributeFilter:['class']});
+  new MutationObserver(schedule).observe(arena,{attributes:true,attributeFilter:['data-map']});
+ }
+ if(fine.addEventListener)fine.addEventListener('change',schedule);
  window.addEventListener('resize',schedule,{passive:true});
  window.addEventListener('orientationchange',schedule,{passive:true});
+ window.visualViewport?.addEventListener('resize',schedule,{passive:true});
  document.addEventListener('fullscreenchange',schedule);
  document.addEventListener('visibilitychange',()=>{
   document.documentElement.classList.toggle('eco-tab-hidden',document.hidden);
