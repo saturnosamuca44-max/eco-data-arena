@@ -1,0 +1,51 @@
+/* EcoData Arena 3.15 — ajustes específicos para computador */
+.desktop-quick-guide{display:none}
+@media (min-width:900px) and (pointer:fine){
+ .shell{max-width:1600px;margin-inline:auto}
+ .home-view{padding-top:clamp(18px,2.5vh,40px)}
+ .home-grid{grid-template-columns:minmax(0,1.24fr) minmax(380px,1fr);gap:clamp(18px,2vw,30px);align-items:stretch}
+ .hero-panel,.eco-art-clean{min-height:clamp(475px,55vh,680px)}
+ .hero-panel{padding:clamp(30px,3.6vw,66px);display:flex;flex-direction:column;justify-content:center}
+ .hero-panel h1{font-size:clamp(40px,3.7vw,67px);line-height:1.10;letter-spacing:-.045em}
+ .hero-panel>p{max-width:64ch}
+ .hero-actions{max-width:550px}
+ .eco-art-clean .eco-art-visual{width:min(430px,90%);transition:filter .3s ease}
+ .eco-art-clean:hover .eco-art-visual{filter:drop-shadow(0 0 18px rgba(70,223,173,.16))}
+ .eco-art-clean .eco-orbit-ring.ring-a{box-shadow:0 0 14px #53dcb51a}
+ .eco-art-clean .eco-orbit-ring.ring-b{box-shadow:0 0 20px #4ac3e318}
+ .eco-art-clean .eco-recycle-icon{filter:drop-shadow(0 0 14px #5df4b450)}
+ .eco-art-clean .eco-orbit-words span{max-width:108px;min-width:70px;font-size:10px;line-height:1.2;padding:6px 7px;word-break:normal;overflow-wrap:anywhere}
+ .desktop-quick-guide{display:flex;flex-wrap:wrap;align-items:center;gap:9px 13px;margin-top:19px;padding:11px 13px;max-width:550px;background:#0c2b33b3;border:1px solid #5dbfa061;border-radius:12px;color:#d1f3e5;font-size:12px}
+ .desktop-quick-guide-title{font:800 10px ui-monospace,monospace;letter-spacing:.11em;width:100%;color:#77dab8}
+ .desktop-quick-guide span:not(.desktop-quick-guide-title):not(.desktop-quick-guide-note){display:inline-flex;gap:4px;align-items:center}
+ .desktop-quick-guide strong{margin-right:5px;color:#a8f1d2}
+ .desktop-quick-guide kbd{display:inline-flex;min-width:23px;height:24px;align-items:center;justify-content:center;padding:0 4px;background:#102d3c;border:1px solid #618f96;border-bottom:2px solid #47737a;border-radius:5px;font:800 12px ui-monospace,monospace}
+ .desktop-quick-guide-note{width:100%;color:#95bdb9;font-size:11px}
+ .overview-grid{gap:clamp(12px,1.5vw,24px)}
+ .overview-grid>*{transition:transform .18s ease,border-color .18s ease,box-shadow .18s ease}
+ .overview-grid>*:hover{transform:translateY(-3px);border-color:#58ddb88e;box-shadow:0 12px 26px #001d2440}
+ .mode-card,.map-picker-card{transition:transform .2s ease,border-color .2s ease,box-shadow .2s ease}
+ .mode-card:hover,.map-picker-card:hover{transform:translateY(-3px);border-color:#6bebbd;box-shadow:0 12px 30px #00182470}
+ .setup-grid{gap:clamp(15px,2vw,32px)}
+ .player-form{min-width:0}
+ .game-view.active:not(:fullscreen){max-width:1500px;margin-inline:auto}
+ .game-view.active:not(:fullscreen) .arena-container{border-radius:18px;overflow:hidden}
+ .game-view.active:not(:fullscreen) .game-hud{gap:clamp(12px,2vw,26px)}
+ .question-banner h2{font-size:clamp(18px,1.65vw,27px)}
+ .roulette-layout{gap:clamp(18px,2vw,36px)}
+ .roulette-panel,.roulette-side{min-width:0}
+ .glass-panel{border-color:#38645e}
+ .glass-panel:hover{border-color:#508b7d}
+}
+@media (min-width:1600px) and (pointer:fine){
+ .eco-art-clean .eco-art-visual{width:min(440px,88%)}
+ .home-grid{grid-template-columns:minmax(0,1.3fr) minmax(430px,.95fr)}
+}
+@media(pointer:fine){
+ :where(button,a,input,select,textarea,[tabindex]):focus-visible{outline:3px solid #adffe1!important;outline-offset:3px}
+ button:disabled{cursor:not-allowed}
+}
+@media(prefers-reduced-motion:reduce){
+ .eco-art-clean .eco-art-visual{animation:none!important}
+ .overview-grid>*,.mode-card,.map-picker-card{transition:none!important}
+}

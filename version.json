@@ -1,11 +1,11 @@
 {
-  "version": "3.14.3",
+  "version": "3.15.0",
   "name": "EcoData Arena",
   "updates": [
-    "Removidos os painéis retangulares borrados em torno dos analógicos e da confirmação",
-    "Preservados um analógico e um botão Confirmar por jogador, sem duplicações",
-    "Tela cheia do cabeçalho agora entra e persiste entre telas do aplicativo",
-    "Voltar no Android pode encerrar a tela cheia quando o navegador encaminha o evento",
-    "Mantidos ranking, avatares, pontuação e questões"
+    "Melhorias para computador: painéis mais espaçados, cartões com foco e melhor leitura em telas largas",
+    "Animação inicial com órbitas simultâneas e medição otimizada por ResizeObserver",
+    "Guia rápido WASD/setas na tela inicial em computadores",
+    "Animações decorativas pausam quando o elemento sai da tela",
+    "Preservados PWA, modos, avatares, sons, perguntas e ranking"
   ]
 }
