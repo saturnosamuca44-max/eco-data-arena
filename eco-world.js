@@ -219,14 +219,34 @@ function createOffscreen(w,h){
  if(!ctx)return null;
  return {canvas,ctx};
 }
+function paintUncroppedMap(ctx,key){
+ const image=PICS[key];
+ const w=image.naturalWidth,h=image.naturalHeight;
+ if(!(w>0&&h>0))return;
+ const fillW=1000,fillH=460;
+ const scale=Math.min(fillW/w,fillH/h);
+ const drawW=w*scale,drawH=h*scale;
+ const x=(fillW-drawW)/2,y=(fillH-drawH)/2;
+ ctx.fillStyle=key==='forest'?'#286776':'#142e40';
+ ctx.fillRect(0,0,fillW,fillH);
+ // Somente os espaços laterais recebem um fundo suavizado; a arte principal
+ // usa sempre a imagem INTEIRA, sem recortar linhas nem colunas.
+ if(x>1||y>1){
+  const cover=Math.max(fillW/w,fillH/h);
+  ctx.save();
+  ctx.globalAlpha=.35;
+  if('filter' in ctx)ctx.filter='blur(14px)';
+  ctx.drawImage(image,(fillW-w*cover)/2,(fillH-h*cover)/2,w*cover,h*cover);
+  ctx.restore();
+ }
+ ctx.drawImage(image,0,0,w,h,x,y,drawW,drawH);
+}
 function fixedBackground(key){
  if(BG_CACHE.has(key))return BG_CACHE.get(key);
  if(!loaded(key))return null;
  const surface=createOffscreen(1000,460);
  if(!surface)return null;
- const pic=PICS[key],w=pic.naturalWidth,h=pic.naturalHeight;
- const cropH=Math.min(h,w*.46),cropY=(h-cropH)*.49;
- surface.ctx.drawImage(pic,0,cropY,w,cropH,0,0,1000,460);
+ paintUncroppedMap(surface.ctx,key);
  BG_CACHE.set(key,surface.canvas);
  return surface.canvas;
 }
@@ -238,8 +258,7 @@ World.drawBackground=function(g,t,map,camera){
  g.save();
  if(surface)g.drawImage(surface,0,0);
  else {
-  const pic=PICS[key],w=pic.naturalWidth,h=pic.naturalHeight;
-  const cropH=Math.min(h,w*.46);g.drawImage(pic,0,(h-cropH)*.49,w,cropH,0,0,1000,460);
+  paintUncroppedMap(g,key);
  }
  if(fxCount){
    const time=t*.001;

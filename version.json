@@ -1,12 +1,12 @@
 {
-  "version": "3.19.0",
+  "version": "3.20.0",
   "name": "EcoData Arena",
   "updates": [
-    "Verificar atualizações funciona na versão PWA instalada no computador",
-    "Exibição de status na tela inicial, sem depender de elementos ocultos",
-    "Remoção do verificador duplicado para evitar conflitos",
-    "Arquivos de CSS e JavaScript verificados na rede, com cópia offline",
-    "Não interrompe partidas nem apaga perguntas ou ranking",
-    "Backup da versão 3.18.0 realizado antes da alteração"
+    "Os mapas floresta e tecnologia agora são desenhados integralmente, sem o recorte central da imagem original",
+    "O cenário mantém proporção 1000×460 sem perder plataformas, robôs ou lava",
+    "Enquadramento do canvas ajustado em desktop, tablets e celulares, inclusive em tela cheia",
+    "O espaço extra recebe fundo suave quando a proporção do dispositivo é diferente",
+    "Otimizadas as imagens em cache, mantendo a animação, a pontuação, as questões e o ranking",
+    "Backup integral da versão 3.19.0 guardado antes da atualização"
   ]
 }

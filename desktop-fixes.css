@@ -134,3 +134,36 @@
 html.eco-tab-hidden #view-home .eco-launch *,
 html.eco-tab-hidden #view-home .eco-launch *::before,
 html.eco-tab-hidden #view-home .eco-launch *::after{animation-play-state:paused!important}
+
+
+/* v3.20: encaixe final de todos os dispositivos (paisagem, retrato e fullscreen). */
+body.game-focus #view-game.active #arenaContainer{
+ overflow:hidden!important;
+ min-width:0!important;min-height:0!important;
+ background-position:center!important;
+ background-size:contain!important;
+ background-repeat:no-repeat!important;
+ background-color:#092936!important;
+}
+body.game-focus #view-game.active #arenaContainer > #gameCanvas{
+ object-fit:contain!important;
+ image-rendering:auto!important;
+ box-sizing:border-box!important;
+}
+body.game-focus #view-game.active #arenaContainer > #gameCanvas.eco-desktop-fitted{
+ position:absolute!important;
+ inset:auto!important;left:50%!important;top:50%!important;
+ right:auto!important;bottom:auto!important;
+ width:var(--eco-fit-width)!important;height:var(--eco-fit-height)!important;
+ min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;
+ aspect-ratio:1000 / 460!important;object-fit:contain!important;
+ transform:translate(-50%,-50%)!important;
+ display:block!important;margin:0!important;padding:0!important;
+ pointer-events:none!important;
+}
+/* Preserve o contêiner como uma camada de tela inteira: nunca empurre a arena para fora. */
+body.game-focus #view-game:is(:fullscreen,.eco-fs-fallback,.eco-root-fullscreen).active #arenaContainer{
+ position:absolute!important;inset:0!important;
+ width:100%!important;height:100%!important;
+ border-radius:0!important;
+}
