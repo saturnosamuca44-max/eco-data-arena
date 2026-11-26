@@ -1,15 +1,15 @@
 /* EcoData Arena 3.7 — versão única e atualização automática. */
 'use strict';
-const CACHE_NAME='ecodata-arena-shell-v3.23.0';
+const CACHE_NAME='ecodata-arena-shell-v3.24.0';
 const SHELL=[
  './','./index.html','./manifest.webmanifest','./version.json',
- './eco-world.js','./pwa.css','./pwa.js','./fullscreen.css','./desktop.css','./eco-launch.css','./ui-refinements.css','./ui-refinements.js','./desktop-fixes.css','./desktop-fixes.js','./arena-layout.css',
+ './eco-world.js','./pwa.css','./pwa.js','./fullscreen.css','./desktop.css','./eco-launch.css','./ui-refinements.css','./ui-refinements.js','./desktop-fixes.css','./desktop-fixes.js','./arena-layout.css','./mobile-immersive.css',
  './icons/icon.svg','./icons/icon-192.png','./icons/icon-512.png',
  './icons/icon-maskable-512.png','./icons/apple-touch-icon.png',
  './assets/map-forest.webp','./assets/map-factory.webp','./assets/robot-atlas.webp','./assets/recycle-symbol.svg','./assets/database-symbol.svg'
 ];
 const base=new URL(self.registration.scope);
-const CORE=new Set(['','index.html','version.json','pwa.js','pwa.css','eco-world.js','manifest.webmanifest','fullscreen.css','desktop.css','eco-launch.css','ui-refinements.css','ui-refinements.js','desktop-fixes.css','desktop-fixes.js','arena-layout.css']);
+const CORE=new Set(['','index.html','version.json','pwa.js','pwa.css','eco-world.js','manifest.webmanifest','fullscreen.css','desktop.css','eco-launch.css','ui-refinements.css','ui-refinements.js','desktop-fixes.css','desktop-fixes.js','arena-layout.css','mobile-immersive.css']);
 async function fromNetwork(req,key){
  const cache=await caches.open(CACHE_NAME);
  try{

@@ -18,14 +18,16 @@
   const active=view.classList.contains('active')&&document.body.classList.contains('game-focus');
   if(!active){
    lastLayout='';
-   view.classList.remove('eco-desktop-stage');
+   view.classList.remove('eco-desktop-stage','eco-mobile-stage');
    resetOldFit();
    return;
   }
   const map=arena.dataset.map==='forest'?'forest':'technology';
   if(view.dataset.arenaMap!==map)view.dataset.arenaMap=map;
   const isDesktop=fine.matches;
+  const mobileLand=window.matchMedia('(orientation:landscape) and (pointer:coarse), (orientation:landscape) and (max-width:799px)').matches;
   view.classList.toggle('eco-desktop-stage',isDesktop);
+  view.classList.toggle('eco-mobile-stage',!isDesktop&&mobileLand);
   if(isDesktop){
    resetOldFit();
    // Em telas de notebook 16:9, a arena mantém quase exatamente a proporção 1000×460.
@@ -45,7 +47,9 @@
    }
    return;
   }
-  // As telas touch mantêm a escala proporcional já configurada para os controles.
+  // Em paisagem o desenho cobre toda a arena e os controles ficam sobre a parte inferior.
+  if(mobileLand){resetOldFit();view.style.removeProperty('--eco-stage-top');lastLayout='';return}
+  // Em retrato preservamos a escala proporcional da arena sem distorcer os personagens.
   view.classList.remove('eco-narrow-screen');
   view.style.removeProperty('--eco-stage-top');
   lastLayout='';
