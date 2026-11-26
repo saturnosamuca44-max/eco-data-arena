@@ -1,12 +1,12 @@
 {
-  "version": "3.24.0",
+  "version": "3.25.0",
   "name": "EcoData Arena",
   "updates": [
-    "Celular e tablet na horizontal: arena ocupa a área visível com dois analógicos dentro do cenário",
-    "Botões de confirmar continuam ao lado dos analógicos, individuais e visíveis apenas quando necessários",
-    "HUD e pergunta permanecem dentro da área jogável sem painéis nas laterais",
-    "Computador com menos de 13 questões recebe perguntas adicionais, preservando todas as questões existentes",
-    "Importar e exportar JSON explicados no editor para igualar exatamente as perguntas de dois dispositivos",
-    "Versão do PWA atualizada e backup 3.23.0 preservado antes da atualização"
+    "Desempate entre dois acertos definido pela chegada mais rápida à alternativa correta, em milissegundos",
+    "Colisão interpolada para diferenciar tempos mesmo quando ambos pousam no mesmo quadro",
+    "Fim da tolerância artificial de 1 ms; confirmação individual é desempate secundário",
+    "Tempo de resposta exibido com três casas decimais e diferença de milissegundos",
+    "Proteção contra erros visuais/de ranking e recuperação automática da tela de resultado",
+    "Correção válida para PC, celular e tablet; backup da versão 3.24.0 preservado"
   ]
 }
