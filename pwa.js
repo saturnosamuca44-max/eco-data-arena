@@ -1,7 +1,7 @@
 /* EcoData Arena 3.7 — atualização automática mantendo dados locais. */
 (()=>{'use strict';
 const $=s=>document.querySelector(s);
-const CURRENT='3.18.0';
+const CURRENT='3.19.0';
 const installButton=$('#pwaInstall'),overlay=$('#pwaDialogOverlay'),help=$('#pwaHelp'),
  installNative=$('#pwaDialogInstall'),updateBanner=$('#pwaUpdateBanner');
 if(!installButton)return;
@@ -47,8 +47,10 @@ window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();def
 window.addEventListener('appinstalled',()=>{deferredInstall=null;overlay.hidden=true;updateInstallUI()});
 updateInstallUI();
 
-const status=$('#pwaCheckStatus'),bannerText=updateBanner?.querySelector('p'),badge=$('#pwaVersionBadge');
-const announce=msg=>{if(status)status.textContent=msg};
+const status=$('#pwaCheckStatus'),launchStatus=$('#launchUpdateStatus'),homeCheck=$('#launchCheckUpdates'),legacyCheck=$('#pwaCheckUpdates'),bannerText=updateBanner?.querySelector('p'),badge=$('#pwaVersionBadge');
+const updateButtons=[homeCheck,legacyCheck].filter(Boolean);
+const announce=(msg,visible=false)=>{if(status)status.textContent=msg;if(launchStatus){launchStatus.textContent=msg;if(visible)launchStatus.hidden=false}};
+const busy=value=>{for(const btn of updateButtons){btn.disabled=value;btn.setAttribute('aria-busy',String(value));btn.textContent=value?'↻ Verificando...':(btn===homeCheck?'Verificar atualizações':'↻ VERIFICAR ATUALIZAÇÕES')}};
 const safeToRefresh=()=>{
  if(document.body.classList.contains('game-focus'))return false;
  const editor=$('#questionText');
@@ -87,10 +89,14 @@ navigator.serviceWorker?.addEventListener('controllerchange',()=>{
  else {pendingReload=true;announce('Atualização disponível. Ela será aplicada ao sair da partida.')}
 });
 const checkVersion=async(force=false)=>{
- if(checking||!navigator.onLine||document.hidden)return;
+ if(checking){if(force)announce('Verificação já em andamento…',true);return}
+ if(isLocalFile()){if(force)announce('Arquivo local não pode receber atualizações. Abra o jogo pelo site oficial.',true);return}
+ if(navigator.onLine===false){if(force)announce('Sem internet. Conecte-se para verificar novas versões.',true);return}
+ if(document.hidden&&!force)return;
  const now=Date.now();
  if(!force&&now-lastCheck<30000)return;
- lastCheck=now;checking=true;
+ lastCheck=now;checking=true;busy(true);
+ if(force)announce('Consultando atualizações no servidor…',true);
  try{
    reg=await navigator.serviceWorker.getRegistration('./')||
      await navigator.serviceWorker.register('./sw.js',{scope:'./',updateViaCache:'none'});
@@ -113,16 +119,17 @@ const checkVersion=async(force=false)=>{
        // Verifica se a versão publicada é realmente mais nova.
        const cmp=(a,b)=>{const aa=a.split('.').map(Number),bb=b.split('.').map(Number);for(let j=0;j<3;j++){if(aa[j]!==bb[j])return aa[j]-bb[j]}return 0};
        if(cmp(version,CURRENT)>0){
-         announce('Versão '+version+' encontrada. Atualizando...');
+         announce('Versão '+version+' encontrada. Atualizando...',true);
          if(reg?.waiting)available();
          else if(safeToRefresh())reloadOnce();
          else pendingReload=true;
        }
-     }else if(force)announce('EcoData Arena '+CURRENT+' • Atualizado.');
+     }else if(force)announce('EcoData Arena '+CURRENT+' • Já está atualizado.',true);
    }
  }catch(err){
    console.warn('Verificação automática indisponível:',err);
- }finally{checking=false}
+   if(force)announce('Falha ao verificar atualizações. Verifique a conexão e tente novamente.',true);
+ }finally{checking=false;busy(false)}
 };
 if('serviceWorker' in navigator&&['https:','http:'].includes(location.protocol)){
  window.addEventListener('load',()=>{checkVersion(true)},{once:true});
@@ -143,6 +150,7 @@ if('serviceWorker' in navigator&&['https:','http:'].includes(location.protocol))
   }).observe(document.body,{attributes:true,attributeFilter:['class']});
  }
 }
+for(const button of updateButtons)button.addEventListener('click',()=>checkVersion(true));
 $('#pwaUpdateLater')?.addEventListener('click',()=>{
  if(updateBanner)updateBanner.hidden=true;
 });
@@ -150,5 +158,5 @@ $('#pwaUpdateNow')?.addEventListener('click',()=>{
  if(!safeToRefresh()){pendingReload=true;return}
  if(reg?.waiting)available();else checkVersion(true);
 });
-if(badge)badge.title='O jogo procura atualizações ao abrir, reconectar ou retomar o aplicativo';
+if(badge)badge.title='O PWA instalado e o site verificam atualizações ao abrir, reconectar e pelo botão Verificar atualizações';
 })();

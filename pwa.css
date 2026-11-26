@@ -23,3 +23,10 @@ body.game-focus .pwa-update-banner{display:none!important}
 /* 3.7: status de atualização claro, sem animações extras */
 .pwa-auto-badge{display:inline-flex;align-items:center;justify-content:center;padding:9px 12px;background:#123e34c9;border:1px solid #4c9980;border-radius:10px;color:#b1fbd3;font:800 10px ui-monospace,monospace;letter-spacing:.045em;white-space:nowrap}
 @media(max-width:620px){.pwa-auto-badge{width:100%;font-size:10px}}
+
+/* EcoData 3.19 — status visível para Verificar atualizações no aplicativo de computador. */
+.eco-launch-footer .eco-launch-update-actions{display:flex;align-items:center;justify-content:flex-end;gap:7px;flex-wrap:wrap;min-width:0}
+#launchUpdateStatus:not([hidden]){display:inline-block;color:#eaffee;background:#064149e8;border:1px solid #64cfa3;border-radius:7px;padding:5px 8px;max-width:min(48vw,330px);font-size:11px;line-height:1.25;text-shadow:none;overflow-wrap:anywhere}
+#launchCheckUpdates:disabled,#pwaCheckUpdates:disabled{opacity:.7;cursor:progress}
+@media(max-width:680px){.eco-launch-footer .eco-launch-update-actions{justify-content:center}#launchUpdateStatus:not([hidden]){flex:1 1 100%;max-width:100%}}
+@media(orientation:landscape) and (max-height:450px){#launchUpdateStatus:not([hidden]){font-size:9px;padding:2px 5px;max-width:275px}}

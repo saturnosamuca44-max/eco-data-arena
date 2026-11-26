@@ -1,6 +1,6 @@
 /* EcoData Arena 3.7 — versão única e atualização automática. */
 'use strict';
-const CACHE_NAME='ecodata-arena-shell-v3.18.0';
+const CACHE_NAME='ecodata-arena-shell-v3.19.0';
 const SHELL=[
  './','./index.html','./manifest.webmanifest','./version.json',
  './eco-world.js','./pwa.css','./pwa.js','./fullscreen.css','./desktop.css','./eco-launch.css','./ui-refinements.css','./ui-refinements.js','./desktop-fixes.css','./desktop-fixes.js',
@@ -9,7 +9,7 @@ const SHELL=[
  './assets/map-forest.webp','./assets/map-factory.webp','./assets/robot-atlas.webp','./assets/recycle-symbol.svg','./assets/database-symbol.svg'
 ];
 const base=new URL(self.registration.scope);
-const CORE=new Set(['','index.html','version.json','pwa.js','pwa.css','eco-world.js','manifest.webmanifest']);
+const CORE=new Set(['','index.html','version.json','pwa.js','pwa.css','eco-world.js','manifest.webmanifest','fullscreen.css','desktop.css','eco-launch.css','ui-refinements.css','ui-refinements.js','desktop-fixes.css','desktop-fixes.js']);
 async function fromNetwork(req,key){
  const cache=await caches.open(CACHE_NAME);
  try{
