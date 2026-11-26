@@ -1,0 +1,118 @@
+/* EcoData Arena 3.26 — rolagem natural com um dedo no celular/tablet.
+   Menus e conteúdos podem rolar; joystick e canvas seguem protegidos durante partidas. */
+@media (hover: none), (pointer: coarse), (max-width: 799px) {
+  html {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: auto;
+  }
+
+  /* A home antes estava presa a height:100dvh + overflow:hidden em todas as telas.
+     Em dispositivos menores, o usuário deve poder rolar até os botões do rodapé. */
+  body:has(#view-home.active):not(.game-focus):not(.mode-picker-open) {
+    height: auto !important;
+    min-height: 100dvh !important;
+    max-height: none !important;
+    overflow-x: clip !important;
+    overflow-y: auto !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y pinch-zoom !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  body:has(#view-home.active):not(.game-focus):not(.mode-picker-open) .shell {
+    height: auto !important;
+    min-height: 100dvh !important;
+    max-height: none !important;
+    overflow: visible !important;
+    padding-bottom: env(safe-area-inset-bottom) !important;
+    touch-action: pan-y pinch-zoom !important;
+  }
+  body:has(#view-home.active):not(.game-focus):not(.mode-picker-open) main {
+    height: auto !important;
+    min-height: 100dvh !important;
+    max-height: none !important;
+    overflow: visible !important;
+    flex: 1 0 auto !important;
+    touch-action: pan-y pinch-zoom !important;
+  }
+  body:has(#view-home.active):not(.game-focus):not(.mode-picker-open) #view-home.active {
+    height: auto !important;
+    min-height: 100dvh !important;
+    max-height: none !important;
+    overflow: visible !important;
+    touch-action: pan-y pinch-zoom !important;
+  }
+  #view-home.active .eco-launch {
+    height: auto !important;
+    min-height: 100dvh !important;
+    max-height: none !important;
+    grid-template-rows: auto minmax(155px, 1fr) auto auto auto !important;
+    /* A ilustração continua contida sem bloquear o scroll da página. */
+    overflow: hidden !important;
+    touch-action: pan-y pinch-zoom !important;
+  }
+  #view-home.active .eco-launch-center {
+    height: auto !important;
+    max-height: none !important;
+    min-height: 155px !important;
+  }
+
+  /* Páginas de editor, ranking, configurações e Sobre. */
+  body:not(.game-focus):not(.mode-picker-open) {
+    overflow-y: auto !important;
+    overscroll-behavior-y: auto !important;
+    touch-action: pan-y pinch-zoom !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  body:not(.game-focus) .view.active:not(#view-game) {
+    touch-action: pan-y pinch-zoom !important;
+  }
+  body:not(.game-focus) :is(.question-list, .rank-list, .settings-grid, .questions-dashboard) {
+    touch-action: pan-y pinch-zoom !important;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Menus sobrepostos têm rolagem própria, mesmo com o fundo bloqueado. */
+  .mode-picker-panel,
+  .guide-bubble,
+  .practice-card,
+  #confirmModal .modal,
+  #allAnswersPanel,
+  #allAnswersPanel .all-options-list {
+    touch-action: pan-y pinch-zoom !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+  }
+  .mode-picker-panel {
+    max-height: calc(100dvh - 24px) !important;
+  }
+  #confirmModal .modal {
+    max-height: calc(100dvh - 32px) !important;
+  }
+  #allAnswersPanel {
+    max-height: calc(100dvh - 24px) !important;
+  }
+  body.game-focus #view-game :is(.question-banner, .answer-card) {
+    touch-action: pan-y pinch-zoom !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* O dedo que estiver controlando um robô não pode rolar a página. */
+  body.game-focus #view-game :is(#gameCanvas, .touch-joystick, .joystick-nub) {
+    touch-action: none !important;
+  }
+  body.game-focus #view-game .touch-confirm {
+    touch-action: manipulation !important;
+  }
+  /* O espaço transparente em volta dos analógicos não captura o gesto de scroll. */
+  body.game-focus #view-game #touchControls,
+  body.game-focus #view-game #touchControls .touch-side {
+    pointer-events: none !important;
+  }
+  body.game-focus #view-game #touchControls :is(.touch-joystick, .touch-confirm) {
+    pointer-events: auto !important;
+  }
+}
+/* Respeita a seleção do modo: o conteúdo rola, mas não o fundo. */
+body.mode-picker-open:not(.game-focus) {
+  overflow: hidden !important;
+}

@@ -1,12 +1,12 @@
 {
-  "version": "3.25.0",
+  "version": "3.26.0",
   "name": "EcoData Arena",
   "updates": [
-    "Desempate entre dois acertos definido pela chegada mais rápida à alternativa correta, em milissegundos",
-    "Colisão interpolada para diferenciar tempos mesmo quando ambos pousam no mesmo quadro",
-    "Fim da tolerância artificial de 1 ms; confirmação individual é desempate secundário",
-    "Tempo de resposta exibido com três casas decimais e diferença de milissegundos",
-    "Proteção contra erros visuais/de ranking e recuperação automática da tela de resultado",
-    "Correção válida para PC, celular e tablet; backup da versão 3.24.0 preservado"
+    "Rolagem com apenas um dedo na tela inicial, inclusive no celular em modo paisagem",
+    "Removido o bloqueio de scroll no conteúdo da home em telas móveis pequenas",
+    "Menus de modos, editor de questões, ranking, configurações, Sobre e painéis possuem rolagem tátil natural",
+    "Preservados os gestos dos analógicos, o controle dos robôs e os botões Confirmar durante a partida",
+    "Áreas transparentes dos controles deixam de interceptar toques fora dos botões",
+    "Backup integral da versão 3.25.0 antes da atualização"
   ]
 }
