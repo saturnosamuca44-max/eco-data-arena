@@ -1,13 +1,12 @@
 {
-  "version": "3.21.0",
+  "version": "3.22.0",
   "name": "EcoData Arena",
   "updates": [
-    "Modo partida no computador passa a ocupar toda a tela, sem a moldura escura ou cenário pequeno",
-    "Canvas ocupa toda a largura e altura da arena; em telas comuns a proporção é preservada pela altura calculada",
-    "Placar com tempo e dicas das teclas de confirmar no topo; pergunta organizada sem cobrir robôs e plataformas",
-    "Lava e cinco plataformas permanecem na área jogável; mapas floresta e tecnologia acompanham a tela inteira",
-    "Botões pequenos de tela cheia e saída ficam disponíveis sem ocupar uma barra extensa",
-    "Design mobile e controles analógicos permanecem inalterados",
-    "Backup da versão 3.20.0 realizado antes da atualização"
+    "Lava do mapa preenche até a borda inferior da arena, inclusive no modo tela cheia do notebook",
+    "Queda sem alternativa respondida por jogador inativo anula a rodada e devolve a pergunta à roleta",
+    "Quantidade de questões, número da rodada, placar e ranking permanecem inalterados na rodada anulada",
+    "Recuperação adicional caso uma partida inativa fique presa após o fim do cronômetro",
+    "Não anula automaticamente uma rodada caso algum jogador tenha escolhido ou confirmado uma resposta",
+    "Backup completo da versão 3.21.0 preservado antes da atualização"
   ]
 }

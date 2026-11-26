@@ -227,3 +227,13 @@
  }
  body.game-focus #view-game.active.eco-desktop-stage .hud-player small{font-size:9px!important}
 }
+
+/* 3.22 — continuidade visual da lava até o limite inferior do notebook. */
+@media (min-width:800px) and (pointer:fine){
+ body.game-focus #view-game.active.eco-desktop-stage #arenaContainer::after{
+  content:"";display:block!important;pointer-events:none!important;
+  position:absolute!important;left:0!important;right:0!important;bottom:0!important;
+  width:100%!important;height:3px!important;z-index:2!important;
+  background:#733349!important;
+ }
+}
